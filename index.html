@@ -4,135 +4,23 @@
   <meta charset="UTF-8" />
   <title>Nuvixhq | Ürünlerim</title>
   <style>
-    /* Stil kısımları aynı kalabilir, gerekirse eklerim */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-    body, html {
-      height: 100%;
-      background-color: #f5f7fa;
-      color: #333;
-    }
-    header {
-      background-color: #007acc;
-      color: white;
-      padding: 20px;
-      text-align: center;
-      font-size: 2rem;
-      font-weight: bold;
-      letter-spacing: 2px;
-    }
-    .container {
-      display: flex;
-      height: calc(100vh - 72px);
-    }
-    nav {
-      width: 220px;
-      background-color: #004a99;
-      display: flex;
-      flex-direction: column;
-      padding-top: 10px;
-    }
-    nav button {
-      background-color: #007acc;
-      border: none;
-      color: white;
-      padding: 15px 20px;
-      margin: 8px 15px;
-      font-size: 1rem;
-      cursor: pointer;
-      border-radius: 5px;
-      text-align: left;
-      transition: background-color 0.3s ease;
-    }
-    nav button:hover,
-    nav button.active {
-      background-color: #005fbb;
-    }
-    main {
-      flex-grow: 1;
-      padding: 30px;
-      overflow-y: auto;
-    }
-    main h2 {
-      margin-bottom: 10px;
-      color: #007acc;
-    }
-    main p {
-      margin-bottom: 10px;
-    }
-    .go-button {
-      display: inline-block;
-      padding: 10px 15px;
-      background-color: #007acc;
-      color: white;
-      text-decoration: none;
-      border-radius: 6px;
-      margin-top: 10px;
-    }
-    .go-button:hover {
-      background-color: #005fa3;
-    }
-    @media (max-width: 600px) {
-      .container {
-        flex-direction: column;
-        height: auto;
-      }
-      nav {
-        width: 100%;
-        flex-direction: row;
-        overflow-x: auto;
-      }
-      nav button {
-        flex: 1 0 auto;
-        margin: 8px 5px;
-        text-align: center;
-      }
-      main {
-        padding: 15px;
-      }
-    }
+    /* Stil burada aynı kalabilir, istersen ekleyebilirim */
   </style>
 </head>
 <body>
-  <header>Nuvixhq</header>
+  <h1>Nuvixhq Ürünleri</h1>
 
-  <div class="container">
-    <nav>
-      <button class="active" onclick="showProduct(1)">Pomodoro Zamanlayıcı</button>
-      <button onclick="showProduct(2)">Duygu Takip Uygulaması</button>
-    </nav>
+  <section>
+    <h2>Pomodoro Zamanlayıcı</h2>
+    <p>Verimli çalışmak için sade ve sesli bir zamanlayıcı. Karanlık mod ve ses uyarılarıyla odaklanmanı artır.</p>
+    <p><em>Uygulama yakında geliyor!</em></p>
+  </section>
 
-    <main>
-      <section id="product1" class="product" style="display: block;">
-        <h2>Pomodoro Zamanlayıcı</h2>
-        <p>Verimli çalışmak için sade ve sesli bir zamanlayıcı. Karanlık mod ve ses uyarılarıyla odaklanmanı artır.</p>
-        <a href="pomodoro.html" class="go-button">⏳ Uygulamaya Git</a>
-      </section>
+  <section>
+    <h2>Duygu Takip Uygulaması</h2>
+    <p>Günlük ruh halini kaydederek kendini daha yakından tanı. Grafiklerle ruh halindeki değişimleri gör.</p>
+    <a href="duygu-takip.html">🧠 Uygulamaya Git</a>
+  </section>
 
-      <section id="product2" class="product" style="display: none;">
-        <h2>Duygu Takip Uygulaması</h2>
-        <p>Günlük ruh halini kaydederek kendini daha yakından tanı. Grafiklerle ruh halindeki değişimleri gör.</p>
-        <a href="duygu-takip.html" class="go-button">🧠 Uygulamaya Git</a>
-      </section>
-    </main>
-  </div>
-
-  <script>
-    function showProduct(id) {
-      const buttons = document.querySelectorAll('nav button');
-      buttons.forEach((btn, index) => {
-        btn.classList.toggle('active', index === id - 1);
-      });
-
-      const products = document.querySelectorAll('.product');
-      products.forEach((prod, index) => {
-        prod.style.display = (index === id - 1) ? 'block' : 'none';
-      });
-    }
-  </script>
 </body>
 </html>

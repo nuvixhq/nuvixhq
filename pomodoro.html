@@ -1,256 +1,202 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta name="google-site-verification" content="nKiEo0lAzK89a7p1r-Jjplh5ky2PdrdAz4ea6e6syu8" />
   <meta charset="UTF-8" />
-  <title>Nuvixhq | Ürünlerim</title>
+  <title>Pomodoro Zamanlayıcı | Nuvixhq</title>
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0; padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-
-    body, html {
-      height: 100%;
-      background-color: #f5f7fa;
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f7fa;
       color: #333;
+      margin: 0; padding: 20px;
+      box-sizing: border-box;
     }
-
     header {
-      background-color: #007acc;
-      color: white;
-      padding: 20px;
-      text-align: center;
-      font-size: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+    header button {
+      font-size: 1.5rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #007acc;
+      padding: 0;
+    }
+    header h1 {
+      margin: 0;
+      color: #007acc;
+    }
+    .config {
+      max-width: 400px;
+      margin-bottom: 30px;
+    }
+    label {
+      display: block;
+      margin-bottom: 6px;
       font-weight: bold;
-      letter-spacing: 2px;
     }
-
-    .container {
-      display: flex;
-      height: calc(100vh - 72px);
+    input[type=number] {
+      width: 100%;
+      padding: 10px;
+      font-size: 1rem;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      margin-bottom: 20px;
+      box-sizing: border-box;
     }
-
-    nav {
-      width: 220px;
-      background-color: #004a99;
-      display: flex;
-      flex-direction: column;
-      padding-top: 10px;
+    #timer-display {
+      font-size: 4rem;
+      text-align: center;
+      margin-bottom: 20px;
+      color: #007acc;
+      user-select: none;
     }
-
-    nav button {
+    .buttons {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    button.action-btn {
       background-color: #007acc;
       border: none;
       color: white;
-      padding: 15px 20px;
-      margin: 8px 15px;
-      font-size: 1rem;
+      padding: 12px 25px;
+      margin: 0 10px;
+      font-size: 1.2rem;
+      border-radius: 8px;
       cursor: pointer;
-      border-radius: 5px;
-      text-align: left;
-      transition: background-color 0.3s ease;
+      transition: background-color 0.3s;
     }
-
-    nav button:hover, nav button.active {
+    button.action-btn:hover {
       background-color: #005fbb;
     }
-
-    main {
-      flex-grow: 1;
-      padding: 30px;
-      overflow-y: auto;
-    }
-
-    main h2 {
-      margin-bottom: 10px;
-      color: #007acc;
-    }
-
-    main a {
-      color: #007acc;
-      text-decoration: none;
-      font-weight: bold;
-      margin-right: 15px;
-    }
-
-    main a:hover {
-      text-decoration: underline;
-    }
-
-    @media (max-width: 600px) {
-      .container {
-        flex-direction: column;
-        height: auto;
-      }
-      nav {
-        width: 100%;
-        flex-direction: row;
-        overflow-x: auto;
-      }
-      nav button {
-        flex: 1 0 auto;
-        margin: 8px 5px;
-        text-align: center;
-      }
-      main {
-        padding: 15px;
-      }
-    }
-
-    /* Dark mode stilleri */
-    .dark-mode {
-      background-color: #1e1e1e;
-      color: #eee;
-    }
-
-    .dark-mode header {
-      background-color: #111;
-      color: #fff;
-    }
-
-    .dark-mode nav {
-      background-color: #222;
-    }
-
-    .dark-mode nav button {
-      background-color: #333;
-      color: #fff;
-    }
-
-    .dark-mode nav button:hover,
-    .dark-mode nav button.active {
-      background-color: #555;
-    }
-
-    .dark-mode main a {
-      color: #91c9ff;
+    .footer-note {
+      text-align: center;
+      color: #666;
+      font-size: 0.9rem;
     }
   </style>
 </head>
 <body>
-  <header>Nuvixhq</header>
 
-  <div class="container">
-    <nav>
-      <button class="active" onclick="showProduct(1)">Pomodoro Zamanlayıcı</button>
-      <button onclick="showProduct(2)">Ürün 2</button>
-      <button onclick="showProduct(3)">Ürün 3</button>
-    </nav>
+  <header>
+    <button onclick="goBack()" title="Geri Dön">←</button>
+    <h1>Pomodoro Zamanlayıcı</h1>
+  </header>
 
-    <main>
-      <section id="product1" class="product" style="display: block;">
-        <h2>Pomodoro Zamanlayıcı</h2>
-        <p>Verimli çalışmak için sade ve sesli bir zamanlayıcı</p>
-        <a href="https://github.com/ertuelmas/pomodoro" target="_blank">📘 Bilgi Sayfası</a>
-        <a href="https://gumroad.com/l/pomodoro" target="_blank">💰 Satın Al</a>
+  <div class="config">
+    <label for="work-minutes">Çalışma Süresi (dakika):</label>
+    <input type="number" id="work-minutes" min="1" max="120" value="25" />
 
-        <hr style="margin: 25px 0; border: none; border-top: 2px solid #ddd;">
+    <label for="break-minutes">Mola Süresi (dakika):</label>
+    <input type="number" id="break-minutes" min="1" max="30" value="5" />
 
-        <h3>🍅 Pomodoro Tekniği Nedir?</h3>
-        <p><strong>Pomodoro Tekniği</strong>, zamanı daha verimli kullanmanı ve dikkatini toplamanı sağlayan bir odaklanma yöntemidir. Kısa süreli çalışma blokları ve aralıklı molalarla uygulanır.</p>
-
-        <h3>⏱️ Nasıl Uygulanır?</h3>
-        <ul>
-          <li>✅ Görevini belirle (örneğin: kod yazmak, kitap okumak).</li>
-          <li>✅ 25 dakika boyunca sadece o işe odaklan.</li>
-          <li>✅ Ardından 5 dakika mola ver.</li>
-          <li>✅ 4 Pomodoro döngüsünden sonra 15-30 dakikalık uzun mola ver.</li>
-        </ul>
-
-        <h3>🎯 Neden Kullanmalı?</h3>
-        <ul>
-          <li>🧠 Dikkatini toplar, zamanını iyi kullanmanı sağlar</li>
-          <li>📈 Verimini artırır ve ertelemeyi azaltır</li>
-          <li>😌 Düzenli molalarla zihnini tazeler</li>
-        </ul>
-
-        <h3>👥 Kimler İçin?</h3>
-        <p>Öğrenciler, yazılımcılar, sınav hazırlığında olanlar veya dikkat dağınıklığı yaşayan herkes için idealdir.</p>
-
-        <hr style="margin: 30px 0;">
-        <h3>⏳ Canlı Zamanlayıcı</h3>
-        <div id="timer" style="font-size: 2rem; margin-bottom: 15px;">25:00</div>
-        <button onclick="startTimer()">▶ Başlat</button>
-        <button onclick="resetTimer()">🔄 Sıfırla</button>
-        <button onclick="toggleDarkMode()">🌓 Tema</button>
-
-        <audio id="alarm-sound">
-          <source src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg" type="audio/ogg">
-          Tarayıcınız ses çalmayı desteklemiyor.
-        </audio>
-      </section>
-
-      <section id="product2" class="product" style="display: none;">
-        <h2>Ürün 2</h2>
-        <p>Ürün 2’nin kısa açıklaması burada olacak.</p>
-        <a href="#" target="_blank">📘 Bilgi Sayfası</a>
-        <a href="#" target="_blank">💰 Satın Al</a>
-      </section>
-
-      <section id="product3" class="product" style="display: none;">
-        <h2>Ürün 3</h2>
-        <p>Ürün 3’ün kısa açıklaması burada olacak.</p>
-        <a href="#" target="_blank">📘 Bilgi Sayfası</a>
-        <a href="#" target="_blank">💰 Satın Al</a>
-      </section>
-    </main>
+    <label for="cycles">Kaç Döngü Yapılacak:</label>
+    <input type="number" id="cycles" min="1" max="10" value="4" />
   </div>
 
-  <script>
-    function showProduct(id) {
-      const buttons = document.querySelectorAll('nav button');
-      buttons.forEach((btn, index) => {
-        btn.classList.toggle('active', index === id - 1);
-      });
+  <div id="timer-display">25:00</div>
 
-      const products = document.querySelectorAll('.product');
-      products.forEach((prod, index) => {
-        prod.style.display = (index === id - 1) ? 'block' : 'none';
-      });
-    }
+  <div class="buttons">
+    <button class="action-btn" onclick="startTimer()">▶ Başlat</button>
+    <button class="action-btn" onclick="pauseTimer()">⏸ Durdur</button>
+    <button class="action-btn" onclick="resetTimer()">🔄 Sıfırla</button>
+  </div>
 
-    let pomodoroDuration = 25 * 60;
-    let timeLeft = pomodoroDuration;
-    let timerInterval = null;
-    const timerDisplay = document.getElementById('timer');
-    const alarmSound = document.getElementById('alarm-sound');
+  <audio id="alarm-sound" preload="auto">
+    <source src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg" type="audio/ogg">
+    Tarayıcınız ses çalmayı desteklemiyor.
+  </audio>
 
-    function updateDisplay() {
-      const minutes = String(Math.floor(timeLeft / 60)).padStart(2, '0');
-      const seconds = String(timeLeft % 60).padStart(2, '0');
-      timerDisplay.innerText = `${minutes}:${seconds}`;
-    }
+<script>
+  const timerDisplay = document.getElementById('timer-display');
+  const alarmSound = document.getElementById('alarm-sound');
 
-    function startTimer() {
-      if (timerInterval) return;
-      timerInterval = setInterval(() => {
-        if (timeLeft > 0) {
-          timeLeft--;
-          updateDisplay();
-        } else {
-          clearInterval(timerInterval);
-          timerInterval = null;
-          alarmSound.play();
-          alert("⏰ Süre doldu! Mola zamanı.");
-        }
-      }, 1000);
-    }
+  const workInput = document.getElementById('work-minutes');
+  const breakInput = document.getElementById('break-minutes');
+  const cyclesInput = document.getElementById('cycles');
 
-    function resetTimer() {
-      clearInterval(timerInterval);
-      timerInterval = null;
-      timeLeft = pomodoroDuration;
+  let timer = null;
+  let isRunning = false;
+  let isWorkTime = true;
+  let cyclesLeft = 0;
+  let timeLeft = 0;
+
+  function goBack() {
+    window.location.href = 'index.html'; // Ana sayfaya geri döner
+  }
+
+  function updateDisplay() {
+    const minutes = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+    const seconds = (timeLeft % 60).toString().padStart(2, '0');
+    timerDisplay.textContent = `${minutes}:${seconds}`;
+  }
+
+  function startTimer() {
+    if (isRunning) return;
+
+    if (cyclesLeft === 0) {
+      // Başlangıçta ayarları al
+      cyclesLeft = parseInt(cyclesInput.value, 10);
+      if (cyclesLeft < 1) {
+        alert('Lütfen en az 1 döngü seçin.');
+        return;
+      }
+      isWorkTime = true;
+      timeLeft = parseInt(workInput.value, 10) * 60;
       updateDisplay();
     }
 
-    function toggleDarkMode() {
-      document.body.classList.toggle("dark-mode");
-    }
+    isRunning = true;
+    timer = setInterval(() => {
+      if (timeLeft > 0) {
+        timeLeft--;
+        updateDisplay();
+      } else {
+        alarmSound.play();
+        if (isWorkTime) {
+          alert('Çalışma süresi bitti! Mola zamanı.');
+          timeLeft = parseInt(breakInput.value, 10) * 60;
+          isWorkTime = false;
+          updateDisplay();
+        } else {
+          cyclesLeft--;
+          if (cyclesLeft === 0) {
+            alert('Tüm döngüler tamamlandı! Harika iş çıkardın! 🎉');
+            resetTimer();
+          } else {
+            alert('Mola bitti! Tekrar çalışma zamanı.');
+            timeLeft = parseInt(workInput.value, 10) * 60;
+            isWorkTime = true;
+            updateDisplay();
+          }
+        }
+      }
+    }, 1000);
+  }
 
+  function pauseTimer() {
+    if (!isRunning) return;
+    clearInterval(timer);
+    timer = null;
+    isRunning = false;
+  }
+
+  function resetTimer() {
+    clearInterval(timer);
+    timer = null;
+    isRunning = false;
+    cyclesLeft = 0;
+    timeLeft = parseInt(workInput.value, 10) * 60;
+    isWorkTime = true;
     updateDisplay();
-  </script>
+  }
+
+  // Başlangıçta süreyi göster
+  resetTimer();
+</script>
+
 </body>
 </html>
-

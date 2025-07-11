@@ -1,62 +1,93 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8" />
-<title>Duygu Takip Uygulaması</title>
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    background: #f0f4f8;
-    margin: 0; padding: 20px;
-    color: #333;
-  }
-  h1 {
-    text-align: center;
-    color: #007acc;
-  }
-  .container {
-    max-width: 500px;
-    margin: 0 auto;
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 0 12px rgba(0,0,0,0.1);
-  }
-  label {
-    font-weight: bold;
-  }
-  select, button {
-    width: 100%;
-    padding: 10px;
-    margin-top: 8px;
-    margin-bottom: 20px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    font-size: 1rem;
-  }
-  .entries {
-    margin-top: 20px;
-  }
-  .entry {
-    background: #e7f0fa;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 8px;
-    display: flex;
-    justify-content: space-between;
-  }
-  .entry-date {
-    font-weight: bold;
-    color: #005fbb;
-  }
-  canvas {
-    display: block;
-    margin: 20px auto 0;
-  }
-</style>
+  <meta charset="UTF-8" />
+  <title>Duygu Takip Uygulaması</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f4f8;
+      margin: 0; padding: 20px;
+      color: #333;
+    }
+
+    h1 {
+      text-align: center;
+      color: #007acc;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.1);
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    select, button, input[type="date"] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 8px;
+      margin-bottom: 20px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+
+    .entries {
+      margin-top: 20px;
+    }
+
+    .entry {
+      background: #e7f0fa;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .entry-date {
+      font-weight: bold;
+      color: #005fbb;
+    }
+
+    canvas {
+      display: block;
+      margin: 20px auto 0;
+    }
+
+    /* Geri butonu */
+    .back-button {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-size: 1.2rem;
+      text-decoration: none;
+      color: #007acc;
+      background-color: white;
+      padding: 6px 12px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      transition: background-color 0.2s;
+    }
+
+    .back-button:hover {
+      background-color: #e0e0e0;
+    }
+  </style>
 </head>
 <body>
+  <!-- Geri Dön Butonu -->
+  <a href="index.html" class="back-button">← Geri</a>
+
   <h1>Duygu Takip Uygulaması</h1>
+
   <div class="container">
     <label for="date">Tarih</label>
     <input type="date" id="date" />
@@ -77,122 +108,122 @@
     <canvas id="moodChart" width="400" height="200"></canvas>
   </div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-  const entriesDiv = document.getElementById('entries');
-  const dateInput = document.getElementById('date');
-  const moodSelect = document.getElementById('mood');
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    const entriesDiv = document.getElementById('entries');
+    const dateInput = document.getElementById('date');
+    const moodSelect = document.getElementById('mood');
 
-  // Bugünün tarihini inputa setle
-  dateInput.value = new Date().toISOString().slice(0,10);
+    // Bugünün tarihini inputa setle
+    dateInput.value = new Date().toISOString().slice(0,10);
 
-  function loadEntries() {
-    const data = JSON.parse(localStorage.getItem('moodEntries') || '[]');
-    entriesDiv.innerHTML = '';
-    data.sort((a,b) => new Date(b.date) - new Date(a.date)).forEach(entry => {
-      const div = document.createElement('div');
-      div.className = 'entry';
-      div.innerHTML = `<div class="entry-date">${entry.date}</div><div>${moodIcon(entry.mood)} ${entry.mood}</div>`;
-      entriesDiv.appendChild(div);
-    });
-    drawChart(data);
-  }
-
-  function moodIcon(mood) {
-    switch(mood) {
-      case 'mutlu': return '😊';
-      case 'üzgün': return '😢';
-      case 'stresli': return '😰';
-      case 'enerjik': return '⚡';
-      case 'sakin': return '😌';
-      default: return '';
-    }
-  }
-
-  function saveEntry() {
-    const date = dateInput.value;
-    const mood = moodSelect.value;
-
-    if (!date) {
-      alert('Lütfen tarih seçin!');
-      return;
+    function loadEntries() {
+      const data = JSON.parse(localStorage.getItem('moodEntries') || '[]');
+      entriesDiv.innerHTML = '';
+      data.sort((a,b) => new Date(b.date) - new Date(a.date)).forEach(entry => {
+        const div = document.createElement('div');
+        div.className = 'entry';
+        div.innerHTML = `<div class="entry-date">${entry.date}</div><div>${moodIcon(entry.mood)} ${entry.mood}</div>`;
+        entriesDiv.appendChild(div);
+      });
+      drawChart(data);
     }
 
-    let data = JSON.parse(localStorage.getItem('moodEntries') || '[]');
-
-    // Aynı tarihte kayıt varsa üzerine yaz
-    const existingIndex = data.findIndex(e => e.date === date);
-    if (existingIndex >= 0) {
-      data[existingIndex].mood = mood;
-    } else {
-      data.push({date, mood});
-    }
-
-    localStorage.setItem('moodEntries', JSON.stringify(data));
-    loadEntries();
-  }
-
-  function drawChart(data) {
-    const ctx = document.getElementById('moodChart').getContext('2d');
-
-    // Duygu kategorilerinin sayısını hesapla
-    const moodCounts = {
-      mutlu: 0,
-      üzgün: 0,
-      stresli: 0,
-      enerjik: 0,
-      sakin: 0
-    };
-
-    data.forEach(d => {
-      if (moodCounts[d.mood] !== undefined) {
-        moodCounts[d.mood]++;
+    function moodIcon(mood) {
+      switch(mood) {
+        case 'mutlu': return '😊';
+        case 'üzgün': return '😢';
+        case 'stresli': return '😰';
+        case 'enerjik': return '⚡';
+        case 'sakin': return '😌';
+        default: return '';
       }
-    });
-
-    if(window.moodChartInstance) {
-      window.moodChartInstance.destroy();
     }
 
-    window.moodChartInstance = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: ['Mutlu', 'Üzgün', 'Stresli', 'Enerjik', 'Sakin'],
-        datasets: [{
-          label: 'Duygu Gün Sayısı',
-          data: [
-            moodCounts.mutlu,
-            moodCounts.üzgün,
-            moodCounts.stresli,
-            moodCounts.enerjik,
-            moodCounts.sakin
-          ],
-          backgroundColor: [
-            '#4CAF50',
-            '#2196F3',
-            '#f44336',
-            '#FF9800',
-            '#9E9E9E'
-          ]
-        }]
-      },
-      options: {
-        responsive: true,
-        animation: {
-          duration: 500
+    function saveEntry() {
+      const date = dateInput.value;
+      const mood = moodSelect.value;
+
+      if (!date) {
+        alert('Lütfen tarih seçin!');
+        return;
+      }
+
+      let data = JSON.parse(localStorage.getItem('moodEntries') || '[]');
+
+      // Aynı tarihte kayıt varsa üzerine yaz
+      const existingIndex = data.findIndex(e => e.date === date);
+      if (existingIndex >= 0) {
+        data[existingIndex].mood = mood;
+      } else {
+        data.push({date, mood});
+      }
+
+      localStorage.setItem('moodEntries', JSON.stringify(data));
+      loadEntries();
+    }
+
+    function drawChart(data) {
+      const ctx = document.getElementById('moodChart').getContext('2d');
+
+      // Duygu kategorilerinin sayısını hesapla
+      const moodCounts = {
+        mutlu: 0,
+        üzgün: 0,
+        stresli: 0,
+        enerjik: 0,
+        sakin: 0
+      };
+
+      data.forEach(d => {
+        if (moodCounts[d.mood] !== undefined) {
+          moodCounts[d.mood]++;
+        }
+      });
+
+      if(window.moodChartInstance) {
+        window.moodChartInstance.destroy();
+      }
+
+      window.moodChartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['Mutlu', 'Üzgün', 'Stresli', 'Enerjik', 'Sakin'],
+          datasets: [{
+            label: 'Duygu Gün Sayısı',
+            data: [
+              moodCounts.mutlu,
+              moodCounts.üzgün,
+              moodCounts.stresli,
+              moodCounts.enerjik,
+              moodCounts.sakin
+            ],
+            backgroundColor: [
+              '#4CAF50',
+              '#2196F3',
+              '#f44336',
+              '#FF9800',
+              '#9E9E9E'
+            ]
+          }]
         },
-        scales: {
-          y: {
-            beginAtZero: true,
-            precision:0
+        options: {
+          responsive: true,
+          animation: {
+            duration: 500
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              precision: 0
+            }
           }
         }
-      }
-    });
-  }
+      });
+    }
 
-  // Sayfa açılırken kayıtları yükle
-  loadEntries();
-</script>
+    // Sayfa açılırken kayıtları yükle
+    loadEntries();
+  </script>
 </body>
 </html>

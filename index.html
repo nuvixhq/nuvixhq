@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta name="google-site-verification" content="nKiEo0lAzK89a7p1r-Jjplh5ky2PdrdAz4ea6e6syu8" />
   <meta charset="UTF-8" />
   <title>Nuvixhq | Ürünlerim</title>
   <style>
@@ -79,6 +78,26 @@
       text-decoration: underline;
     }
 
+    .product {
+      margin-bottom: 40px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .go-button {
+      display: inline-block;
+      padding: 10px 15px;
+      background-color: #007acc;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      margin-top: 10px;
+    }
+
+    .go-button:hover {
+      background-color: #005fa3;
+    }
+
     @media (max-width: 600px) {
       .container {
         flex-direction: column;
@@ -98,35 +117,6 @@
         padding: 15px;
       }
     }
-
-    /* Dark mode stilleri */
-    .dark-mode {
-      background-color: #1e1e1e;
-      color: #eee;
-    }
-
-    .dark-mode header {
-      background-color: #111;
-      color: #fff;
-    }
-
-    .dark-mode nav {
-      background-color: #222;
-    }
-
-    .dark-mode nav button {
-      background-color: #333;
-      color: #fff;
-    }
-
-    .dark-mode nav button:hover,
-    .dark-mode nav button.active {
-      background-color: #555;
-    }
-
-    .dark-mode main a {
-      color: #91c9ff;
-    }
   </style>
 </head>
 <body>
@@ -135,65 +125,21 @@
   <div class="container">
     <nav>
       <button class="active" onclick="showProduct(1)">Pomodoro Zamanlayıcı</button>
-      <a href="duygu-takip.html">Duygu Takip Uygulaması</a>
-      <button onclick="showProduct(3)">Ürün 3</button>
+      <button onclick="showProduct(2)">Duygu Takip Uygulaması</button>
     </nav>
 
     <main>
       <section id="product1" class="product" style="display: block;">
         <h2>Pomodoro Zamanlayıcı</h2>
-        <p>Verimli çalışmak için sade ve sesli bir zamanlayıcı</p>
+        <p>Verimli çalışmak için sade ve sesli bir zamanlayıcı. Karanlık mod ve ses uyarılarıyla odaklanmanı artır.</p>
         <a href="https://github.com/ertuelmas/pomodoro" target="_blank">📘 Bilgi Sayfası</a>
         <a href="https://gumroad.com/l/pomodoro" target="_blank">💰 Satın Al</a>
-
-        <hr style="margin: 25px 0; border: none; border-top: 2px solid #ddd;">
-
-        <h3>🍅 Pomodoro Tekniği Nedir?</h3>
-        <p><strong>Pomodoro Tekniği</strong>, zamanı daha verimli kullanmanı ve dikkatini toplamanı sağlayan bir odaklanma yöntemidir. Kısa süreli çalışma blokları ve aralıklı molalarla uygulanır.</p>
-
-        <h3>⏱️ Nasıl Uygulanır?</h3>
-        <ul>
-          <li>✅ Görevini belirle (örneğin: kod yazmak, kitap okumak).</li>
-          <li>✅ 25 dakika boyunca sadece o işe odaklan.</li>
-          <li>✅ Ardından 5 dakika mola ver.</li>
-          <li>✅ 4 Pomodoro döngüsünden sonra 15-30 dakikalık uzun mola ver.</li>
-        </ul>
-
-        <h3>🎯 Neden Kullanmalı?</h3>
-        <ul>
-          <li>🧠 Dikkatini toplar, zamanını iyi kullanmanı sağlar</li>
-          <li>📈 Verimini artırır ve ertelemeyi azaltır</li>
-          <li>😌 Düzenli molalarla zihnini tazeler</li>
-        </ul>
-
-        <h3>👥 Kimler İçin?</h3>
-        <p>Öğrenciler, yazılımcılar, sınav hazırlığında olanlar veya dikkat dağınıklığı yaşayan herkes için idealdir.</p>
-
-        <hr style="margin: 30px 0;">
-        <h3>⏳ Canlı Zamanlayıcı</h3>
-        <div id="timer" style="font-size: 2rem; margin-bottom: 15px;">25:00</div>
-        <button onclick="startTimer()">▶ Başlat</button>
-        <button onclick="resetTimer()">🔄 Sıfırla</button>
-        <button onclick="toggleDarkMode()">🌓 Tema</button>
-
-        <audio id="alarm-sound">
-          <source src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg" type="audio/ogg">
-          Tarayıcınız ses çalmayı desteklemiyor.
-        </audio>
       </section>
 
       <section id="product2" class="product" style="display: none;">
-        <h2>Ürün 2</h2>
-        <p>Ürün 2’nin kısa açıklaması burada olacak.</p>
-        <a href="#" target="_blank">📘 Bilgi Sayfası</a>
-        <a href="#" target="_blank">💰 Satın Al</a>
-      </section>
-
-      <section id="product3" class="product" style="display: none;">
-        <h2>Ürün 3</h2>
-        <p>Ürün 3’ün kısa açıklaması burada olacak.</p>
-        <a href="#" target="_blank">📘 Bilgi Sayfası</a>
-        <a href="#" target="_blank">💰 Satın Al</a>
+        <h2>Duygu Takip Uygulaması</h2>
+        <p>Günlük ruh halini kaydederek kendini daha yakından tanı. Grafiklerle ruh halindeki değişimleri gör.</p>
+        <a href="duygu-takip.html" class="go-button">🧠 Uygulamaya Git</a>
       </section>
     </main>
   </div>
@@ -210,46 +156,6 @@
         prod.style.display = (index === id - 1) ? 'block' : 'none';
       });
     }
-
-    let pomodoroDuration = 25 * 60;
-    let timeLeft = pomodoroDuration;
-    let timerInterval = null;
-    const timerDisplay = document.getElementById('timer');
-    const alarmSound = document.getElementById('alarm-sound');
-
-    function updateDisplay() {
-      const minutes = String(Math.floor(timeLeft / 60)).padStart(2, '0');
-      const seconds = String(timeLeft % 60).padStart(2, '0');
-      timerDisplay.innerText = `${minutes}:${seconds}`;
-    }
-
-    function startTimer() {
-      if (timerInterval) return;
-      timerInterval = setInterval(() => {
-        if (timeLeft > 0) {
-          timeLeft--;
-          updateDisplay();
-        } else {
-          clearInterval(timerInterval);
-          timerInterval = null;
-          alarmSound.play();
-          alert("⏰ Süre doldu! Mola zamanı.");
-        }
-      }, 1000);
-    }
-
-    function resetTimer() {
-      clearInterval(timerInterval);
-      timerInterval = null;
-      timeLeft = pomodoroDuration;
-      updateDisplay();
-    }
-
-    function toggleDarkMode() {
-      document.body.classList.toggle("dark-mode");
-    }
-
-    updateDisplay();
   </script>
 </body>
 </html>

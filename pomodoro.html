@@ -2,201 +2,183 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8" />
-  <title>Pomodoro Zamanlayıcı | Nuvixhq</title>
+  <title>Pomodoro Zamanlayıcı</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #f5f7fa;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5f7fa;
       color: #333;
-      margin: 0; padding: 20px;
-      box-sizing: border-box;
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
     }
-    header {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      margin-bottom: 30px;
-    }
-    header button {
-      font-size: 1.5rem;
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: #007acc;
-      padding: 0;
-    }
-    header h1 {
-      margin: 0;
-      color: #007acc;
-    }
-    .config {
-      max-width: 400px;
-      margin-bottom: 30px;
-    }
-    label {
-      display: block;
-      margin-bottom: 6px;
-      font-weight: bold;
-    }
-    input[type=number] {
-      width: 100%;
-      padding: 10px;
-      font-size: 1rem;
-      border-radius: 5px;
-      border: 1px solid #ccc;
+
+    .back-button {
+      display: inline-block;
       margin-bottom: 20px;
-      box-sizing: border-box;
-    }
-    #timer-display {
-      font-size: 4rem;
-      text-align: center;
-      margin-bottom: 20px;
-      color: #007acc;
-      user-select: none;
-    }
-    .buttons {
-      text-align: center;
-      margin-bottom: 40px;
-    }
-    button.action-btn {
+      padding: 8px 15px;
       background-color: #007acc;
-      border: none;
       color: white;
-      padding: 12px 25px;
-      margin: 0 10px;
-      font-size: 1.2rem;
-      border-radius: 8px;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: bold;
       cursor: pointer;
-      transition: background-color 0.3s;
+      transition: background-color 0.3s ease;
     }
-    button.action-btn:hover {
+    .back-button:hover {
       background-color: #005fbb;
     }
-    .footer-note {
+
+    h1 {
+      color: #007acc;
       text-align: center;
-      color: #666;
-      font-size: 0.9rem;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    input[type=number] {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+
+    button.control-btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      margin-right: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      background-color: #007acc;
+      color: white;
+      transition: background-color 0.3s ease;
+    }
+    button.control-btn:hover {
+      background-color: #005fbb;
+    }
+
+    #timer {
+      font-size: 3rem;
+      text-align: center;
+      margin-top: 30px;
+      color: #007acc;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <button onclick="goBack()" title="Geri Dön">←</button>
-    <h1>Pomodoro Zamanlayıcı</h1>
-  </header>
+  <a href="index.html" class="back-button">← Ana Sayfaya Geri Dön</a>
 
-  <div class="config">
-    <label for="work-minutes">Çalışma Süresi (dakika):</label>
-    <input type="number" id="work-minutes" min="1" max="120" value="25" />
+  <h1>Pomodoro Zamanlayıcı</h1>
 
-    <label for="break-minutes">Mola Süresi (dakika):</label>
-    <input type="number" id="break-minutes" min="1" max="30" value="5" />
+  <label for="work-duration">Çalışma Süresi (dakika)</label>
+  <input type="number" id="work-duration" min="1" value="25" />
 
-    <label for="cycles">Kaç Döngü Yapılacak:</label>
-    <input type="number" id="cycles" min="1" max="10" value="4" />
-  </div>
+  <label for="break-duration">Mola Süresi (dakika)</label>
+  <input type="number" id="break-duration" min="1" value="5" />
 
-  <div id="timer-display">25:00</div>
+  <label for="cycles">Kaç Döngü</label>
+  <input type="number" id="cycles" min="1" value="4" />
 
-  <div class="buttons">
-    <button class="action-btn" onclick="startTimer()">▶ Başlat</button>
-    <button class="action-btn" onclick="pauseTimer()">⏸ Durdur</button>
-    <button class="action-btn" onclick="resetTimer()">🔄 Sıfırla</button>
-  </div>
+  <div id="timer">00:00</div>
+
+  <button class="control-btn" onclick="startTimer()">▶ Başlat</button>
+  <button class="control-btn" onclick="pauseTimer()">⏸️ Duraklat</button>
+  <button class="control-btn" onclick="resetTimer()">🔄 Sıfırla</button>
 
   <audio id="alarm-sound" preload="auto">
     <source src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg" type="audio/ogg">
     Tarayıcınız ses çalmayı desteklemiyor.
   </audio>
 
-<script>
-  const timerDisplay = document.getElementById('timer-display');
-  const alarmSound = document.getElementById('alarm-sound');
+  <script>
+    let workDurationInput = document.getElementById('work-duration');
+    let breakDurationInput = document.getElementById('break-duration');
+    let cyclesInput = document.getElementById('cycles');
+    let timerDisplay = document.getElementById('timer');
+    let alarmSound = document.getElementById('alarm-sound');
 
-  const workInput = document.getElementById('work-minutes');
-  const breakInput = document.getElementById('break-minutes');
-  const cyclesInput = document.getElementById('cycles');
+    let timer = null;
+    let currentCycle = 0;
+    let isWorkPeriod = true;
+    let timeLeft = 0;
 
-  let timer = null;
-  let isRunning = false;
-  let isWorkTime = true;
-  let cyclesLeft = 0;
-  let timeLeft = 0;
-
-  function goBack() {
-    window.location.href = 'index.html'; // Ana sayfaya geri döner
-  }
-
-  function updateDisplay() {
-    const minutes = Math.floor(timeLeft / 60).toString().padStart(2, '0');
-    const seconds = (timeLeft % 60).toString().padStart(2, '0');
-    timerDisplay.textContent = `${minutes}:${seconds}`;
-  }
-
-  function startTimer() {
-    if (isRunning) return;
-
-    if (cyclesLeft === 0) {
-      // Başlangıçta ayarları al
-      cyclesLeft = parseInt(cyclesInput.value, 10);
-      if (cyclesLeft < 1) {
-        alert('Lütfen en az 1 döngü seçin.');
-        return;
-      }
-      isWorkTime = true;
-      timeLeft = parseInt(workInput.value, 10) * 60;
-      updateDisplay();
+    function formatTime(seconds) {
+      const m = Math.floor(seconds / 60).toString().padStart(2, '0');
+      const s = (seconds % 60).toString().padStart(2, '0');
+      return `${m}:${s}`;
     }
 
-    isRunning = true;
-    timer = setInterval(() => {
-      if (timeLeft > 0) {
-        timeLeft--;
-        updateDisplay();
-      } else {
-        alarmSound.play();
-        if (isWorkTime) {
-          alert('Çalışma süresi bitti! Mola zamanı.');
-          timeLeft = parseInt(breakInput.value, 10) * 60;
-          isWorkTime = false;
-          updateDisplay();
-        } else {
-          cyclesLeft--;
-          if (cyclesLeft === 0) {
-            alert('Tüm döngüler tamamlandı! Harika iş çıkardın! 🎉');
-            resetTimer();
-          } else {
-            alert('Mola bitti! Tekrar çalışma zamanı.');
-            timeLeft = parseInt(workInput.value, 10) * 60;
-            isWorkTime = true;
-            updateDisplay();
-          }
-        }
+    function updateTimer() {
+      timerDisplay.textContent = formatTime(timeLeft);
+    }
+
+    function startTimer() {
+      if (timer) return; // Zaten çalışıyorsa çalıştırma
+
+      if(timeLeft <= 0) {
+        currentCycle = 1;
+        isWorkPeriod = true;
+        timeLeft = parseInt(workDurationInput.value) * 60;
       }
-    }, 1000);
-  }
 
-  function pauseTimer() {
-    if (!isRunning) return;
-    clearInterval(timer);
-    timer = null;
-    isRunning = false;
-  }
+      updateTimer();
 
-  function resetTimer() {
-    clearInterval(timer);
-    timer = null;
-    isRunning = false;
-    cyclesLeft = 0;
-    timeLeft = parseInt(workInput.value, 10) * 60;
-    isWorkTime = true;
-    updateDisplay();
-  }
+      timer = setInterval(() => {
+        if (timeLeft > 0) {
+          timeLeft--;
+          updateTimer();
+        } else {
+          alarmSound.play();
 
-  // Başlangıçta süreyi göster
-  resetTimer();
-</script>
+          if (isWorkPeriod) {
+            alert(`Çalışma süresi bitti! Şimdi mola zamanı.`);
+            timeLeft = parseInt(breakDurationInput.value) * 60;
+            isWorkPeriod = false;
+          } else {
+            alert(`Mola bitti!`);
+
+            if (currentCycle >= parseInt(cyclesInput.value)) {
+              clearInterval(timer);
+              timer = null;
+              alert(`Tüm döngüler tamamlandı!`);
+              return;
+            } else {
+              currentCycle++;
+              timeLeft = parseInt(workDurationInput.value) * 60;
+              isWorkPeriod = true;
+            }
+          }
+          updateTimer();
+        }
+      }, 1000);
+    }
+
+    function pauseTimer() {
+      if(timer) {
+        clearInterval(timer);
+        timer = null;
+      }
+    }
+
+    function resetTimer() {
+      pauseTimer();
+      timeLeft = 0;
+      updateTimer();
+    }
+
+    updateTimer();
+  </script>
 
 </body>
 </html>

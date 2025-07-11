@@ -25,14 +25,185 @@
       background-color: #007acc;
       color: white;
     }
+    /* Duygu takip uygulaması için stil buraya eklenebilir */
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.1);
+    }
+    label {
+      font-weight: bold;
+    }
+    select, button, input[type="date"] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 8px;
+      margin-bottom: 20px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+    .entries {
+      margin-top: 20px;
+    }
+    .entry {
+      background: #e7f0fa;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .entry-date {
+      font-weight: bold;
+      color: #005fbb;
+    }
+    canvas {
+      display: block;
+      margin: 20px auto 0;
+    }
   </style>
 </head>
 <body>
   <a href="index.html" class="back-link">← Ana Sayfaya Dön</a>
   <h1>Duygu Takip Uygulaması</h1>
-  
-  <!-- Buraya duygu takip uygulamanın tüm kodunu yapıştırabilirsin -->
-  
-  <p>Buraya duygu takip uygulaması kodu gelecek.</p>
+  <div class="container">
+    <label for="date">Tarih</label>
+    <input type="date" id="date" />
+
+    <label for="mood">Duygu Seç</label>
+    <select id="mood">
+      <option value="mutlu">😊 Mutlu</option>
+      <option value="üzgün">😢 Üzgün</option>
+      <option value="stresli">😰 Stresli</option>
+      <option value="enerjik">⚡ Enerjik</option>
+      <option value="sakin">😌 Sakin</option>
+    </select>
+
+    <button onclick="saveEntry()">Kaydet</button>
+
+    <div class="entries" id="entries"></div>
+
+    <canvas id="moodChart" width="400" height="200"></canvas>
+  </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const entriesDiv = document.getElementById('entries');
+  const dateInput = document.getElementById('date');
+  const moodSelect = document.getElementById('mood');
+
+  // Bugünün tarihini inputa setle
+  dateInput.value = new Date().toISOString().slice(0,10);
+
+  function loadEntries() {
+    const data = JSON.parse(localStorage.getItem('moodEntries') || '[]');
+    entriesDiv.innerHTML = '';
+    data.sort((a,b) => new Date(b.date) - new Date(a.date)).forEach(entry => {
+      const div = document.createElement('div');
+      div.className = 'entry';
+      div.innerHTML = `<div class="entry-date">${entry.date}</div><div>${moodIcon(entry.mood)} ${entry.mood}</div>`;
+      entriesDiv.appendChild(div);
+    });
+    drawChart(data);
+  }
+
+  function moodIcon(mood) {
+    switch(mood) {
+      case 'mutlu': return '😊';
+      case 'üzgün': return '😢';
+      case 'stresli': return '😰';
+      case 'enerjik': return '⚡';
+      case 'sakin': return '😌';
+      default: return '';
+    }
+  }
+
+  function saveEntry() {
+    const date = dateInput.value;
+    const mood = moodSelect.value;
+
+    if (!date) {
+      alert('Lütfen tarih seçin!');
+      return;
+    }
+
+    let data = JSON.parse(localStorage.getItem('moodEntries') || '[]');
+
+    // Aynı tarihte kayıt varsa üzerine yaz
+    const existingIndex = data.findIndex(e => e.date === date);
+    if (existingIndex >= 0) {
+      data[existingIndex].mood = mood;
+    } else {
+      data.push({date, mood});
+    }
+
+    localStorage.setItem('moodEntries', JSON.stringify(data));
+    loadEntries();
+  }
+
+  function drawChart(data) {
+    const ctx = document.getElementById('moodChart').getContext('2d');
+
+    const moodCounts = {
+      mutlu: 0,
+      üzgün: 0,
+      stresli: 0,
+      enerjik: 0,
+      sakin: 0
+    };
+
+    data.forEach(d => {
+      if (moodCounts[d.mood] !== undefined) {
+        moodCounts[d.mood]++;
+      }
+    });
+
+    if(window.moodChartInstance) {
+      window.moodChartInstance.destroy();
+    }
+
+    window.moodChartInstance = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Mutlu', 'Üzgün', 'Stresli', 'Enerjik', 'Sakin'],
+        datasets: [{
+          label: 'Duygu Gün Sayısı',
+          data: [
+            moodCounts.mutlu,
+            moodCounts.üzgün,
+            moodCounts.stresli,
+            moodCounts.enerjik,
+            moodCounts.sakin
+          ],
+          backgroundColor: [
+            '#4CAF50',
+            '#2196F3',
+            '#f44336',
+            '#FF9800',
+            '#9E9E9E'
+          ]
+        }]
+      },
+      options: {
+        responsive: true,
+        animation: {
+          duration: 500
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            precision:0
+          }
+        }
+      }
+    });
+  }
+
+  loadEntries();
+</script>
 </body>
 </html>

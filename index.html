@@ -6,7 +6,8 @@
   <style>
     * {
       box-sizing: border-box;
-      margin: 0; padding: 0;
+      margin: 0;
+      padding: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
@@ -52,7 +53,8 @@
       transition: background-color 0.3s ease;
     }
 
-    nav button:hover, nav button.active {
+    nav button:hover,
+    nav button.active {
       background-color: #005fbb;
     }
 
@@ -103,16 +105,19 @@
         flex-direction: column;
         height: auto;
       }
+
       nav {
         width: 100%;
         flex-direction: row;
         overflow-x: auto;
       }
+
       nav button {
         flex: 1 0 auto;
         margin: 8px 5px;
         text-align: center;
       }
+
       main {
         padding: 15px;
       }
@@ -126,6 +131,7 @@
     <nav>
       <button class="active" onclick="showProduct(1)">Pomodoro Zamanlayıcı</button>
       <button onclick="showProduct(2)">Duygu Takip Uygulaması</button>
+      <button onclick="showProduct(3)">Ürün 3</button>
     </nav>
 
     <main>
@@ -140,6 +146,12 @@
         <h2>Duygu Takip Uygulaması</h2>
         <p>Günlük ruh halini kaydederek kendini daha yakından tanı. Grafiklerle ruh halindeki değişimleri gör.</p>
         <a href="duygu-takip.html" class="go-button">🧠 Uygulamaya Git</a>
+      </section>
+
+      <section id="product3" class="product" style="display: none;">
+        <h2>Ürün 3</h2>
+        <p>Bu alana eklemek istediğin yeni ürünün tanıtım metnini yazabilirsin.</p>
+        <a href="#" class="go-button">🚧 Uygulama Hazırlanıyor</a>
       </section>
     </main>
   </div>
@@ -159,3 +171,4 @@
   </script>
 </body>
 </html>
+

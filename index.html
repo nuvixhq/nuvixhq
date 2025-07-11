@@ -9,13 +9,11 @@
       margin: 0; padding: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
-
     body, html {
       height: 100%;
       background-color: #f5f7fa;
       color: #333;
     }
-
     header {
       background-color: #007acc;
       color: white;
@@ -25,12 +23,10 @@
       font-weight: bold;
       letter-spacing: 2px;
     }
-
     .container {
       display: flex;
       height: calc(100vh - 72px);
     }
-
     nav {
       width: 220px;
       background-color: #004a99;
@@ -38,7 +34,6 @@
       flex-direction: column;
       padding-top: 10px;
     }
-
     nav button {
       background-color: #007acc;
       border: none;
@@ -51,27 +46,22 @@
       text-align: left;
       transition: background-color 0.3s ease;
     }
-
     nav button:hover, nav button.active {
       background-color: #005fbb;
     }
-
     main {
       flex-grow: 1;
       padding: 30px;
       overflow-y: auto;
     }
-
     main h2 {
       margin-bottom: 10px;
       color: #007acc;
     }
-
     main p {
       margin-bottom: 20px;
       line-height: 1.5;
     }
-
     main a {
       display: inline-block;
       background-color: #007acc;
@@ -82,11 +72,9 @@
       font-weight: bold;
       transition: background-color 0.3s ease;
     }
-
     main a:hover {
       background-color: #005fbb;
     }
-
     @media (max-width: 600px) {
       .container {
         flex-direction: column;
@@ -121,12 +109,14 @@
       <section id="product1" class="product" style="display: block;">
         <h2>Pomodoro Zamanlayıcı</h2>
         <p>Verimli çalışmak için sade ve sesli bir zamanlayıcı. Karanlık mod ve ses uyarılarıyla odaklanmanı artır.</p>
+        <!-- Burada pomodoro.html dosyan varsa linkini ver -->
         <a href="pomodoro.html" target="_blank" rel="noopener noreferrer">Uygulamaya Git →</a>
       </section>
 
       <section id="product2" class="product" style="display: none;">
         <h2>Duygu Takip Uygulaması</h2>
         <p>Günlük ruh halini kaydederek kendini daha yakından tanı. Grafiklerle ruh halindeki değişimleri gör.</p>
+        <!-- Burada duygu-takip.html dosyan varsa linkini ver -->
         <a href="duygu-takip.html" target="_blank" rel="noopener noreferrer">Uygulamaya Git →</a>
       </section>
     </main>
@@ -134,7 +124,7 @@
 
   <script>
     function showProduct(id) {
-      // Menü butonlarının aktif sınıfını yönet
+      // Menü butonlarının aktifliğini ayarla
       const buttons = document.querySelectorAll('nav button');
       buttons.forEach((btn, i) => {
         btn.classList.toggle('active', i === id - 1);

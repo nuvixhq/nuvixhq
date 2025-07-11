@@ -4,74 +4,133 @@
   <meta charset="UTF-8" />
   <title>Nuvixhq | Ürünlerim</title>
   <style>
-    body {
-      margin: 0; font-family: Arial, sans-serif; background: #f5f7fa; color: #333;
-      display: flex; height: 100vh;
+    * {
+      box-sizing: border-box;
+      margin: 0; padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body, html {
+      height: 100%;
+      background-color: #f5f7fa;
+      color: #333;
+    }
+    header {
+      background-color: #007acc;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      font-size: 2rem;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+    .container {
+      display: flex;
+      height: calc(100vh - 72px);
     }
     nav {
-      width: 220px; background: #004a99; padding: 20px;
-      display: flex; flex-direction: column; gap: 20px;
-      box-sizing: border-box;
+      width: 220px;
+      background-color: #004a99;
+      display: flex;
+      flex-direction: column;
+      padding-top: 10px;
     }
     nav button {
-      background: #007acc; color: white; border: none; padding: 20px;
-      font-size: 1.1rem; border-radius: 8px; cursor: pointer;
-      transition: background-color 0.3s;
+      background-color: #007acc;
+      border: none;
+      color: white;
+      padding: 15px 20px;
+      margin: 8px 15px;
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: 5px;
+      text-align: left;
+      transition: background-color 0.3s ease;
     }
     nav button:hover, nav button.active {
-      background: #005fbb;
+      background-color: #005fbb;
     }
     main {
-      flex-grow: 1; padding: 30px; background: white;
-      box-sizing: border-box; overflow-y: auto;
+      flex-grow: 1;
+      padding: 30px;
+      overflow-y: auto;
     }
     main h2 {
+      margin-bottom: 10px;
       color: #007acc;
-      margin-bottom: 15px;
     }
     main p {
       margin-bottom: 20px;
-      line-height: 1.4;
+      line-height: 1.5;
     }
-    main a.button {
-      display: inline-block;
-      background: #007acc; color: white; padding: 10px 20px;
-      border-radius: 5px; text-decoration: none;
+    main a {
+      color: white;
+      background-color: #007acc;
+      padding: 10px 20px;
+      border-radius: 8px;
+      text-decoration: none;
       font-weight: bold;
-      transition: background-color 0.3s;
+      transition: background-color 0.3s ease;
+      display: inline-block;
     }
-    main a.button:hover {
-      background: #005fbb;
+    main a:hover {
+      background-color: #005fbb;
+    }
+    @media (max-width: 600px) {
+      .container {
+        flex-direction: column;
+        height: auto;
+      }
+      nav {
+        width: 100%;
+        flex-direction: row;
+        overflow-x: auto;
+      }
+      nav button {
+        flex: 1 0 auto;
+        margin: 8px 5px;
+        text-align: center;
+      }
+      main {
+        padding: 15px;
+      }
     }
   </style>
 </head>
 <body>
-  <nav>
-    <button class="active" onclick="showProduct('pomodoro')">Pomodoro Zamanlayıcı</button>
-    <button onclick="showProduct('mood')">Duygu Takip</button>
-  </nav>
+  <header>Nuvixhq</header>
 
-  <main id="content">
-    <section id="pomodoro" style="display: block;">
-      <h2>Pomodoro Zamanlayıcı</h2>
-      <p>Verimli çalışmak için kısa çalışma ve mola aralıklarıyla zaman yönetimini artıran sade ve sesli bir zamanlayıcı.</p>
-      <a href="pomodoro.html" class="button">Uygulamaya Git</a>
-    </section>
+  <div class="container">
+    <nav>
+      <button class="active" onclick="showProduct(1)">Pomodoro Zamanlayıcı</button>
+      <button onclick="showProduct(2)">Duygu Takip Uygulaması</button>
+    </nav>
 
-    <section id="mood" style="display: none;">
-      <h2>Duygu Takip Uygulaması</h2>
-      <p>Günlük ruh halini kaydet, değişimleri grafiklerle takip et ve kendini daha iyi tanı.</p>
-      <a href="duygu-takip.html" class="button">Uygulamaya Git</a>
-    </section>
-  </main>
+    <main>
+      <section id="product1" class="product" style="display: block;">
+        <h2>Pomodoro Zamanlayıcı</h2>
+        <p>Verimli çalışmak için sade ve sesli bir zamanlayıcı. Çalışma ve mola sürelerini ayarlayarak odaklanmanı artırabilirsin.</p>
+        <a href="pomodoro.html" target="_blank" rel="noopener noreferrer">Uygulamaya Git →</a>
+      </section>
+
+      <section id="product2" class="product" style="display: none;">
+        <h2>Duygu Takip Uygulaması</h2>
+        <p>Günlük ruh halini kaydederek kendini daha yakından tanı. Grafiklerle ruh halindeki değişimleri takip edebilirsin.</p>
+        <a href="duygu-takip.html" target="_blank" rel="noopener noreferrer">Uygulamaya Git →</a>
+      </section>
+    </main>
+  </div>
 
   <script>
     function showProduct(id) {
-      document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
-      document.querySelectorAll('main section').forEach(sec => sec.style.display = 'none');
+      const buttons = document.querySelectorAll('nav button');
+      buttons.forEach((btn, index) => {
+        btn.classList.toggle('active', index === id - 1);
+      });
 
-      document.querySelector(`nav button[onclick="showProduct('${id}')"]`).classList.add('active');
-      document.getElementById(id).style.display = 'block';
+      const products = document.querySelectorAll('.product');
+      products.forEach((prod, index) => {
+        prod.style.display = (index === id - 1) ? 'block' : 'none';
+      });
     }
   </script>
 </body>

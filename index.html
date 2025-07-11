@@ -4,23 +4,93 @@
   <meta charset="UTF-8" />
   <title>Nuvixhq | Ürünlerim</title>
   <style>
-    /* Stil burada aynı kalabilir, istersen ekleyebilirim */
+    body, html {
+      margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5f7fa; color: #333; height: 100vh;
+    }
+    header {
+      background-color: #007acc; color: white; padding: 20px;
+      font-size: 2rem; font-weight: bold; text-align: center; letter-spacing: 2px;
+    }
+    .container {
+      display: flex; height: calc(100vh - 72px);
+    }
+    nav {
+      width: 220px; background-color: #004a99; padding-top: 10px; display: flex; flex-direction: column;
+    }
+    nav button, nav a {
+      background-color: #007acc;
+      color: white;
+      border: none;
+      padding: 15px 20px;
+      margin: 8px 15px;
+      font-size: 1rem;
+      text-align: left;
+      border-radius: 5px;
+      cursor: pointer;
+      text-decoration: none;
+      display: block;
+      transition: background-color 0.3s ease;
+    }
+    nav button:hover, nav a:hover {
+      background-color: #005fbb;
+    }
+    main {
+      flex-grow: 1; padding: 30px; overflow-y: auto;
+    }
+    main h2 {
+      color: #007acc; margin-bottom: 10px;
+    }
+    main a.button-link {
+      display: inline-block;
+      margin-top: 10px;
+      background-color: #007acc;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+    main a.button-link:hover {
+      background-color: #005fbb;
+    }
+    @media (max-width: 600px) {
+      .container {
+        flex-direction: column; height: auto;
+      }
+      nav {
+        width: 100%; flex-direction: row; overflow-x: auto;
+      }
+      nav button, nav a {
+        flex: 1 0 auto; margin: 8px 5px; text-align: center;
+      }
+      main {
+        padding: 15px;
+      }
+    }
   </style>
 </head>
 <body>
-  <h1>Nuvixhq Ürünleri</h1>
-
-  <section>
-    <h2>Pomodoro Zamanlayıcı</h2>
-    <p>Verimli çalışmak için sade ve sesli bir zamanlayıcı. Karanlık mod ve ses uyarılarıyla odaklanmanı artır.</p>
-    <p><em>Uygulama yakında geliyor!</em></p>
-  </section>
-
-  <section>
-    <h2>Duygu Takip Uygulaması</h2>
-    <p>Günlük ruh halini kaydederek kendini daha yakından tanı. Grafiklerle ruh halindeki değişimleri gör.</p>
-    <a href="duygu-takip.html">🧠 Uygulamaya Git</a>
-  </section>
-
+  <header>Nuvixhq</header>
+  <div class="container">
+    <nav>
+      <button disabled style="cursor: default; opacity: 0.6;">Ürünler</button>
+      <a href="pomodoro.html">Pomodoro Zamanlayıcı</a>
+      <a href="duygu-takip.html">Duygu Takip Uygulaması</a>
+    </nav>
+    <main>
+      <section>
+        <h2>Pomodoro Zamanlayıcı</h2>
+        <p>Verimli çalışmak için sade ve sesli bir zamanlayıcı. Karanlık mod ve ses uyarılarıyla odaklanmanı artır.</p>
+        <p><em>Uygulama yakında geliyor!</em></p>
+      </section>
+      <section>
+        <h2>Duygu Takip Uygulaması</h2>
+        <p>Günlük ruh halini kaydederek kendini daha yakından tanı. Grafiklerle ruh halindeki değişimleri gör.</p>
+        <a class="button-link" href="duygu-takip.html">🧠 Uygulamaya Git</a>
+      </section>
+    </main>
+  </div>
 </body>
 </html>

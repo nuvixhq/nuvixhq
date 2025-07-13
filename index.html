@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta name="google-site-verification" content="nKiEo0lAzK89a7p1r-Jjplh5ky2PdrdAz4ea6e6syu8" />
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="google-site-verification" content="nKiEo0lAzK89a7p1r-Jjplh5ky2PdrdAz4ea6e6syu8" />
   <title>Nuvixhq | Ürünlerim</title>
-  <link rel="icon" href="favicon.ico" type="image/png">
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
   <style>
     * {
       box-sizing: border-box;
@@ -19,18 +21,29 @@
     }
 
     header {
-      background-color: #007acc;
-      color: white;
-      padding: 20px;
+      background: linear-gradient(to right, #007acc, #00bcd4);
+      padding: 30px 20px;
       text-align: center;
-      font-size: 2rem;
-      font-weight: bold;
+      color: white;
+    }
+
+    header h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.7rem;
       letter-spacing: 2px;
+      margin-bottom: 5px;
+      text-shadow: 2px 2px #004a99;
+    }
+
+    header p {
+      font-size: 1rem;
+      font-style: italic;
+      color: #e0f7fa;
     }
 
     .container {
       display: flex;
-      height: calc(100vh - 72px);
+      height: calc(100vh - 110px);
     }
 
     nav {
@@ -70,16 +83,19 @@
     }
 
     main a {
-      color: #007acc;
+      display: inline-block;
+      background-color: #007acc;
+      color: white;
       text-decoration: none;
       font-weight: bold;
-      margin-right: 15px;
-      display: inline-block;
+      padding: 10px 15px;
+      border-radius: 5px;
       margin-top: 10px;
+      transition: background-color 0.3s;
     }
 
     main a:hover {
-      text-decoration: underline;
+      background-color: #005fbb;
     }
 
     @media (max-width: 600px) {
@@ -104,32 +120,29 @@
   </style>
 </head>
 <body>
-  <header>Nuvixhq</header>
+
+  <header>
+    <h1>🚀 Nuvixhq</h1>
+    <p>Verimlilik için akıllı çözümler</p>
+  </header>
 
   <div class="container">
     <nav>
       <button class="active" onclick="showProduct(1)">Pomodoro Zamanlayıcı</button>
       <button onclick="showProduct(2)">Duygu Takip</button>
-      <button onclick="showProduct(3)">Program Planlayıcı</button>
     </nav>
 
     <main>
       <section id="product1" class="product" style="display: block;">
-        <h2>Pomodoro Zamanlayıcı</h2>
-        <p>Verimli çalışmak için sade ve sesli bir zamanlayıcı. Karanlık mod ve uyarılarla odaklanmanı artır.</p>
+        <h2>🍅 Pomodoro Zamanlayıcı</h2>
+        <p>Verimli çalışmak için sade ve sesli bir zamanlayıcı. Karanlık mod ve ses uyarılarıyla odaklanmanı artır.</p>
         <a href="pomodoro.html">⏱️ Uygulamaya Git</a>
       </section>
 
       <section id="product2" class="product" style="display: none;">
-        <h2>Duygu Takip Uygulaması</h2>
-        <p>Günlük ruh halini kaydederek kendini daha yakından tanı. Grafiklerle ruh halindeki değişimleri izle.</p>
-        <a href="duygu-takip.html">🧠 Uygulamaya Git</a>
-      </section>
-
-      <section id="product3" class="product" style="display: none;">
-        <h2>Program Planlayıcı</h2>
-        <p>Günlük hedeflerini planla, görevleri zamanla ve zamanı geldiğinde bildirimle uyarı al.</p>
-        <a href="aaaa.html">📋 Uygulamaya Git</a>
+        <h2>🧠 Duygu Takip Uygulaması</h2>
+        <p>Günlük ruh halini kaydederek kendini daha yakından tanı. Grafiklerle ruh halindeki değişimleri gör.</p>
+        <a href="duygu-takip.html">📊 Uygulamaya Git</a>
       </section>
     </main>
   </div>
@@ -137,11 +150,13 @@
   <script>
     function showProduct(id) {
       const buttons = document.querySelectorAll('nav button');
-      const products = document.querySelectorAll('.product');
-
       buttons.forEach((btn, index) => {
         btn.classList.toggle('active', index === id - 1);
-        products[index].style.display = (index === id - 1) ? 'block' : 'none';
+      });
+
+      const products = document.querySelectorAll('.product');
+      products.forEach((prod, index) => {
+        prod.style.display = (index === id - 1) ? 'block' : 'none';
       });
     }
   </script>

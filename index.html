@@ -2,7 +2,11 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="google-site-verification" content="nKiEo0lAzK89a7p1r-Jjplh5ky2PdrdAz4ea6e6syu8" />
   <title>Nuvixhq | Ürünlerim</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
   <style>
     * {
       box-sizing: border-box;
@@ -17,18 +21,29 @@
     }
 
     header {
-      background-color: #007acc;
-      color: white;
-      padding: 20px;
+      background: linear-gradient(to right, #007acc, #00bcd4);
+      padding: 30px 20px;
       text-align: center;
-      font-size: 2rem;
-      font-weight: bold;
+      color: white;
+    }
+
+    header h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.7rem;
       letter-spacing: 2px;
+      margin-bottom: 5px;
+      text-shadow: 2px 2px #004a99;
+    }
+
+    header p {
+      font-size: 1rem;
+      font-style: italic;
+      color: #e0f7fa;
     }
 
     .container {
       display: flex;
-      height: calc(100vh - 72px);
+      height: calc(100vh - 110px);
     }
 
     nav {
@@ -68,119 +83,71 @@
     }
 
     main a {
-      color: #007acc;
+      display: inline-block;
+      background-color: #007acc;
+      color: white;
       text-decoration: none;
       font-weight: bold;
-      margin-right: 15px;
+      padding: 10px 15px;
+      border-radius: 5px;
+      margin-top: 10px;
+      transition: background-color 0.3s;
     }
 
     main a:hover {
-      text-decoration: underline;
+      background-color: #005fbb;
     }
 
-    /* Dark mode stilleri */
-    .dark-mode {
-      background-color: #1e1e1e;
-      color: #eee;
-    }
-
-    .dark-mode header {
-      background-color: #111;
-      color: #fff;
-    }
-
-    .dark-mode nav {
-      background-color: #222;
-    }
-
-    .dark-mode nav button {
-      background-color: #333;
-      color: #fff;
-    }
-
-    .dark-mode nav button:hover,
-    .dark-mode nav button.active {
-      background-color: #555;
-    }
-
-    .dark-mode main a {
-      color: #91c9ff;
+    @media (max-width: 600px) {
+      .container {
+        flex-direction: column;
+        height: auto;
+      }
+      nav {
+        width: 100%;
+        flex-direction: row;
+        overflow-x: auto;
+      }
+      nav button {
+        flex: 1 0 auto;
+        margin: 8px 5px;
+        text-align: center;
+      }
+      main {
+        padding: 15px;
+      }
     }
   </style>
 </head>
 <body>
-  <header>Nuvixhq</header>
+
+  <header>
+    <h1>🚀 Nuvixhq</h1>
+    <p>Verimlilik için akıllı çözümler</p>
+  </header>
 
   <div class="container">
     <nav>
       <button class="active" onclick="showProduct(1)">Pomodoro Zamanlayıcı</button>
-      <button onclick="showProduct(2)">Duygu Takip Uygulaması</button>
-      <button onclick="showProduct(3)">Program Planlayıcı</button>
+      <button onclick="showProduct(2)">Duygu Takip</button>
     </nav>
 
     <main>
       <section id="product1" class="product" style="display: block;">
-        <h2>Pomodoro Zamanlayıcı</h2>
-        <p>Verimli çalışmak için sade ve sesli bir zamanlayıcı</p>
-        <a href="https://github.com/ertuelmas/pomodoro" target="_blank">📘 Bilgi Sayfası</a>
-        <a href="https://gumroad.com/l/pomodoro" target="_blank">💰 Satın Al</a>
-        <hr style="margin: 25px 0; border: none; border-top: 2px solid #ddd;">
-        <h3>🍅 Pomodoro Tekniği Nedir?</h3>
-        <p><strong>Pomodoro Tekniği</strong>, zamanı daha verimli kullanmanı ve dikkatini toplamanı sağlayan bir odaklanma yöntemidir. Kısa süreli çalışma blokları ve aralıklı molalarla uygulanır.</p>
-        <h3>⏱️ Nasıl Uygulanır?</h3>
-        <ul>
-          <li>✅ Görevini belirle (örneğin: kod yazmak, kitap okumak).</li>
-          <li>✅ 25 dakika boyunca sadece o işe odaklan.</li>
-          <li>✅ Ardından 5 dakika mola ver.</li>
-          <li>✅ 4 Pomodoro döngüsünden sonra 15-30 dakikalık uzun mola ver.</li>
-        </ul>
-        <h3>🎯 Neden Kullanmalı?</h3>
-        <ul>
-          <li>🧠 Dikkatini toplar, zamanını iyi kullanmanı sağlar</li>
-          <li>📈 Verimini artırır ve ertelemeyi azaltır</li>
-          <li>😌 Düzenli molalarla zihnini tazeler</li>
-        </ul>
-        <h3>👥 Kimler İçin?</h3>
-        <p>Öğrenciler, yazılımcılar, sınav hazırlığında olanlar veya dikkat dağınıklığı yaşayan herkes için idealdir.</p>
-        <hr style="margin: 30px 0;">
-        <h3>⏳ Canlı Zamanlayıcı</h3>
-        <div id="timer" style="font-size: 2rem; margin-bottom: 15px;">25:00</div>
-        <button onclick="startTimer()">▶ Başlat</button>
-        <button onclick="resetTimer()">🔄 Sıfırla</button>
-        <button onclick="toggleDarkMode()">🌓 Tema</button>
-        <audio id="alarm-sound">
-          <source src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg" type="audio/ogg">
-          Tarayıcınız ses çalmayı desteklemiyor.
-        </audio>
+        <h2>🍅 Pomodoro Zamanlayıcı</h2>
+        <p>Verimli çalışmak için sade ve sesli bir zamanlayıcı. Karanlık mod ve ses uyarılarıyla odaklanmanı artır.</p>
+        <a href="pomodoro.html">⏱️ Uygulamaya Git</a>
       </section>
 
       <section id="product2" class="product" style="display: none;">
-        <h2>Duygu Takip Uygulaması</h2>
+        <h2>🧠 Duygu Takip Uygulaması</h2>
         <p>Günlük ruh halini kaydederek kendini daha yakından tanı. Grafiklerle ruh halindeki değişimleri gör.</p>
-        <a href="duygu-takip.html">🧠 Uygulamaya Git</a>
-      </section>
-
-      <section id="product3" class="product" style="display: none;">
-        <h2>Program Planlayıcı</h2>
-        <p>Günlük görevlerini saatleriyle planla ve zamanı geldiğinde hatırlatıcı ile uyarıl.</p>
-        <div>
-          <label for="task">Görev Adı:</label><br>
-          <input type="text" id="task" placeholder="Görevini yaz..." /><br><br>
-          <label for="taskDate">Tarih ve Saat:</label><br>
-          <input type="datetime-local" id="taskDate" /><br><br>
-          <label for="taskDuration">Süre (dakika):</label><br>
-          <input type="number" id="taskDuration" min="1" placeholder="Kaç dakika yapacaksın?" /><br><br>
-          <button onclick="addTask()">Görevi Ekle</button>
-        </div>
-        <hr>
-        <h3>Görevler</h3>
-        <ul id="taskList"></ul>
+        <a href="duygu-takip.html">📊 Uygulamaya Git</a>
       </section>
     </main>
   </div>
 
   <script>
-    // Menü geçişleri
     function showProduct(id) {
       const buttons = document.querySelectorAll('nav button');
       buttons.forEach((btn, index) => {
@@ -192,103 +159,6 @@
         prod.style.display = (index === id - 1) ? 'block' : 'none';
       });
     }
-
-    // Pomodoro timer fonksiyonları
-    let pomodoroDuration = 25 * 60;
-    let timeLeft = pomodoroDuration;
-    let timerInterval = null;
-    const timerDisplay = document.getElementById('timer');
-    const alarmSound = document.getElementById('alarm-sound');
-
-    function updateDisplay() {
-      const minutes = String(Math.floor(timeLeft / 60)).padStart(2, '0');
-      const seconds = String(timeLeft % 60).padStart(2, '0');
-      timerDisplay.innerText = `${minutes}:${seconds}`;
-    }
-
-    function startTimer() {
-      if (timerInterval) return;
-      timerInterval = setInterval(() => {
-        if (timeLeft > 0) {
-          timeLeft--;
-          updateDisplay();
-        } else {
-          clearInterval(timerInterval);
-          timerInterval = null;
-          alarmSound.play();
-          alert("⏰ Süre doldu! Mola zamanı.");
-        }
-      }, 1000);
-    }
-
-    function resetTimer() {
-      clearInterval(timerInterval);
-      timerInterval = null;
-      timeLeft = pomodoroDuration;
-      updateDisplay();
-    }
-
-    function toggleDarkMode() {
-      document.body.classList.toggle("dark-mode");
-    }
-
-    updateDisplay();
-
-    // Program Planlayıcı fonksiyonları
-    const taskList = document.getElementById('taskList');
-
-    function loadTasks() {
-      const tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
-      taskList.innerHTML = '';
-      tasks.forEach((task, index) => {
-        const li = document.createElement('li');
-        li.textContent = `${task.name} - ${new Date(task.datetime).toLocaleString()} - ${task.duration} dakika`;
-        taskList.appendChild(li);
-      });
-    }
-
-    function addTask() {
-      const name = document.getElementById('task').value.trim();
-      const datetime = document.getElementById('taskDate').value;
-      const duration = document.getElementById('taskDuration').value;
-
-      if (!name || !datetime || !duration) {
-        alert('Lütfen tüm alanları doldurun!');
-        return;
-      }
-
-      const tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
-      tasks.push({name, datetime, duration});
-      localStorage.setItem('tasks', JSON.stringify(tasks));
-
-      document.getElementById('task').value = '';
-      document.getElementById('taskDate').value = '';
-      document.getElementById('taskDuration').value = '';
-
-      loadTasks();
-      checkTaskNotifications();
-    }
-
-    function checkTaskNotifications() {
-      const tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
-      const now = new Date();
-
-      tasks.forEach(task => {
-        const taskTime = new Date(task.datetime);
-        const diff = taskTime - now;
-
-        if (diff > 0 && diff <= 60000) { // 1 dakika içinde ise uyarı ver
-          alert(`Görev zamanı geldi: ${task.name}`);
-          // Burada istersen ses çalma ya da başka uyarı ekleyebilirsin
-        }
-      });
-    }
-
-    // Sayfa yüklendiğinde görevleri yükle
-    loadTasks();
-
-    // Her dakika uyarıları kontrol et
-    setInterval(checkTaskNotifications, 60000);
   </script>
 </body>
 </html>

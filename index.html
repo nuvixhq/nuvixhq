@@ -4,10 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="google-site-verification" content="nKiEo0lAzK89a7p1r-Jjplh5ky2PdrdAz4ea6e6syu8" />
-  <title>Nuvixhq | Nuvixhq</title>
+  <title>Nuvixhq | Ürünlerim</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
   <style>
+    /* Aynı stil kodları burada olacak */
     * {
       box-sizing: border-box;
       margin: 0; padding: 0;
@@ -98,28 +99,6 @@
       background-color: #005fbb;
     }
 
-    /* Görev listesi stilleri */
-    #taskList {
-      list-style: none;
-      margin-top: 15px;
-      padding-left: 0;
-      max-height: 250px;
-      overflow-y: auto;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      background: white;
-    }
-
-    #taskList li {
-      padding: 10px;
-      border-bottom: 1px solid #eee;
-      font-size: 0.95rem;
-    }
-
-    #taskList li:last-child {
-      border-bottom: none;
-    }
-
     @media (max-width: 600px) {
       .container {
         flex-direction: column;
@@ -171,28 +150,12 @@
       <section id="product3" class="product" style="display: none;">
         <h2>📅 Program Planlayıcı</h2>
         <p>Günlük görevlerini saatleriyle planla ve zamanı geldiğinde hatırlat.</p>
-
-        <label for="taskName">Görev Adı:</label><br>
-        <input type="text" id="taskName" placeholder="Görevini yaz..." /><br><br>
-
-        <label for="taskDate">Tarih ve Saat:</label><br>
-        <input type="datetime-local" id="taskDate" /><br><br>
-
-        <label for="taskDuration">Süre (dakika):</label><br>
-        <input type="number" id="taskDuration" min="1" placeholder="Kaç dakika yapacaksın?" /><br><br>
-
-        <button onclick="addTask()">Görevi Ekle</button>
-
-        <hr>
-
-        <h3>Görevler</h3>
-        <ul id="taskList"></ul>
+        <a href="program-planlayici.html">📅 Uygulamaya Git</a>
       </section>
     </main>
   </div>
 
   <script>
-    // Menü geçişi
     function showProduct(id) {
       const buttons = document.querySelectorAll('nav button');
       buttons.forEach((btn, index) => {
@@ -204,43 +167,6 @@
         prod.style.display = (index === id - 1) ? 'block' : 'none';
       });
     }
-
-    // Program planlayıcı
-    const taskList = document.getElementById('taskList');
-
-    function loadTasks() {
-      const tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
-      taskList.innerHTML = '';
-      tasks.forEach(task => {
-        const li = document.createElement('li');
-        li.textContent = `${task.name} - ${new Date(task.datetime).toLocaleString()} - ${task.duration} dk`;
-        taskList.appendChild(li);
-      });
-    }
-
-    function addTask() {
-      const name = document.getElementById('taskName').value.trim();
-      const datetime = document.getElementById('taskDate').value;
-      const duration = document.getElementById('taskDuration').value;
-
-      if (!name || !datetime || !duration) {
-        alert('Lütfen tüm alanları doldurun!');
-        return;
-      }
-
-      const tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
-      tasks.push({name, datetime, duration});
-      localStorage.setItem('tasks', JSON.stringify(tasks));
-
-      document.getElementById('taskName').value = '';
-      document.getElementById('taskDate').value = '';
-      document.getElementById('taskDuration').value = '';
-
-      loadTasks();
-    }
-
-    loadTasks();
   </script>
-
 </body>
 </html>

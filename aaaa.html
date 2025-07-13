@@ -1,287 +1,291 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8" />
-<title>Nuvixhq | Ürünlerim</title>
-<style>
-  * {
-    box-sizing: border-box;
-    margin:0; padding:0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  }
-  body, html {
-    height: 100%;
-    background: #f5f7fa;
-    color: #333;
-  }
-  header {
-    background: #007acc;
-    color: white;
-    padding: 20px;
-    text-align: center;
-    font-size: 2rem;
-    font-weight: bold;
-  }
-  .container {
-    display: flex;
-    height: calc(100vh - 72px);
-  }
-  nav {
-    width: 220px;
-    background: #004a99;
-    display: flex;
-    flex-direction: column;
-    padding-top: 10px;
-  }
-  nav button {
-    background: #007acc;
-    border: none;
-    color: white;
-    padding: 15px 20px;
-    margin: 8px 15px;
-    font-size: 1rem;
-    cursor: pointer;
-    border-radius: 5px;
-    text-align: left;
-    transition: background-color 0.3s ease;
-  }
-  nav button:hover, nav button.active {
-    background: #005fbb;
-  }
-  main {
-    flex-grow: 1;
-    padding: 30px;
-    overflow-y: auto;
-  }
-  main h2 {
-    margin-bottom: 10px;
-    color: #007acc;
-  }
-  main a {
-    color: #007acc;
-    text-decoration: none;
-    font-weight: bold;
-    margin-right: 15px;
-  }
-  main a:hover {
-    text-decoration: underline;
-  }
-  /* Program Uygulaması stili */
-  #programApp form label {
-    display: block;
-    margin: 10px 0 5px;
-  }
-  #programApp form input, #programApp form select {
-    padding: 8px;
-    width: 100%;
-    margin-bottom: 15px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-  }
-  #programList {
-    margin-top: 20px;
-  }
-  #programList li {
-    background: #e7f0fa;
-    margin-bottom: 8px;
-    padding: 10px;
-    border-radius: 6px;
-  }
-  #timerDisplay {
-    font-size: 2rem;
-    margin: 15px 0;
-  }
-  button.control-btn {
-    background: #007acc;
-    border: none;
-    color: white;
-    padding: 10px 18px;
-    margin-right: 8px;
-    cursor: pointer;
-    border-radius: 5px;
-  }
-  button.control-btn:hover {
-    background: #005fbb;
-  }
-</style>
+  <meta charset="UTF-8" />
+  <title>Program Uygulaması</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5f7fa;
+      padding: 20px;
+      color: #333;
+    }
+    header {
+      background-color: #007acc;
+      color: white;
+      padding: 15px;
+      text-align: center;
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+      letter-spacing: 2px;
+      position: relative;
+    }
+    #backBtn {
+      position: absolute;
+      left: 15px;
+      top: 15px;
+      background: white;
+      color: #007acc;
+      border: none;
+      padding: 6px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    #backBtn:hover {
+      background: #e0eaff;
+    }
+    form {
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      max-width: 400px;
+      margin-bottom: 20px;
+    }
+    form input, form select, form button {
+      width: 100%;
+      padding: 8px;
+      margin-top: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+    #tasks {
+      max-width: 600px;
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .task {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 5px;
+      border-bottom: 1px solid #ddd;
+    }
+    .task:last-child {
+      border-bottom: none;
+    }
+    .task-info {
+      flex-grow: 1;
+    }
+    .task-time {
+      font-weight: bold;
+      color: #007acc;
+      margin-left: 15px;
+      min-width: 70px;
+      text-align: center;
+    }
+    button.start-btn {
+      background: #007acc;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button.start-btn:hover {
+      background: #005fbb;
+    }
+  </style>
 </head>
 <body>
+  <header>
+    Program Uygulaması
+    <button id="backBtn" onclick="goBack()">← Geri Dön</button>
+  </header>
 
-<header>Nuvixhq</header>
+  <form id="taskForm">
+    <label for="taskName">Görev Adı:</label>
+    <input type="text" id="taskName" placeholder="Örneğin: Matematik çalış" required />
 
-<div class="container">
-  <nav>
-    <button class="active" onclick="showProduct(1)">Pomodoro Zamanlayıcı</button>
-    <button onclick="showProduct(2)">Duygu Takip</button>
-    <button onclick="showProduct(3)">Program Uygulaması</button>
-  </nav>
+    <label for="taskDate">Tarih:</label>
+    <input type="date" id="taskDate" required />
 
-  <main>
-    <!-- Pomodoro -->
-    <section id="product1" class="product" style="display:block;">
-      <h2>Pomodoro Zamanlayıcı</h2>
-      <p>Verimli çalışmak için sade ve sesli bir zamanlayıcı</p>
-      <a href="https://github.com/ertuelmas/pomodoro" target="_blank">📘 Bilgi Sayfası</a>
-      <a href="https://gumroad.com/l/pomodoro" target="_blank">💰 Satın Al</a>
-      <!-- (Pomodoro timer kodu buraya eklenebilir) -->
-    </section>
+    <label for="taskTime">Saat:</label>
+    <input type="time" id="taskTime" required />
 
-    <!-- Duygu Takip -->
-    <section id="product2" class="product" style="display:none;">
-      <h2>Duygu Takip Uygulaması</h2>
-      <p>Günlük ruh halini kaydederek kendini daha yakından tanı. Grafiklerle ruh halindeki değişimleri gör.</p>
-      <a href="duygu-takip.html" target="_blank">🧠 Uygulamaya Git</a>
-    </section>
+    <label for="taskDuration">Süre (dakika):</label>
+    <input type="number" id="taskDuration" min="1" max="180" value="25" required />
 
-    <!-- Program Uygulaması -->
-    <section id="product3" class="product" style="display:none;">
-      <h2>Program Uygulaması</h2>
+    <button type="submit">Görev Ekle</button>
+  </form>
 
-      <form id="programForm">
-        <label for="taskName">Görev Adı:</label>
-        <input type="text" id="taskName" required />
+  <div id="tasks"></div>
 
-        <label for="taskDate">Gün (YYYY-MM-DD):</label>
-        <input type="date" id="taskDate" required />
+  <script>
+    const form = document.getElementById('taskForm');
+    const tasksDiv = document.getElementById('tasks');
+    let timer = null;
+    let currentTaskId = null;
 
-        <label for="taskTime">Saat (HH:MM):</label>
-        <input type="time" id="taskTime" required />
-
-        <label for="taskDuration">Süre (dakika):</label>
-        <input type="number" id="taskDuration" min="1" max="180" value="25" required />
-
-        <button type="submit">Görev Ekle</button>
-      </form>
-
-      <ul id="programList"></ul>
-
-      <div id="timerSection" style="display:none;">
-        <h3>Görev Zamanlayıcı</h3>
-        <div id="timerDisplay">00:00</div>
-        <button class="control-btn" onclick="startTaskTimer()">▶ Başlat</button>
-        <button class="control-btn" onclick="pauseTaskTimer()">⏸️ Duraklat</button>
-        <button class="control-btn" onclick="resetTaskTimer()">🔄 Sıfırla</button>
-        <button class="control-btn" onclick="stopTaskTimer()">⏹️ Durdur</button>
-      </div>
-
-      <audio id="alarmSound">
-        <source src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg" type="audio/ogg" />
-        Tarayıcınız ses çalamıyor.
-      </audio>
-    </section>
-  </main>
-</div>
-
-<script>
-  // Sayfa ürün gösterme fonksiyonu
-  function showProduct(id) {
-    const buttons = document.querySelectorAll('nav button');
-    buttons.forEach((btn, i) => btn.classList.toggle('active', i === id - 1));
-
-    const sections = document.querySelectorAll('.product');
-    sections.forEach((sec, i) => sec.style.display = (i === id - 1) ? 'block' : 'none');
-  }
-
-  // Program görev listesi ve timer
-
-  const programForm = document.getElementById('programForm');
-  const programList = document.getElementById('programList');
-  const timerSection = document.getElementById('timerSection');
-  const timerDisplay = document.getElementById('timerDisplay');
-  const alarmSound = document.getElementById('alarmSound');
-
-  let tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
-  let currentTask = null;
-  let taskTimer = null;
-  let taskTimeLeft = 0;
-
-  // Görevleri listele
-  function renderTasks() {
-    programList.innerHTML = '';
-    tasks.sort((a,b) => new Date(a.date + ' ' + a.time) - new Date(b.date + ' ' + b.time));
-    tasks.forEach((task, index) => {
-      const li = document.createElement('li');
-      li.textContent = `${task.date} ${task.time} - ${task.name} (${task.duration} dk)`;
-      li.style.cursor = 'pointer';
-      li.onclick = () => startTask(index);
-      programList.appendChild(li);
-    });
-  }
-
-  // Görev ekleme
-  programForm.addEventListener('submit', e => {
-    e.preventDefault();
-    const name = document.getElementById('taskName').value.trim();
-    const date = document.getElementById('taskDate').value;
-    const time = document.getElementById('taskTime').value;
-    const duration = parseInt(document.getElementById('taskDuration').value, 10);
-
-    if (!name || !date || !time || isNaN(duration)) {
-      alert('Lütfen tüm alanları doğru doldurun!');
-      return;
+    // Görevleri localStorage'dan yükle
+    function loadTasks() {
+      const tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+      renderTasks(tasks);
     }
 
-    tasks.push({name, date, time, duration});
-    localStorage.setItem('tasks', JSON.stringify(tasks));
-    renderTasks();
-    programForm.reset();
-  });
-
-  // Görev başlatma
-  function startTask(index) {
-    currentTask = tasks[index];
-    taskTimeLeft = currentTask.duration * 60;
-    timerSection.style.display = 'block';
-    updateTimerDisplay();
-    clearInterval(taskTimer);
-    taskTimer = null;
-  }
-
-  // Timer fonksiyonları
-  function updateTimerDisplay() {
-    const m = Math.floor(taskTimeLeft / 60).toString().padStart(2, '0');
-    const s = (taskTimeLeft % 60).toString().padStart(2, '0');
-    timerDisplay.textContent = `${m}:${s}`;
-  }
-
-  function startTaskTimer() {
-    if (taskTimer) return;
-    taskTimer = setInterval(() => {
-      if (taskTimeLeft > 0) {
-        taskTimeLeft--;
-        updateTimerDisplay();
-      } else {
-        clearInterval(taskTimer);
-        taskTimer = null;
-        alarmSound.play();
-        alert(`Görev "${currentTask.name}" tamamlandı!`);
+    // Görevleri göster
+    function renderTasks(tasks) {
+      if(tasks.length === 0) {
+        tasksDiv.innerHTML = '<p>Henüz görev yok.</p>';
+        return;
       }
-    }, 1000);
-  }
 
-  function pauseTaskTimer() {
-    clearInterval(taskTimer);
-    taskTimer = null;
-  }
+      tasksDiv.innerHTML = '';
+      tasks.forEach(task => {
+        const div = document.createElement('div');
+        div.className = 'task';
 
-  function resetTaskTimer() {
-    if (!currentTask) return;
-    taskTimeLeft = currentTask.duration * 60;
-    updateTimerDisplay();
-  }
+        const info = document.createElement('div');
+        info.className = 'task-info';
+        info.textContent = `${task.name} - ${task.date} ${task.time}`;
 
-  function stopTaskTimer() {
-    clearInterval(taskTimer);
-    taskTimer = null;
-    timerSection.style.display = 'none';
-    currentTask = null;
-  }
+        const timeLeft = document.createElement('div');
+        timeLeft.className = 'task-time';
+        timeLeft.id = `time-${task.id}`;
+        timeLeft.textContent = task.remainingTime !== undefined ? formatTime(task.remainingTime) : formatTime(task.duration * 60);
 
-  // Sayfa yüklenince görevleri listele
-  renderTasks();
+        const startBtn = document.createElement('button');
+        startBtn.textContent = currentTaskId === task.id ? 'Durdur' : 'Başlat';
+        startBtn.className = 'start-btn';
+        startBtn.onclick = () => toggleTimer(task.id);
 
-</script>
+        div.appendChild(info);
+        div.appendChild(timeLeft);
+        div.appendChild(startBtn);
 
+        tasksDiv.appendChild(div);
+      });
+    }
+
+    // Zaman formatı (mm:ss)
+    function formatTime(seconds) {
+      const m = Math.floor(seconds / 60).toString().padStart(2, '0');
+      const s = (seconds % 60).toString().padStart(2, '0');
+      return `${m}:${s}`;
+    }
+
+    // Timer başlat/durdur
+    function toggleTimer(id) {
+      const tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+
+      // Aynı görevde timer çalışıyorsa durdur
+      if(currentTaskId === id) {
+        clearInterval(timer);
+        timer = null;
+        currentTaskId = null;
+        updateStartButtons();
+        return;
+      }
+
+      // Başka görevde timer varsa durdur
+      if(timer) {
+        clearInterval(timer);
+        timer = null;
+        currentTaskId = null;
+      }
+
+      currentTaskId = id;
+      const task = tasks.find(t => t.id === id);
+
+      // Eğer remainingTime yoksa duration'a göre başlat
+      if(task.remainingTime === undefined) {
+        task.remainingTime = task.duration * 60;
+      }
+
+      updateTask(task);
+      updateStartButtons();
+
+      timer = setInterval(() => {
+        if(task.remainingTime > 0) {
+          task.remainingTime--;
+          updateTask(task);
+          renderTasks(tasks);
+        } else {
+          clearInterval(timer);
+          timer = null;
+          currentTaskId = null;
+          alert(`⏰ "${task.name}" görevi tamamlandı!`);
+          // Ses çalma
+          playAlarm();
+          task.remainingTime = undefined;
+          updateTask(task);
+          renderTasks(tasks);
+          updateStartButtons();
+        }
+      }, 1000);
+    }
+
+    // Görev güncelle
+    function updateTask(task) {
+      const tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+      const idx = tasks.findIndex(t => t.id === task.id);
+      if(idx !== -1) {
+        tasks[idx] = task;
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+      }
+    }
+
+    // Başlat/durdur butonlarını güncelle
+    function updateStartButtons() {
+      const buttons = document.querySelectorAll('.start-btn');
+      buttons.forEach(btn => {
+        const parent = btn.parentElement;
+        const timeDiv = parent.querySelector('.task-time');
+        const taskText = parent.querySelector('.task-info').textContent;
+        const id = getIdFromTimeDiv(timeDiv.id);
+        btn.textContent = (currentTaskId === id) ? 'Durdur' : 'Başlat';
+      });
+    }
+
+    function getIdFromTimeDiv(idStr) {
+      return parseInt(idStr.split('-')[1]);
+    }
+
+    // Görev ekle
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('taskName').value.trim();
+      const date = document.getElementById('taskDate').value;
+      const time = document.getElementById('taskTime').value;
+      const duration = parseInt(document.getElementById('taskDuration').value);
+
+      if(!name || !date || !time || !duration || duration < 1) {
+        alert('Lütfen tüm alanları doğru doldurun.');
+        return;
+      }
+
+      const tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+      const newTask = {
+        id: Date.now(),
+        name,
+        date,
+        time,
+        duration,
+      };
+      tasks.push(newTask);
+      localStorage.setItem('tasks', JSON.stringify(tasks));
+      renderTasks(tasks);
+      form.reset();
+    });
+
+    // Geri dön butonu
+    function goBack() {
+      window.location.href = "index.html";
+    }
+
+    // Alarm sesi
+    function playAlarm() {
+      const audio = new Audio('https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg');
+      audio.play();
+    }
+
+    // Sayfa yüklendiğinde görevleri göster
+    loadTasks();
+  </script>
 </body>
 </html>
-

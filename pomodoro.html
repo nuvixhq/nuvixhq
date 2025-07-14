@@ -2,79 +2,97 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>🍅 Pomodoro Zamanlayıcı | Nuvixhq</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     body, html {
-      height: 100%;
-      margin: 0;
+      margin: 0; padding: 0; height: 100%;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(135deg, #007acc, #00bcd4);
       color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+      box-sizing: border-box;
     }
+
     header {
       background: linear-gradient(to right, #004a80, #007acc);
-      padding: 20px;
-      text-align: center;
+      padding: 25px 20px;
+      width: 100%;
+      max-width: 900px;
       color: white;
-      font-size: 2rem;
-      font-weight: 600;
       font-family: 'Orbitron', sans-serif;
+      font-size: 2.5rem;
       letter-spacing: 2px;
       text-shadow: 2px 2px #004a99;
+      text-align: center;
+      margin-bottom: 30px;
+      border-radius: 10px;
       position: relative;
     }
-    .back-button {
+
+    a.back-btn {
       position: absolute;
-      top: 15px;
-      left: 15px;
-      background-color: rgba(255 255 255 / 0.15);
-      border: none;
+      top: 18px;
+      left: 20px;
+      background-color: #007acc;
       color: white;
-      padding: 8px 12px;
+      padding: 10px 15px;
       border-radius: 6px;
       text-decoration: none;
       font-weight: bold;
-      transition: background-color 0.3s;
-      cursor: pointer;
+      transition: background-color 0.3s ease;
     }
-    .back-button:hover {
-      background-color: rgba(255 255 255 / 0.35);
+
+    a.back-btn:hover {
+      background-color: #005fbb;
     }
+
     main {
-      max-width: 600px;
-      margin: 30px auto;
       background-color: #e0f7fa;
-      padding: 30px 25px;
+      max-width: 900px;
+      width: 100%;
       border-radius: 12px;
-      box-shadow: 0 0 20px rgb(0 0 0 / 0.1);
+      padding: 30px 25px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
       text-align: center;
+      box-sizing: border-box;
     }
+
+    label {
+      font-weight: bold;
+      margin: 0 10px 0 0;
+    }
+
+    input[type="number"] {
+      padding: 8px;
+      width: 60px;
+      margin: 0 15px 20px 0;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
     #timerDisplay {
-      font-size: 4rem;
+      font-size: 3rem;
       margin: 25px 0;
       color: #007acc;
       font-weight: 700;
     }
-    input[type=number] {
-      width: 70px;
-      padding: 8px;
-      margin: 0 10px 20px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      font-size: 1rem;
-    }
+
     button {
       background-color: #007acc;
       color: white;
       border: none;
-      padding: 10px 20px;
-      margin: 10px 5px;
+      padding: 12px 20px;
+      margin: 5px 10px;
       font-size: 1rem;
       border-radius: 6px;
       cursor: pointer;
-      transition: background-color 0.3s;
+      transition: background-color 0.3s ease;
     }
+
     button:hover {
       background-color: #005fbb;
     }
@@ -82,9 +100,10 @@
 </head>
 <body>
   <header>
-    <a href="index.html" class="back-button">← Geri Dön</a>
+    <a href="index.html" class="back-btn">← Geri Dön</a>
     🍅 Pomodoro Zamanlayıcı
   </header>
+
   <main>
     <div>
       <label>Çalışma Süresi (dk):</label>
@@ -94,12 +113,15 @@
       <label>Döngü Sayısı:</label>
       <input type="number" id="cycles" value="4" min="1" />
     </div>
+
     <div id="timerDisplay">25:00</div>
+
     <div>
       <button onclick="startPomodoro()">▶ Başlat</button>
       <button onclick="pausePomodoro()">⏸ Durdur</button>
       <button onclick="resetPomodoro()">🔄 Sıfırla</button>
     </div>
+
     <audio id="alarm">
       <source src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg" type="audio/ogg" />
       Tarayıcınız bu sesi desteklemiyor.
@@ -173,6 +195,7 @@
       updateDisplay();
     }
 
+    // Sayfa yüklenince varsayılan zaman
     resetPomodoro();
   </script>
 </body>

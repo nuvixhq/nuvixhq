@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8" />
-  <title>Pomodoro Zamanlayıcı</title>
+  <title>🍅 Pomodoro Zamanlayıcı | Nuvixhq</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     * {
@@ -16,6 +16,8 @@
       padding: 40px 20px;
       color: #333;
       text-align: center;
+      position: relative;
+      min-height: 100vh;
     }
 
     .back-button {
@@ -30,15 +32,23 @@
       border-radius: 5px;
       text-decoration: none;
       transition: background-color 0.3s ease;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
     }
 
     .back-button:hover {
       background-color: #005fbb;
     }
 
-    h1 {
+    header {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       color: #007acc;
+      font-weight: 700;
+      font-size: 2.2rem;
       margin-bottom: 10px;
+      user-select: none;
     }
 
     label {
@@ -77,7 +87,7 @@
 <body>
   <a href="index.html" class="back-button">← Geri Dön</a>
 
-  <h1>🍅 Pomodoro Zamanlayıcı</h1>
+  <header>🍅 Pomodoro Zamanlayıcı</header>
 
   <div>
     <label>Çalışma Süresi (dk):</label>

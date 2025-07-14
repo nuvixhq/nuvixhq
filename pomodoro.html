@@ -4,78 +4,48 @@
   <meta charset="UTF-8" />
   <title>Pomodoro Zamanlayıcı</title>
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-
     body {
-      background-color: #f5f7fa;
-      color: #333;
-      padding: 20px 40px;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 20px;
     }
 
     header {
       background-color: #007acc;
       color: white;
-      padding: 20px;
-      text-align: center;
-      font-size: 2rem;
-      font-weight: bold;
+      padding: 15px 20px;
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
-    .back-button {
-      display: inline-block;
-      margin: 20px 0;
-      padding: 10px 16px;
-      background-color: #007acc;
+    header a {
       color: white;
       text-decoration: none;
-      border-radius: 6px;
-      font-weight: bold;
-      transition: background-color 0.3s ease;
+      font-size: 1.2rem;
     }
 
-    .back-button:hover {
-      background-color: #005fbb;
-    }
-
-    h2 {
-      margin-bottom: 20px;
-      color: #007acc;
-    }
-
-    label {
-      display: block;
-      margin-top: 15px;
-      font-weight: bold;
-    }
-
-    input[type=number] {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 1rem;
-    }
-
-    .controls {
-      margin-top: 25px;
+    .container {
+      max-width: 500px;
+      margin: 40px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      text-align: center;
     }
 
     button {
-      padding: 10px 18px;
-      margin-right: 10px;
+      padding: 10px 20px;
+      margin: 10px;
       font-size: 1rem;
-      background-color: #007acc;
-      color: white;
       border: none;
       border-radius: 6px;
       cursor: pointer;
-      transition: background-color 0.3s ease;
+      background-color: #007acc;
+      color: white;
     }
 
     button:hover {
@@ -84,41 +54,20 @@
 
     #timer {
       font-size: 3rem;
-      margin-top: 30px;
-      color: #007acc;
-      text-align: center;
-    }
-
-    @media (max-width: 600px) {
-      body {
-        padding: 15px;
-      }
+      margin-bottom: 15px;
     }
   </style>
 </head>
 <body>
+  <header>
+    <a href="index.html">🔙 Geri Dön</a> | Pomodoro Zamanlayıcı
+  </header>
 
-  <header>Pomodoro Zamanlayıcı</header>
-
-  <a href="index.html" class="back-button">← Ana Sayfaya Geri Dön</a>
-
-  <h2>Çalışma Süreni Ayarla</h2>
-
-  <label for="work-duration">Çalışma Süresi (dakika)</label>
-  <input type="number" id="work-duration" min="1" value="25" />
-
-  <label for="break-duration">Mola Süresi (dakika)</label>
-  <input type="number" id="break-duration" min="1" value="5" />
-
-  <label for="cycles">Kaç Döngü</label>
-  <input type="number" id="cycles" min="1" value="4" />
-
-  <div id="timer">00:00</div>
-
-  <div class="controls">
-    <button onclick="startTimer()">▶ Başlat</button>
-    <button onclick="pauseTimer()">⏸️ Duraklat</button>
-    <button onclick="resetTimer()">🔄 Sıfırla</button>
+  <div class="container">
+    <h2>⏳ Odaklanma Süresi</h2>
+    <div id="timer">25:00</div>
+    <button onclick="startTimer()">Başlat</button>
+    <button onclick="resetTimer()">Sıfırla</button>
   </div>
 
   <audio id="alarm-sound">
@@ -126,82 +75,42 @@
   </audio>
 
   <script>
-    const workInput = document.getElementById('work-duration');
-    const breakInput = document.getElementById('break-duration');
-    const cycleInput = document.getElementById('cycles');
+    let duration = 25 * 60;
+    let timeLeft = duration;
+    let interval = null;
+
     const timerDisplay = document.getElementById('timer');
-    const alarmSound = document.getElementById('alarm-sound');
+    const alarm = document.getElementById('alarm-sound');
 
-    let timer = null;
-    let currentCycle = 0;
-    let isWork = true;
-    let timeLeft = 0;
-
-    function formatTime(seconds) {
-      const min = String(Math.floor(seconds / 60)).padStart(2, '0');
-      const sec = String(seconds % 60).padStart(2, '0');
-      return `${min}:${sec}`;
-    }
-
-    function updateDisplay() {
-      timerDisplay.textContent = formatTime(timeLeft);
+    function updateTimer() {
+      const m = String(Math.floor(timeLeft / 60)).padStart(2, '0');
+      const s = String(timeLeft % 60).padStart(2, '0');
+      timerDisplay.innerText = `${m}:${s}`;
     }
 
     function startTimer() {
-      if (timer) return;
-
-      if (timeLeft <= 0) {
-        isWork = true;
-        currentCycle = 1;
-        timeLeft = parseInt(workInput.value) * 60;
-      }
-
-      updateDisplay();
-
-      timer = setInterval(() => {
+      if (interval) return;
+      interval = setInterval(() => {
         if (timeLeft > 0) {
           timeLeft--;
-          updateDisplay();
+          updateTimer();
         } else {
-          alarmSound.play();
-
-          if (isWork) {
-            alert('Çalışma süresi bitti. Şimdi mola!');
-            timeLeft = parseInt(breakInput.value) * 60;
-            isWork = false;
-          } else {
-            if (currentCycle >= parseInt(cycleInput.value)) {
-              clearInterval(timer);
-              timer = null;
-              alert('Tüm döngüler tamamlandı!');
-              return;
-            } else {
-              alert('Mola bitti. Yeni döngü başlıyor!');
-              timeLeft = parseInt(workInput.value) * 60;
-              isWork = true;
-              currentCycle++;
-            }
-          }
-          updateDisplay();
+          clearInterval(interval);
+          interval = null;
+          alarm.play();
+          alert("Süre doldu!");
         }
       }, 1000);
     }
 
-    function pauseTimer() {
-      if (timer) {
-        clearInterval(timer);
-        timer = null;
-      }
-    }
-
     function resetTimer() {
-      pauseTimer();
-      timeLeft = 0;
-      updateDisplay();
+      clearInterval(interval);
+      interval = null;
+      timeLeft = duration;
+      updateTimer();
     }
 
-    updateDisplay();
+    updateTimer();
   </script>
-
 </body>
 </html>

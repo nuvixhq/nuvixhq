@@ -5,86 +5,70 @@
   <title>📅 Program Planlayıcı | Nuvixhq</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    body, html {
-      margin: 0; padding: 0; height: 100%;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #007acc, #00bcd4);
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f5f7fa;
+      margin: 0;
+      padding: 20px;
       color: #333;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 40px 20px;
-      box-sizing: border-box;
+      position: relative;
+      min-height: 100vh;
     }
 
     header {
-      background: linear-gradient(to right, #004a80, #007acc);
+      background: linear-gradient(to right, #007acc, #00bcd4);
       padding: 25px 20px;
-      width: 100%;
-      max-width: 900px;
+      text-align: center;
       color: white;
       font-family: 'Orbitron', sans-serif;
-      font-size: 2.5rem;
+      font-size: 2rem;
       letter-spacing: 2px;
-      text-shadow: 2px 2px #004a99;
-      text-align: center;
-      margin-bottom: 30px;
-      border-radius: 10px;
       position: relative;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgb(0 0 0 / 0.15);
     }
 
-    a.back-btn {
+    .back-btn {
       position: absolute;
-      top: 18px;
+      top: 20px;
       left: 20px;
       background-color: #007acc;
       color: white;
       padding: 10px 15px;
-      border-radius: 6px;
+      border-radius: 5px;
       text-decoration: none;
       font-weight: bold;
       transition: background-color 0.3s ease;
-    }
-
-    a.back-btn:hover {
-      background-color: #005fbb;
-    }
-
-    main {
-      background-color: #e0f7fa;
-      max-width: 900px;
-      width: 100%;
-      border-radius: 12px;
-      padding: 30px 25px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.1);
-      box-sizing: border-box;
-    }
-
-    label, input, button {
-      display: block;
-      width: 100%;
       font-size: 1rem;
-      margin-bottom: 15px;
-      border-radius: 6px;
-      padding: 10px;
-      box-sizing: border-box;
     }
 
-    input {
-      border: 1px solid #ccc;
-    }
-
-    button {
-      background-color: #007acc;
-      color: white;
-      border: none;
-      cursor: pointer;
-      font-weight: bold;
-      transition: background-color 0.3s ease;
-    }
-
-    button:hover {
+    .back-btn:hover {
       background-color: #005fbb;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    label, button {
+      display: block;
+      font-weight: bold;
+      margin-top: 15px;
+    }
+
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      font-size: 1rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
     }
 
     ul {
@@ -94,10 +78,21 @@
     }
 
     li {
-      background: #b3e5fc;
-      padding: 12px;
-      margin-bottom: 10px;
+      background: #e3f2fd;
+      padding: 10px;
+      margin: 8px 0;
       border-radius: 6px;
+    }
+
+    button.reset-btn {
+      background-color: #e53935;
+      color: white;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+
+    button.reset-btn:hover {
+      background-color: #b71c1c;
     }
   </style>
 </head>
@@ -107,24 +102,24 @@
     📅 Program Planlayıcı
   </header>
 
-  <main>
+  <div class="container">
     <label for="task">Görev:</label>
-    <input type="text" id="task" placeholder="Görevini yaz..." />
+    <input type="text" id="task" />
 
     <label for="time">Tarih ve Saat:</label>
     <input type="datetime-local" id="time" />
 
     <label for="duration">Süre (dk):</label>
-    <input type="number" id="duration" min="1" placeholder="Dakika" />
+    <input type="number" id="duration" min="1" />
 
     <button onclick="addTask()">Görevi Ekle</button>
-    <button onclick="clearTasks()" style="background-color:#e53935; margin-top: 10px;">Tüm Görevleri Sıfırla</button>
+    <button class="reset-btn" onclick="resetTasks()">Tüm Görevleri Sıfırla</button>
 
     <hr />
 
     <h3>Görevler</h3>
     <ul id="taskList"></ul>
-  </main>
+  </div>
 
   <script>
     const taskList = document.getElementById('taskList');
@@ -144,7 +139,7 @@
       localStorage.setItem('programTasks', JSON.stringify(tasks));
       loadTasks();
 
-      // Temizle
+      // Alanları temizle
       document.getElementById('task').value = '';
       document.getElementById('time').value = '';
       document.getElementById('duration').value = '';
@@ -160,14 +155,15 @@
       });
     }
 
-    function clearTasks() {
-      if (confirm("Tüm görevleri silmek istediğine emin misin?")) {
+    function resetTasks() {
+      if(confirm("Tüm görevler silinecek, emin misiniz?")) {
         localStorage.removeItem('programTasks');
         loadTasks();
       }
     }
 
-    window.onload = loadTasks;
+    // Sayfa yüklendiğinde görevleri göster
+    loadTasks();
   </script>
 </body>
 </html>

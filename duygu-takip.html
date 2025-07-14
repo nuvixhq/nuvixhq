@@ -1,138 +1,108 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <title>Duygu Takip</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Duygu Takip | Nuvixhq</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
   <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #f4f4f4;
-      margin: 0;
-      padding: 20px;
+    * {
+      box-sizing: border-box;
+      margin: 0; padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body, html {
+      height: 100%;
+      background-color: #f5f7fa;
+      color: #333;
     }
 
     header {
+      background: linear-gradient(to right, #007acc, #00bcd4);
+      padding: 25px 20px;
+      text-align: center;
+      color: white;
+    }
+
+    header h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.5rem;
+      letter-spacing: 2px;
+      margin-bottom: 5px;
+      text-shadow: 2px 2px #004a99;
+    }
+
+    header p {
+      font-size: 1rem;
+      font-style: italic;
+      color: #e0f7fa;
+    }
+
+    .back-btn {
+      position: absolute;
+      top: 20px;
+      left: 20px;
       background-color: #007acc;
       color: white;
-      padding: 15px 20px;
-      font-size: 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    header a {
-      color: white;
+      padding: 10px 15px;
+      border-radius: 5px;
       text-decoration: none;
-      font-size: 1.2rem;
+      font-weight: bold;
+      transition: background-color 0.3s;
     }
 
-    .container {
-      max-width: 500px;
-      margin: 40px auto;
-      background: white;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    .back-btn:hover {
+      background-color: #005fbb;
     }
 
-    select, input, button {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      font-size: 1rem;
-      border-radius: 6px;
-      border: 1px solid #ccc;
+    main {
+      padding: 30px;
+      max-width: 700px;
+      margin: auto;
     }
 
-    .entry {
-      background: #e3f2fd;
-      padding: 10px;
-      margin: 10px 0;
-      border-radius: 6px;
+    h2 {
+      color: #007acc;
+      margin-bottom: 15px;
     }
 
-    canvas {
-      margin-top: 20px;
-      width: 100%;
+    p {
+      margin-bottom: 15px;
+      line-height: 1.5;
+    }
+
+    .start-btn {
+      display: inline-block;
+      background-color: #007acc;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: bold;
+      margin-top: 15px;
+      transition: background-color 0.3s;
+    }
+
+    .start-btn:hover {
+      background-color: #005fbb;
     }
   </style>
 </head>
 <body>
+  <a href="index.html" class="back-btn">← Geri Dön</a>
+
   <header>
-    <a href="index.html">🔙 Geri Dön</a> | Duygu Takip
+    <h1>🧠 Duygu Takip</h1>
+    <p>Ruh halini takip ederek kendini daha iyi tanı</p>
   </header>
 
-  <div class="container">
-    <label for="date">Tarih</label>
-    <input type="date" id="date">
-
-    <label for="mood">Duygu</label>
-    <select id="mood">
-      <option value="mutlu">😊 Mutlu</option>
-      <option value="üzgün">😢 Üzgün</option>
-      <option value="stresli">😰 Stresli</option>
-      <option value="enerjik">⚡ Enerjik</option>
-      <option value="sakin">😌 Sakin</option>
-    </select>
-
-    <button onclick="saveMood()">Kaydet</button>
-    <div id="entries"></div>
-    <canvas id="chart" height="200"></canvas>
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script>
-    const dateInput = document.getElementById('date');
-    const moodInput = document.getElementById('mood');
-    const entriesDiv = document.getElementById('entries');
-
-    dateInput.value = new Date().toISOString().slice(0,10);
-
-    function saveMood() {
-      const date = dateInput.value;
-      const mood = moodInput.value;
-      const data = JSON.parse(localStorage.getItem('moods') || '[]');
-      const idx = data.findIndex(d => d.date === date);
-      if (idx >= 0) data[idx].mood = mood;
-      else data.push({date, mood});
-      localStorage.setItem('moods', JSON.stringify(data));
-      render();
-    }
-
-    function render() {
-      const data = JSON.parse(localStorage.getItem('moods') || '[]').sort((a,b)=>new Date(b.date)-new Date(a.date));
-      entriesDiv.innerHTML = '';
-      const counts = { mutlu:0, üzgün:0, stresli:0, enerjik:0, sakin:0 };
-
-      data.forEach(({date, mood}) => {
-        const div = document.createElement('div');
-        div.className = 'entry';
-        div.textContent = `${date} - ${mood}`;
-        entriesDiv.appendChild(div);
-        if (counts[mood] !== undefined) counts[mood]++;
-      });
-
-      const ctx = document.getElementById('chart').getContext('2d');
-      if (window.chart) window.chart.destroy();
-      window.chart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: Object.keys(counts),
-          datasets: [{
-            label: 'Duygu Dağılımı',
-            data: Object.values(counts),
-            backgroundColor: ['#4CAF50','#2196F3','#f44336','#FF9800','#9E9E9E']
-          }]
-        },
-        options: {
-          responsive: true,
-          scales: { y: { beginAtZero: true } }
-        }
-      });
-    }
-
-    render();
-  </script>
+  <main>
+    <h2>Uygulama Açıklaması</h2>
+    <p>Bu uygulama sayesinde her gün ruh halinizi kaydedebilir, zamanla nasıl değiştiğini görebilirsiniz.</p>
+    <p>Grafiklerle duygularınızı analiz ederek daha sağlıklı kararlar alabilirsiniz.</p>
+    <a class="start-btn" href="duygu-app.html">📊 Uygulamaya Git</a>
+  </main>
 </body>
 </html>

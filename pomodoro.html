@@ -2,35 +2,20 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8" />
-  <title>🍅 Pomodoro Zamanlayıcı | Nuvixhq</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pomodoro Zamanlayıcı</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
-    body, html {
-      margin: 0; padding: 0; height: 100%;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #007acc, #00bcd4);
-      color: #333;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 40px 20px;
+    * {
       box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
-    header {
-      background: linear-gradient(to right, #004a80, #007acc);
-      padding: 25px 20px;
-      width: 100%;
-      max-width: 900px;
-      color: white;
-      font-family: 'Orbitron', sans-serif;
-      font-size: 2.5rem;
-      letter-spacing: 2px;
-      text-shadow: 2px 2px #004a99;
+    body {
+      background-color: #f5f7fa;
+      margin: 0;
+      padding: 40px 20px;
+      color: #333;
       text-align: center;
-      margin-bottom: 30px;
-      border-radius: 10px;
-      position: relative;
     }
 
     a.back-btn {
@@ -39,8 +24,9 @@
       left: 20px;
       background-color: #007acc;
       color: white;
-      padding: 10px 15px;
-      border-radius: 6px;
+      padding: 6px 10px;        /* Küçültüldü */
+      font-size: 0.9rem;        /* Yazı boyutu küçültüldü */
+      border-radius: 5px;
       text-decoration: none;
       font-weight: bold;
       transition: background-color 0.3s ease;
@@ -50,47 +36,37 @@
       background-color: #005fbb;
     }
 
-    main {
-      background-color: #e0f7fa;
-      max-width: 900px;
-      width: 100%;
-      border-radius: 12px;
-      padding: 30px 25px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.1);
-      text-align: center;
-      box-sizing: border-box;
+    h1 {
+      color: #007acc;
+      margin-bottom: 10px;
     }
 
     label {
       font-weight: bold;
-      margin: 0 10px 0 0;
     }
 
     input[type="number"] {
       padding: 8px;
       width: 60px;
-      margin: 0 15px 20px 0;
-      border-radius: 6px;
-      border: 1px solid #ccc;
+      margin: 0 10px;
     }
 
     #timerDisplay {
       font-size: 3rem;
-      margin: 25px 0;
+      margin: 20px 0;
       color: #007acc;
-      font-weight: 700;
     }
 
     button {
       background-color: #007acc;
       color: white;
       border: none;
-      padding: 12px 20px;
-      margin: 5px 10px;
-      font-size: 1rem;
-      border-radius: 6px;
+      padding: 10px 15px;
+      margin: 5px;
+      font-size: 16px;
+      border-radius: 5px;
       cursor: pointer;
-      transition: background-color 0.3s ease;
+      transition: background-color 0.3s;
     }
 
     button:hover {
@@ -99,34 +75,31 @@
   </style>
 </head>
 <body>
-  <header>
-    <a href="index.html" class="back-btn">← Geri Dön</a>
-    🍅 Pomodoro Zamanlayıcı
-  </header>
+  <a href="index.html" class="back-btn">← Geri Dön</a>
 
-  <main>
-    <div>
-      <label>Çalışma Süresi (dk):</label>
-      <input type="number" id="workMinutes" value="25" min="1" />
-      <label>Mola Süresi (dk):</label>
-      <input type="number" id="breakMinutes" value="5" min="1" />
-      <label>Döngü Sayısı:</label>
-      <input type="number" id="cycles" value="4" min="1" />
-    </div>
+  <h1>🍅 Pomodoro Zamanlayıcı</h1>
 
-    <div id="timerDisplay">25:00</div>
+  <div>
+    <label>Çalışma Süresi (dk):</label>
+    <input type="number" id="workMinutes" value="25" min="1" />
+    <label>Mola Süresi (dk):</label>
+    <input type="number" id="breakMinutes" value="5" min="1" />
+    <label>Döngü Sayısı:</label>
+    <input type="number" id="cycles" value="4" min="1" />
+  </div>
 
-    <div>
-      <button onclick="startPomodoro()">▶ Başlat</button>
-      <button onclick="pausePomodoro()">⏸ Durdur</button>
-      <button onclick="resetPomodoro()">🔄 Sıfırla</button>
-    </div>
+  <div id="timerDisplay">25:00</div>
 
-    <audio id="alarm">
-      <source src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg" type="audio/ogg" />
-      Tarayıcınız bu sesi desteklemiyor.
-    </audio>
-  </main>
+  <div>
+    <button onclick="startPomodoro()">▶ Başlat</button>
+    <button onclick="pausePomodoro()">⏸ Durdur</button>
+    <button onclick="resetPomodoro()">🔄 Sıfırla</button>
+  </div>
+
+  <audio id="alarm">
+    <source src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg" type="audio/ogg">
+    Tarayıcınız bu sesi desteklemiyor.
+  </audio>
 
   <script>
     let timer;

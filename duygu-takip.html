@@ -2,10 +2,10 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Duygu Takip | Nuvixhq</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet" />
   <style>
     * {
       box-sizing: border-box;
@@ -17,6 +17,8 @@
       height: 100%;
       background-color: #f5f7fa;
       color: #333;
+      position: relative;
+      min-height: 100vh;
     }
 
     header {
@@ -51,6 +53,7 @@
       text-decoration: none;
       font-weight: bold;
       transition: background-color 0.3s;
+      z-index: 10;
     }
 
     .back-btn:hover {
@@ -60,33 +63,68 @@
     main {
       padding: 30px;
       max-width: 700px;
-      margin: auto;
+      margin: 40px auto 60px auto;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgb(0 0 0 / 0.1);
     }
 
     h2 {
       color: #007acc;
       margin-bottom: 15px;
+      text-align: center;
     }
 
     p {
       margin-bottom: 15px;
       line-height: 1.5;
+      text-align: center;
     }
 
-    .start-btn {
-      display: inline-block;
+    select {
+      font-size: 1rem;
+      padding: 8px;
+      width: 100%;
+      max-width: 300px;
+      margin: 10px auto 15px auto;
+      display: block;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
       background-color: #007acc;
       color: white;
-      padding: 10px 15px;
+      padding: 10px 25px;
+      border: none;
       border-radius: 5px;
-      text-decoration: none;
       font-weight: bold;
-      margin-top: 15px;
+      cursor: pointer;
       transition: background-color 0.3s;
+      display: block;
+      margin: 0 auto 30px auto;
+      font-size: 1rem;
     }
 
-    .start-btn:hover {
+    button:hover {
       background-color: #005fbb;
+    }
+
+    ul {
+      list-style-type: none;
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 0;
+    }
+
+    ul li {
+      background-color: #e1f0ff;
+      border-radius: 5px;
+      margin-bottom: 8px;
+      padding: 10px 15px;
+      font-size: 0.9rem;
+      color: #004a99;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     }
   </style>
 </head>
@@ -99,10 +137,53 @@
   </header>
 
   <main>
-    <h2>Uygulama Açıklaması</h2>
-    <p>Bu uygulama sayesinde her gün ruh halinizi kaydedebilir, zamanla nasıl değiştiğini görebilirsiniz.</p>
-    <p>Grafiklerle duygularınızı analiz ederek daha sağlıklı kararlar alabilirsiniz.</p>
-    <a class="start-btn" href="duygu-app.html">📊 Uygulamaya Git</a>
+    <h2>Bugün Nasıl Hissediyorsun?</h2>
+    <p>Bir duygu seç ve kaydet:</p>
+
+    <select id="emotionSelect" aria-label="Duygu seç">
+      <option value="">Seçiniz...</option>
+      <option value="Mutlu 😊">Mutlu 😊</option>
+      <option value="Üzgün 😢">Üzgün 😢</option>
+      <option value="Sinirli 😠">Sinirli 😠</option>
+      <option value="Heyecanlı 🤩">Heyecanlı 🤩</option>
+      <option value="Stresli 😰">Stresli 😰</option>
+    </select>
+
+    <button onclick="saveEmotion()">Kaydet</button>
+
+    <h3>Son Duygular</h3>
+    <ul id="emotionList" aria-live="polite" aria-relevant="additions"></ul>
   </main>
+
+  <script>
+    const emotionList = document.getElementById('emotionList');
+
+    function loadEmotions() {
+      const emotions = JSON.parse(localStorage.getItem('emotions') || '[]');
+      emotionList.innerHTML = '';
+      emotions.forEach(e => {
+        const li = document.createElement('li');
+        const date = new Date(e.date);
+        li.textContent = `${date.toLocaleDateString()} ${date.toLocaleTimeString()} - ${e.emotion}`;
+        emotionList.appendChild(li);
+      });
+    }
+
+    function saveEmotion() {
+      const select = document.getElementById('emotionSelect');
+      const emotion = select.value;
+      if (!emotion) {
+        alert('Lütfen bir duygu seçin!');
+        return;
+      }
+      const emotions = JSON.parse(localStorage.getItem('emotions') || '[]');
+      emotions.push({ emotion, date: new Date() });
+      localStorage.setItem('emotions', JSON.stringify(emotions));
+      select.value = '';
+      loadEmotions();
+    }
+
+    loadEmotions();
+  </script>
 </body>
 </html>

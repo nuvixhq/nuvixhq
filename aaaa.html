@@ -2,33 +2,26 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8" />
-  <title>📅 Program Planlayıcı | Nuvixhq</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Program Planlayıcı | Nuvixhq</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: #f5f7fa;
       margin: 0;
       padding: 20px;
       color: #333;
-      position: relative;
-      min-height: 100vh;
     }
 
     header {
       background: linear-gradient(to right, #007acc, #00bcd4);
+      color: white;
       padding: 25px 20px;
       text-align: center;
-      color: white;
-      font-family: 'Orbitron', sans-serif;
-      font-size: 2rem;
-      letter-spacing: 2px;
       position: relative;
-      margin-bottom: 20px;
-      box-shadow: 0 2px 8px rgb(0 0 0 / 0.15);
     }
 
-    .back-btn {
+    header a.back-btn {
       position: absolute;
       top: 20px;
       left: 20px;
@@ -39,36 +32,63 @@
       text-decoration: none;
       font-weight: bold;
       transition: background-color 0.3s ease;
-      font-size: 1rem;
     }
 
-    .back-btn:hover {
+    header a.back-btn:hover {
       background-color: #005fbb;
+    }
+
+    header h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.5rem;
+      letter-spacing: 2px;
+      margin: 0;
+      text-shadow: 2px 2px #004a99;
+    }
+
+    header p {
+      margin-top: 8px;
+      font-size: 1rem;
+      font-style: italic;
+      color: #d0e9fc;
     }
 
     .container {
       max-width: 500px;
-      margin: 0 auto;
+      margin: 40px auto;
       background: white;
       padding: 20px;
       border-radius: 12px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
 
-    label, button {
-      display: block;
+    label {
       font-weight: bold;
+      display: block;
       margin-top: 15px;
     }
 
     input, button {
       width: 100%;
       padding: 10px;
-      margin-top: 6px;
+      margin-top: 8px;
       font-size: 1rem;
       border-radius: 6px;
       border: 1px solid #ccc;
       box-sizing: border-box;
+    }
+
+    button {
+      background-color: #007acc;
+      color: white;
+      border: none;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #005fbb;
     }
 
     ul {
@@ -83,39 +103,29 @@
       margin: 8px 0;
       border-radius: 6px;
     }
-
-    button.reset-btn {
-      background-color: #e53935;
-      color: white;
-      margin-top: 10px;
-      cursor: pointer;
-    }
-
-    button.reset-btn:hover {
-      background-color: #b71c1c;
-    }
   </style>
 </head>
 <body>
   <header>
     <a href="index.html" class="back-btn">← Geri Dön</a>
-    📅 Program Planlayıcı
+    <h1>📅 Program Planlayıcı</h1>
+    <p>Günlük programlarını planla, zamanı verimli kullan.</p>
   </header>
 
   <div class="container">
     <label for="task">Görev:</label>
-    <input type="text" id="task" />
+    <input type="text" id="task" placeholder="Görev adını yazın">
 
     <label for="time">Tarih ve Saat:</label>
-    <input type="datetime-local" id="time" />
+    <input type="datetime-local" id="time">
 
     <label for="duration">Süre (dk):</label>
-    <input type="number" id="duration" min="1" />
+    <input type="number" id="duration" min="1" placeholder="Dakika">
 
     <button onclick="addTask()">Görevi Ekle</button>
-    <button class="reset-btn" onclick="resetTasks()">Tüm Görevleri Sıfırla</button>
+    <button onclick="clearTasks()" style="background-color:#e53935; margin-top:10px;">🗑️ Görevleri Sıfırla</button>
 
-    <hr />
+    <hr>
 
     <h3>Görevler</h3>
     <ul id="taskList"></ul>
@@ -130,19 +140,19 @@
       const duration = document.getElementById('duration').value;
 
       if (!task || !time || !duration) {
-        alert("Tüm alanları doldur!");
+        alert("Lütfen tüm alanları doldurun!");
         return;
       }
 
       const tasks = JSON.parse(localStorage.getItem('programTasks') || '[]');
       tasks.push({task, time, duration});
       localStorage.setItem('programTasks', JSON.stringify(tasks));
-      loadTasks();
 
-      // Alanları temizle
       document.getElementById('task').value = '';
       document.getElementById('time').value = '';
       document.getElementById('duration').value = '';
+
+      loadTasks();
     }
 
     function loadTasks() {
@@ -155,14 +165,13 @@
       });
     }
 
-    function resetTasks() {
-      if(confirm("Tüm görevler silinecek, emin misiniz?")) {
+    function clearTasks() {
+      if(confirm("Tüm görevleri silmek istediğinize emin misiniz?")) {
         localStorage.removeItem('programTasks');
         loadTasks();
       }
     }
 
-    // Sayfa yüklendiğinde görevleri göster
     loadTasks();
   </script>
 </body>

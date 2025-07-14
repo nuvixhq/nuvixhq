@@ -1,263 +1,116 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <title>Program Uygulaması</title>
+  <meta charset="UTF-8">
+  <title>Program Planlayıcı</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #f5f7fa;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f4f4f4;
+      margin: 0;
       padding: 20px;
-      color: #333;
-      max-width: 600px;
-      margin: auto;
     }
+
     header {
-      background: #007acc;
+      background-color: #007acc;
       color: white;
-      padding: 15px;
+      padding: 15px 20px;
       font-size: 1.5rem;
-      position: relative;
-      text-align: center;
-      border-radius: 8px;
-      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
-    #backBtn {
-      position: absolute;
-      top: 12px;
-      left: 12px;
+
+    header a {
+      color: white;
+      text-decoration: none;
+      font-size: 1.2rem;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 40px auto;
       background: white;
-      color: #007acc;
-      border: none;
-      padding: 5px 10px;
-      border-radius: 5px;
-      cursor: pointer;
-      font-weight: bold;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-    #backBtn:hover {
-      background: #e0eaff;
-    }
-    form {
-      background: white;
-      padding: 15px;
-      border-radius: 8px;
-      box-shadow: 0 0 8px rgba(0,0,0,0.1);
-      margin-bottom: 20px;
-    }
-    form input, form button {
+
+    input, button {
       width: 100%;
       padding: 10px;
-      margin-top: 8px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
+      margin: 10px 0;
       font-size: 1rem;
-      box-sizing: border-box;
+      border-radius: 6px;
+      border: 1px solid #ccc;
     }
-    #tasks {
-      background: white;
-      padding: 15px;
-      border-radius: 8px;
-      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+
+    ul {
+      list-style: none;
+      padding: 0;
     }
-    .task {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px 0;
-      border-bottom: 1px solid #ddd;
-    }
-    .task:last-child {
-      border-bottom: none;
-    }
-    .task-info {
-      flex-grow: 1;
-    }
-    .task-time {
-      font-weight: bold;
-      color: #007acc;
-      min-width: 60px;
-      text-align: center;
-    }
-    button.start-btn {
-      background: #007acc;
-      color: white;
-      border: none;
-      padding: 6px 12px;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    button.start-btn:hover {
-      background: #005fbb;
+
+    li {
+      background: #e3f2fd;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 6px;
     }
   </style>
 </head>
 <body>
+  <header>
+    <a href="index.html">🔙 Geri Dön</a> | Program Planlayıcı
+  </header>
 
-<header>
-  Program Uygulaması
-  <button id="backBtn" onclick="window.location.href='index.html'">← Geri Dön</button>
-</header>
+  <div class="container">
+    <label for="task">Görev:</label>
+    <input type="text" id="task">
 
-<form id="taskForm">
-  <input type="text" id="taskName" placeholder="Görev Adı" required />
-  <input type="date" id="taskDate" required />
-  <input type="time" id="taskTime" required />
-  <input type="number" id="taskDuration" placeholder="Süre (dakika)" min="1" max="180" required />
-  <button type="submit">Görev Ekle</button>
-</form>
+    <label for="time">Tarih ve Saat:</label>
+    <input type="datetime-local" id="time">
 
-<div id="tasks"><p>Henüz görev yok.</p></div>
+    <label for="duration">Süre (dk):</label>
+    <input type="number" id="duration">
 
-<script>
-  const form = document.getElementById('taskForm');
-  const tasksDiv = document.getElementById('tasks');
-  let timer = null;
-  let currentTaskId = null;
+    <button onclick="addTask()">Görevi Ekle</button>
 
-  function loadTasks() {
-    const tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
-    if (tasks.length === 0) {
-      tasksDiv.innerHTML = '<p>Henüz görev yok.</p>';
-      return;
-    }
-    renderTasks(tasks);
-  }
+    <hr>
 
-  function renderTasks(tasks) {
-    tasksDiv.innerHTML = '';
-    tasks.forEach(task => {
-      const div = document.createElement('div');
-      div.className = 'task';
+    <h3>Görevler</h3>
+    <ul id="taskList"></ul>
+  </div>
 
-      const info = document.createElement('div');
-      info.className = 'task-info';
-      info.textContent = `${task.name} - ${task.date} ${task.time}`;
+  <script>
+    const taskList = document.getElementById('taskList');
 
-      const timeLeft = document.createElement('div');
-      timeLeft.className = 'task-time';
-      timeLeft.id = `time-${task.id}`;
-      timeLeft.textContent = task.remainingTime !== undefined ? formatTime(task.remainingTime) : formatTime(task.duration * 60);
+    function addTask() {
+      const task = document.getElementById('task').value;
+      const time = document.getElementById('time').value;
+      const duration = document.getElementById('duration').value;
 
-      const startBtn = document.createElement('button');
-      startBtn.textContent = currentTaskId === task.id ? 'Durdur' : 'Başlat';
-      startBtn.className = 'start-btn';
-      startBtn.onclick = () => toggleTimer(task.id);
-
-      div.appendChild(info);
-      div.appendChild(timeLeft);
-      div.appendChild(startBtn);
-
-      tasksDiv.appendChild(div);
-    });
-  }
-
-  function formatTime(seconds) {
-    const m = Math.floor(seconds / 60).toString().padStart(2, '0');
-    const s = (seconds % 60).toString().padStart(2, '0');
-    return `${m}:${s}`;
-  }
-
-  function toggleTimer(id) {
-    const tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
-
-    if(currentTaskId === id) {
-      clearInterval(timer);
-      timer = null;
-      currentTaskId = null;
-      updateStartButtons();
-      return;
-    }
-
-    if(timer) {
-      clearInterval(timer);
-      timer = null;
-      currentTaskId = null;
-    }
-
-    currentTaskId = id;
-    const task = tasks.find(t => t.id === id);
-
-    if(task.remainingTime === undefined) {
-      task.remainingTime = task.duration * 60;
-    }
-
-    updateTask(task);
-    updateStartButtons();
-
-    timer = setInterval(() => {
-      if(task.remainingTime > 0) {
-        task.remainingTime--;
-        updateTask(task);
-        renderTasks(tasks);
-      } else {
-        clearInterval(timer);
-        timer = null;
-        currentTaskId = null;
-        alert(`⏰ "${task.name}" görevi tamamlandı!`);
-        playAlarm();
-        task.remainingTime = undefined;
-        updateTask(task);
-        renderTasks(tasks);
-        updateStartButtons();
+      if (!task || !time || !duration) {
+        alert("Tüm alanları doldur!");
+        return;
       }
-    }, 1000);
-  }
 
-  function updateTask(task) {
-    const tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
-    const index = tasks.findIndex(t => t.id === task.id);
-    if(index !== -1) {
-      tasks[index] = task;
-      localStorage.setItem('tasks', JSON.stringify(tasks));
-    }
-  }
-
-  function updateStartButtons() {
-    const buttons = document.querySelectorAll('.start-btn');
-    buttons.forEach(btn => {
-      const parent = btn.parentElement;
-      const timeDiv = parent.querySelector('.task-time');
-      const id = parseInt(timeDiv.id.split('-')[1]);
-      btn.textContent = (currentTaskId === id) ? 'Durdur' : 'Başlat';
-    });
-  }
-
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-
-    const name = document.getElementById('taskName').value.trim();
-    const date = document.getElementById('taskDate').value;
-    const time = document.getElementById('taskTime').value;
-    const duration = parseInt(document.getElementById('taskDuration').value);
-
-    if(!name || !date || !time || !duration || duration < 1) {
-      alert('Lütfen tüm alanları doğru doldurun.');
-      return;
+      const tasks = JSON.parse(localStorage.getItem('programTasks') || '[]');
+      tasks.push({task, time, duration});
+      localStorage.setItem('programTasks', JSON.stringify(tasks));
+      loadTasks();
     }
 
-    const tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+    function loadTasks() {
+      const tasks = JSON.parse(localStorage.getItem('programTasks') || '[]');
+      taskList.innerHTML = '';
+      tasks.forEach(t => {
+        const li = document.createElement('li');
+        li.textContent = `${t.task} - ${new Date(t.time).toLocaleString()} - ${t.duration} dk`;
+        taskList.appendChild(li);
+      });
+    }
 
-    tasks.push({
-      id: Date.now(),
-      name,
-      date,
-      time,
-      duration,
-    });
-
-    localStorage.setItem('tasks', JSON.stringify(tasks));
-
-    renderTasks(tasks);
-    form.reset();
-  });
-
-  function playAlarm() {
-    const audio = new Audio('https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg');
-    audio.play();
-  }
-
-  loadTasks();
-</script>
-
+    loadTasks();
+  </script>
 </body>
 </html>

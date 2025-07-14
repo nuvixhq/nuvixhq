@@ -2,20 +2,12 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Nuvixhq | Ürünlerim</title>
-  <link rel="icon" href="favicon.ico" type="image/x-icon" />
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0; padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-
     body, html {
-      height: 100%;
-      margin: 0;
+      margin: 0; padding: 0; height: 100%;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(135deg, #007acc, #00bcd4);
       color: #333;
     }
@@ -25,42 +17,39 @@
       padding: 30px 20px;
       text-align: center;
       color: white;
-    }
-
-    header h1 {
       font-family: 'Orbitron', sans-serif;
       font-size: 2.7rem;
       letter-spacing: 2px;
-      margin-bottom: 5px;
       text-shadow: 2px 2px #004a99;
-    }
-
-    header p {
-      font-size: 1rem;
-      font-style: italic;
-      color: #e0f7fa;
+      margin-bottom: 20px;
     }
 
     .container {
+      max-width: 900px;
+      background-color: #e0f7fa;
+      margin: 0 auto 40px auto;
+      padding: 30px 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
       display: flex;
-      height: calc(100vh - 110px);
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      min-height: 350px;
     }
 
     nav {
-      width: 220px;
-      background-color: rgba(0, 74, 153, 0.8);
+      flex: 0 0 220px;
       display: flex;
       flex-direction: column;
-      padding-top: 10px;
-      backdrop-filter: saturate(180%) blur(10px);
+      gap: 10px;
     }
 
     nav button {
-      background-color: rgba(0, 122, 204, 0.8);
+      background-color: #007acc;
       border: none;
       color: white;
       padding: 15px 20px;
-      margin: 8px 15px;
       font-size: 1rem;
       cursor: pointer;
       border-radius: 5px;
@@ -69,22 +58,26 @@
     }
 
     nav button:hover, nav button.active {
-      background-color: rgba(0, 95, 187, 0.8);
+      background-color: #005fbb;
     }
 
     main {
-      flex-grow: 1;
-      padding: 30px;
-      overflow-y: auto;
-      background-color: #e0f7fa;  /* Açık mavi */
+      flex: 1 1 600px;
+      background-color: #d0f0fa;
       border-radius: 10px;
-      box-shadow: 0 0 15px rgb(0 0 0 / 0.1);
-      margin: 15px;
+      padding: 25px 30px;
+      box-shadow: inset 0 0 15px #b0e0f0;
+      overflow-y: auto;
     }
 
     main h2 {
-      margin-bottom: 10px;
       color: #007acc;
+      margin-bottom: 15px;
+    }
+
+    main p {
+      margin-bottom: 15px;
+      line-height: 1.5;
     }
 
     main a {
@@ -106,21 +99,21 @@
     @media (max-width: 600px) {
       .container {
         flex-direction: column;
-        height: auto;
+        padding: 20px;
       }
       nav {
-        width: 100%;
         flex-direction: row;
-        overflow-x: auto;
+        justify-content: center;
+        flex-wrap: wrap;
       }
       nav button {
         flex: 1 0 auto;
-        margin: 8px 5px;
+        margin: 5px;
         text-align: center;
       }
       main {
-        padding: 15px;
-        margin: 10px 0;
+        min-height: auto;
+        margin-top: 20px;
       }
     }
   </style>
@@ -128,14 +121,14 @@
 <body>
 
   <header>
-    <h1>🚀 Nuvixhq</h1>
-    <p>Verimlilik için akıllı çözümler</p>
+    🚀 Nuvixhq
   </header>
 
   <div class="container">
     <nav>
       <button class="active" onclick="showProduct(1)">Pomodoro Zamanlayıcı</button>
       <button onclick="showProduct(2)">Duygu Takip</button>
+      <button onclick="showProduct(3)">Program Planlayıcı</button>
     </nav>
 
     <main>
@@ -149,6 +142,12 @@
         <h2>🧠 Duygu Takip Uygulaması</h2>
         <p>Günlük ruh halini kaydederek kendini daha yakından tanı. Grafiklerle ruh halindeki değişimleri gör.</p>
         <a href="duygu-takip.html">📊 Uygulamaya Git</a>
+      </section>
+
+      <section id="product3" class="product" style="display: none;">
+        <h2>📅 Program Planlayıcı</h2>
+        <p>Günlük planlarını kolayca oluştur, takip et ve verimli ol.</p>
+        <a href="program-planlayici.html">📋 Uygulamaya Git</a>
       </section>
     </main>
   </div>
@@ -166,5 +165,6 @@
       });
     }
   </script>
+
 </body>
 </html>

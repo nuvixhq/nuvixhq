@@ -2,147 +2,174 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pomodoro Zamanlayıcı</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     * {
       box-sizing: border-box;
-      margin: 0; padding: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
     body {
       background-color: #f5f7fa;
+      margin: 0;
+      padding: 40px 20px;
       color: #333;
-      min-height: 100vh;
+      text-align: center;
     }
 
-    header {
-      display: flex;
-      align-items: center;
-      background: linear-gradient(to right, #007acc, #00bcd4);
-      padding: 20px;
+    .back-button {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background-color: #007acc;
       color: white;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-
-    header a {
-      color: white;
+      border: none;
+      padding: 10px 15px;
+      font-size: 14px;
+      border-radius: 5px;
       text-decoration: none;
-      font-size: 1.5rem;
-      margin-right: 20px;
-      transition: opacity 0.2s;
+      transition: background-color 0.3s ease;
     }
 
-    header a:hover {
-      opacity: 0.7;
+    .back-button:hover {
+      background-color: #005fbb;
     }
 
-    header h1 {
-      font-size: 1.7rem;
-      font-weight: bold;
-      flex-grow: 1;
-    }
-
-    main {
-      padding: 30px;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    h2 {
+    h1 {
       color: #007acc;
-      margin-bottom: 15px;
+      margin-bottom: 10px;
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    input[type="number"] {
+      padding: 8px;
+      width: 60px;
+      margin: 0 10px;
+    }
+
+    #timerDisplay {
+      font-size: 3rem;
+      margin: 20px 0;
+      color: #007acc;
     }
 
     button {
-      padding: 10px 20px;
-      margin: 5px;
-      font-size: 1rem;
-      border: none;
-      border-radius: 6px;
       background-color: #007acc;
       color: white;
+      border: none;
+      padding: 10px 15px;
+      margin: 5px;
+      font-size: 16px;
+      border-radius: 5px;
       cursor: pointer;
-      transition: background-color 0.2s ease;
+      transition: background-color 0.3s;
     }
 
     button:hover {
       background-color: #005fbb;
     }
-
-    #timer {
-      font-size: 3rem;
-      margin: 20px 0;
-      text-align: center;
-    }
   </style>
 </head>
 <body>
+  <a href="index.html" class="back-button">← Geri Dön</a>
 
-  <header>
-    <a href="index.html">←</a>
-    <h1>Pomodoro Zamanlayıcı</h1>
-  </header>
+  <h1>🍅 Pomodoro Zamanlayıcı</h1>
 
-  <main>
-    <h2>Odaklan, çalış, mola ver.</h2>
-    <p>Pomodoro tekniği ile zamanını daha verimli kullanabilirsin. Aşağıdaki zamanlayıcıyı başlatarak denemeye başlayabilirsin.</p>
+  <div>
+    <label>Çalışma Süresi (dk):</label>
+    <input type="number" id="workMinutes" value="25" min="1" />
+    <label>Mola Süresi (dk):</label>
+    <input type="number" id="breakMinutes" value="5" min="1" />
+    <label>Döngü Sayısı:</label>
+    <input type="number" id="cycles" value="4" min="1" />
+  </div>
 
-    <div id="timer">25:00</div>
+  <div id="timerDisplay">25:00</div>
 
-    <button onclick="startTimer()">▶ Başlat</button>
-    <button onclick="pauseTimer()">⏸ Durdur</button>
-    <button onclick="resetTimer()">🔄 Sıfırla</button>
+  <div>
+    <button onclick="startPomodoro()">▶ Başlat</button>
+    <button onclick="pausePomodoro()">⏸ Durdur</button>
+    <button onclick="resetPomodoro()">🔄 Sıfırla</button>
+  </div>
 
-    <audio id="alarm-sound">
-      <source src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg" type="audio/ogg">
-      Tarayıcınız ses çalmayı desteklemiyor.
-    </audio>
-  </main>
+  <audio id="alarm">
+    <source src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg" type="audio/ogg">
+    Tarayıcınız bu sesi desteklemiyor.
+  </audio>
 
   <script>
-    let duration = 25 * 60;
-    let timeLeft = duration;
-    let timerInterval = null;
+    let timer;
+    let isRunning = false;
+    let isWork = true;
+    let timeLeft = 0;
+    let currentCycle = 0;
 
-    const timerDisplay = document.getElementById('timer');
-    const alarmSound = document.getElementById('alarm-sound');
+    const alarm = document.getElementById("alarm");
+    const timerDisplay = document.getElementById("timerDisplay");
 
     function updateDisplay() {
-      const minutes = String(Math.floor(timeLeft / 60)).padStart(2, '0');
-      const seconds = String(timeLeft % 60).padStart(2, '0');
-      timerDisplay.textContent = `${minutes}:${seconds}`;
+      const minutes = Math.floor(timeLeft / 60);
+      const seconds = timeLeft % 60;
+      timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
     }
 
-    function startTimer() {
-      if (timerInterval) return;
-      timerInterval = setInterval(() => {
+    function startPomodoro() {
+      if (isRunning) return;
+
+      const workMinutes = parseInt(document.getElementById("workMinutes").value);
+      const breakMinutes = parseInt(document.getElementById("breakMinutes").value);
+      const totalCycles = parseInt(document.getElementById("cycles").value);
+
+      if (timeLeft <= 0) {
+        timeLeft = (isWork ? workMinutes : breakMinutes) * 60;
+      }
+
+      isRunning = true;
+      timer = setInterval(() => {
         if (timeLeft > 0) {
           timeLeft--;
           updateDisplay();
         } else {
-          clearInterval(timerInterval);
-          timerInterval = null;
-          alarmSound.play();
-          alert("⏰ Süre doldu! Mola zamanı.");
+          alarm.play();
+          clearInterval(timer);
+          isRunning = false;
+          isWork = !isWork;
+
+          if (!isWork) {
+            currentCycle++;
+          }
+
+          if (currentCycle < totalCycles) {
+            timeLeft = (isWork ? workMinutes : breakMinutes) * 60;
+            startPomodoro();
+          } else {
+            alert("🎉 Tüm Pomodoro döngüleri tamamlandı!");
+            resetPomodoro();
+          }
         }
       }, 1000);
     }
 
-    function pauseTimer() {
-      clearInterval(timerInterval);
-      timerInterval = null;
+    function pausePomodoro() {
+      clearInterval(timer);
+      isRunning = false;
     }
 
-    function resetTimer() {
-      pauseTimer();
-      timeLeft = duration;
+    function resetPomodoro() {
+      clearInterval(timer);
+      isRunning = false;
+      isWork = true;
+      currentCycle = 0;
+      timeLeft = parseInt(document.getElementById("workMinutes").value) * 60;
       updateDisplay();
     }
 
-    updateDisplay();
+    // Sayfa yüklenince varsayılan zaman
+    resetPomodoro();
   </script>
-
 </body>
 </html>

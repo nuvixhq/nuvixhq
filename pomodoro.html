@@ -4,141 +4,102 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>🍅 Pomodoro Zamanlayıcı | Nuvixhq</title>
-  <link rel="icon" href="favicon.ico" type="image/x-icon" />
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet" />
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0; padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-
     body, html {
       height: 100%;
-      background-color: #f5f7fa;
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #007acc, #00bcd4);
       color: #333;
     }
-
     header {
-      background: linear-gradient(to right, #007acc, #00bcd4);
-      padding: 25px 20px;
+      background: linear-gradient(to right, #004a80, #007acc);
+      padding: 20px;
       text-align: center;
       color: white;
-    }
-
-    header h1 {
+      font-size: 2rem;
+      font-weight: 600;
       font-family: 'Orbitron', sans-serif;
-      font-size: 2.5rem;
       letter-spacing: 2px;
-      margin-bottom: 5px;
       text-shadow: 2px 2px #004a99;
+      position: relative;
     }
-
-    header p {
-      font-size: 1rem;
-      font-style: italic;
-      color: #e0f7fa;
-    }
-
-    .back-btn {
+    .back-button {
       position: absolute;
-      top: 20px;
-      left: 20px;
-      background-color: #007acc;
+      top: 15px;
+      left: 15px;
+      background-color: rgba(255 255 255 / 0.15);
+      border: none;
       color: white;
-      padding: 10px 15px;
-      border-radius: 5px;
+      padding: 8px 12px;
+      border-radius: 6px;
       text-decoration: none;
       font-weight: bold;
       transition: background-color 0.3s;
+      cursor: pointer;
     }
-
-    .back-btn:hover {
-      background-color: #005fbb;
+    .back-button:hover {
+      background-color: rgba(255 255 255 / 0.35);
     }
-
     main {
-      padding: 30px;
-      max-width: 700px;
-      margin: auto;
+      max-width: 600px;
+      margin: 30px auto;
+      background-color: #e0f7fa;
+      padding: 30px 25px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgb(0 0 0 / 0.1);
       text-align: center;
     }
-
-    h2 {
-      color: #007acc;
-      margin-bottom: 15px;
-    }
-
-    label {
-      font-weight: bold;
-      margin-right: 10px;
-    }
-
-    input[type="number"] {
-      padding: 8px;
-      width: 60px;
-      margin: 0 10px 20px 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      font-size: 1rem;
-      text-align: center;
-    }
-
     #timerDisplay {
-      font-size: 3rem;
+      font-size: 4rem;
       margin: 25px 0;
       color: #007acc;
-      font-weight: bold;
+      font-weight: 700;
     }
-
+    input[type=number] {
+      width: 70px;
+      padding: 8px;
+      margin: 0 10px 20px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
     button {
       background-color: #007acc;
       color: white;
       border: none;
-      padding: 12px 20px;
-      margin: 5px;
+      padding: 10px 20px;
+      margin: 10px 5px;
       font-size: 1rem;
-      border-radius: 5px;
+      border-radius: 6px;
       cursor: pointer;
       transition: background-color 0.3s;
     }
-
     button:hover {
       background-color: #005fbb;
     }
   </style>
 </head>
 <body>
-
-  <a href="index.html" class="back-btn">← Geri Dön</a>
-
   <header>
-    <h1>🍅 Pomodoro Zamanlayıcı</h1>
-    <p>Verimli çalışmak için sade ve sesli zamanlayıcı</p>
+    <a href="index.html" class="back-button">← Geri Dön</a>
+    🍅 Pomodoro Zamanlayıcı
   </header>
-
   <main>
     <div>
-      <label for="workMinutes">Çalışma Süresi (dk):</label>
+      <label>Çalışma Süresi (dk):</label>
       <input type="number" id="workMinutes" value="25" min="1" />
-    </div>
-    <div>
-      <label for="breakMinutes">Mola Süresi (dk):</label>
+      <label>Mola Süresi (dk):</label>
       <input type="number" id="breakMinutes" value="5" min="1" />
-    </div>
-    <div>
-      <label for="cycles">Döngü Sayısı:</label>
+      <label>Döngü Sayısı:</label>
       <input type="number" id="cycles" value="4" min="1" />
     </div>
-
     <div id="timerDisplay">25:00</div>
-
     <div>
       <button onclick="startPomodoro()">▶ Başlat</button>
       <button onclick="pausePomodoro()">⏸ Durdur</button>
       <button onclick="resetPomodoro()">🔄 Sıfırla</button>
     </div>
-
     <audio id="alarm">
       <source src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg" type="audio/ogg" />
       Tarayıcınız bu sesi desteklemiyor.
@@ -214,6 +175,5 @@
 
     resetPomodoro();
   </script>
-
 </body>
 </html>

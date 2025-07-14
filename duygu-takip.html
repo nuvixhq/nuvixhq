@@ -97,6 +97,10 @@
       background-color: #005fbb;
     }
 
+    #buttons {
+      margin-top: 15px;
+    }
+
     canvas {
       max-width: 100%;
       margin-top: 30px;
@@ -129,19 +133,20 @@
 
     <br />
 
-    <button id="saveBtn">Kaydet</button>
+    <div id="buttons">
+      <button id="saveBtn">Kaydet</button>
+      <button id="resetBtn" style="background-color: #f44336; margin-left: 10px;">Sıfırla</button>
+    </div>
 
     <canvas id="emotionChart"></canvas>
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
-    // Tarih seçiciye bugünün tarihini default yap
     const datePicker = document.getElementById('datePicker');
     const today = new Date().toISOString().split('T')[0];
     datePicker.value = today;
 
-    // Duygular için renkler (grafikte)
     const emotionColors = {
       "Mutlu": "#4caf50",
       "Üzgün": "#2196f3",
@@ -150,14 +155,11 @@
       "Stresli": "#9c27b0"
     };
 
-    // LocalStorage'dan verileri çek veya boş obje
     let emotionsData = JSON.parse(localStorage.getItem('emotionsData') || '{}');
 
-    // Chart.js grafiği için context ve değişken
     const ctx = document.getElementById('emotionChart').getContext('2d');
     let chart;
 
-    // Fonksiyon: Veriyi kaydet
     function saveEmotion() {
       const date = datePicker.value;
       const emotion = document.getElementById('emotionSelect').value;
@@ -181,18 +183,15 @@
       }
 
       emotionsData[date][emotion]++;
-
       localStorage.setItem('emotionsData', JSON.stringify(emotionsData));
       updateChart();
       alert(`${date} için ${emotion} duygusu kaydedildi.`);
     }
 
-    // Fonksiyon: Seçili tarihe göre verileri hazırla
     function getEmotionCountsByDate(date) {
       return emotionsData[date] || {};
     }
 
-    // Fonksiyon: Grafiği güncelle
     function updateChart() {
       const selectedDate = datePicker.value;
       const counts = getEmotionCountsByDate(selectedDate);
@@ -204,6 +203,7 @@
       if (chart) {
         chart.data.labels = labels;
         chart.data.datasets[0].data = data;
+        chart.data.datasets[0].label = `${selectedDate} Duygu Durumu`;
         chart.update();
       } else {
         chart = new Chart(ctx, {
@@ -231,12 +231,19 @@
       }
     }
 
-    document.getElementById('saveBtn').addEventListener('click', saveEmotion);
+    function resetData() {
+      if (confirm("Tüm duygu verilerini sıfırlamak istediğinizden emin misiniz?")) {
+        localStorage.removeItem('emotionsData');
+        emotionsData = {};
+        updateChart();
+        alert("Duygu verileri sıfırlandı.");
+      }
+    }
 
-    // Tarih değişince grafiği güncelle
+    document.getElementById('saveBtn').addEventListener('click', saveEmotion);
+    document.getElementById('resetBtn').addEventListener('click', resetData);
     datePicker.addEventListener('change', updateChart);
 
-    // Sayfa açılır açılmaz grafiği göster
     updateChart();
   </script>
 </body>

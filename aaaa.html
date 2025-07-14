@@ -2,80 +2,76 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8" />
-  <title>Program Planlayıcı | Nuvixhq</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>📅 Program Planlayıcı | Nuvixhq</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    body {
+    body, html {
+      margin: 0; padding: 0; height: 100%;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #f5f7fa;
-      margin: 0;
-      padding: 20px;
+      background: linear-gradient(135deg, #007acc, #00bcd4);
       color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+      box-sizing: border-box;
     }
 
     header {
-      background: linear-gradient(to right, #007acc, #00bcd4);
-      color: white;
+      background: linear-gradient(to right, #004a80, #007acc);
       padding: 25px 20px;
+      width: 100%;
+      max-width: 900px;
+      color: white;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.5rem;
+      letter-spacing: 2px;
+      text-shadow: 2px 2px #004a99;
       text-align: center;
+      margin-bottom: 30px;
+      border-radius: 10px;
       position: relative;
     }
 
-    header a.back-btn {
+    a.back-btn {
       position: absolute;
-      top: 20px;
+      top: 18px;
       left: 20px;
       background-color: #007acc;
       color: white;
       padding: 10px 15px;
-      border-radius: 5px;
+      border-radius: 6px;
       text-decoration: none;
       font-weight: bold;
       transition: background-color 0.3s ease;
     }
 
-    header a.back-btn:hover {
+    a.back-btn:hover {
       background-color: #005fbb;
     }
 
-    header h1 {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 2.5rem;
-      letter-spacing: 2px;
-      margin: 0;
-      text-shadow: 2px 2px #004a99;
-    }
-
-    header p {
-      margin-top: 8px;
-      font-size: 1rem;
-      font-style: italic;
-      color: #d0e9fc;
-    }
-
-    .container {
-      max-width: 500px;
-      margin: 40px auto;
-      background: white;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-
-    label {
-      font-weight: bold;
-      display: block;
-      margin-top: 15px;
-    }
-
-    input, button {
+    main {
+      background-color: #e0f7fa;
+      max-width: 900px;
       width: 100%;
-      padding: 10px;
-      margin-top: 8px;
-      font-size: 1rem;
-      border-radius: 6px;
-      border: 1px solid #ccc;
+      border-radius: 12px;
+      padding: 30px 25px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
       box-sizing: border-box;
+    }
+
+    label, input, button {
+      display: block;
+      width: 100%;
+      font-size: 1rem;
+      margin-bottom: 15px;
+      border-radius: 6px;
+      padding: 10px;
+      box-sizing: border-box;
+    }
+
+    input {
+      border: 1px solid #ccc;
     }
 
     button {
@@ -83,7 +79,7 @@
       color: white;
       border: none;
       cursor: pointer;
-      margin-top: 20px;
+      font-weight: bold;
       transition: background-color 0.3s ease;
     }
 
@@ -98,9 +94,9 @@
     }
 
     li {
-      background: #e3f2fd;
-      padding: 10px;
-      margin: 8px 0;
+      background: #b3e5fc;
+      padding: 12px;
+      margin-bottom: 10px;
       border-radius: 6px;
     }
   </style>
@@ -108,28 +104,27 @@
 <body>
   <header>
     <a href="index.html" class="back-btn">← Geri Dön</a>
-    <h1>📅 Program Planlayıcı</h1>
-    <p>Günlük programlarını planla, zamanı verimli kullan.</p>
+    📅 Program Planlayıcı
   </header>
 
-  <div class="container">
+  <main>
     <label for="task">Görev:</label>
-    <input type="text" id="task" placeholder="Görev adını yazın">
+    <input type="text" id="task" placeholder="Görevini yaz..." />
 
     <label for="time">Tarih ve Saat:</label>
-    <input type="datetime-local" id="time">
+    <input type="datetime-local" id="time" />
 
     <label for="duration">Süre (dk):</label>
-    <input type="number" id="duration" min="1" placeholder="Dakika">
+    <input type="number" id="duration" min="1" placeholder="Dakika" />
 
     <button onclick="addTask()">Görevi Ekle</button>
-    <button onclick="clearTasks()" style="background-color:#e53935; margin-top:10px;">🗑️ Görevleri Sıfırla</button>
+    <button onclick="clearTasks()" style="background-color:#e53935; margin-top: 10px;">Tüm Görevleri Sıfırla</button>
 
-    <hr>
+    <hr />
 
     <h3>Görevler</h3>
     <ul id="taskList"></ul>
-  </div>
+  </main>
 
   <script>
     const taskList = document.getElementById('taskList');
@@ -140,19 +135,19 @@
       const duration = document.getElementById('duration').value;
 
       if (!task || !time || !duration) {
-        alert("Lütfen tüm alanları doldurun!");
+        alert("Tüm alanları doldur!");
         return;
       }
 
       const tasks = JSON.parse(localStorage.getItem('programTasks') || '[]');
       tasks.push({task, time, duration});
       localStorage.setItem('programTasks', JSON.stringify(tasks));
+      loadTasks();
 
+      // Temizle
       document.getElementById('task').value = '';
       document.getElementById('time').value = '';
       document.getElementById('duration').value = '';
-
-      loadTasks();
     }
 
     function loadTasks() {
@@ -166,13 +161,13 @@
     }
 
     function clearTasks() {
-      if(confirm("Tüm görevleri silmek istediğinize emin misiniz?")) {
+      if (confirm("Tüm görevleri silmek istediğine emin misin?")) {
         localStorage.removeItem('programTasks');
         loadTasks();
       }
     }
 
-    loadTasks();
+    window.onload = loadTasks;
   </script>
 </body>
 </html>

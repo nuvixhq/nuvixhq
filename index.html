@@ -1,173 +1,137 @@
+
 <!DOCTYPE html>
 <html lang="tr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="google-site-verification" content="nKiEo0lAzK89a7p1r-Jjplh5ky2PdrdAz4ea6e6syu8" />
-  <meta name="description" content="Nuvixhq - Verimlilik için akıllı çözümler, Pomodoro zamanlayıcı, duygu takip ve program planlayıcı uygulamaları." />
-  <title>Nuvixhq | Ürünlerim</title>
-  <!-- diğer kodlar -->
-</head>
-
-    /* Aynı stil kodları burada olacak */
-    * {
-      box-sizing: border-box;
-      margin: 0; padding: 0;
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Program Planlayıcı</title>
+  <style>
+    body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-
-    body, html {
-      height: 100%;
       background-color: #f5f7fa;
       color: #333;
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
     }
-
-    header {
-      background: linear-gradient(to right, #007acc, #00bcd4);
-      padding: 30px 20px;
-      text-align: center;
-      color: white;
-    }
-
-    header h1 {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 2.7rem;
-      letter-spacing: 2px;
-      margin-bottom: 5px;
-      text-shadow: 2px 2px #004a99;
-    }
-
-    header p {
-      font-size: 1rem;
-      font-style: italic;
-      color: #e0f7fa;
-    }
-
-    .container {
-      display: flex;
-      height: calc(100vh - 110px);
-    }
-
-    nav {
-      width: 220px;
-      background-color: #004a99;
-      display: flex;
-      flex-direction: column;
-      padding-top: 10px;
-    }
-
-    nav button {
-      background-color: #007acc;
-      border: none;
-      color: white;
-      padding: 15px 20px;
-      margin: 8px 15px;
-      font-size: 1rem;
-      cursor: pointer;
-      border-radius: 5px;
-      text-align: left;
-      transition: background-color 0.3s ease;
-    }
-
-    nav button:hover, nav button.active {
-      background-color: #005fbb;
-    }
-
-    main {
-      flex-grow: 1;
-      padding: 30px;
-      overflow-y: auto;
-    }
-
-    main h2 {
-      margin-bottom: 10px;
+    h1 {
       color: #007acc;
+      text-align: center;
+      margin-bottom: 20px;
     }
-
-    main a {
-      display: inline-block;
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 10px;
+    }
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+    button {
       background-color: #007acc;
       color: white;
-      text-decoration: none;
-      font-weight: bold;
-      padding: 10px 15px;
-      border-radius: 5px;
-      margin-top: 10px;
+      cursor: pointer;
+      margin-top: 15px;
       transition: background-color 0.3s;
     }
-
-    main a:hover {
+    button:hover {
       background-color: #005fbb;
     }
-
-    @media (max-width: 600px) {
-      .container {
-        flex-direction: column;
-        height: auto;
-      }
-      nav {
-        width: 100%;
-        flex-direction: row;
-        overflow-x: auto;
-      }
-      nav button {
-        flex: 1 0 auto;
-        margin: 8px 5px;
-        text-align: center;
-      }
-      main {
-        padding: 15px;
-      }
+    ul {
+      list-style: none;
+      margin-top: 20px;
+      padding-left: 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      max-height: 300px;
+      overflow-y: auto;
+      background: white;
+    }
+    ul li {
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+      font-size: 0.95rem;
+    }
+    ul li:last-child {
+      border-bottom: none;
+    }
+    .back-btn {
+      background-color: #555;
+      margin-top: 0;
+      margin-bottom: 20px;
+      text-align: center;
+      display: inline-block;
+      padding: 10px 15px;
+      border-radius: 5px;
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+    }
+    .back-btn:hover {
+      background-color: #333;
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <h1>🚀 Nuvixhq</h1>
-    <p>Verimlilik için akıllı çözümler</p>
-  </header>
+  <a href="index.html" class="back-btn">← Ana Sayfaya Dön</a>
+  <h1>📅 Program Planlayıcı</h1>
 
-  <div class="container">
-    <nav>
-      <button class="active" onclick="showProduct(1)">Pomodoro Zamanlayıcı</button>
-      <button onclick="showProduct(2)">Duygu Takip</button>
-      <button onclick="showProduct(3)">Program Planlayıcı</button>
-    </nav>
+  <label for="taskName">Görev Adı:</label>
+  <input type="text" id="taskName" placeholder="Görevini yaz..." />
 
-    <main>
-      <section id="product1" class="product" style="display: block;">
-        <h2>🍅 Pomodoro Zamanlayıcı</h2>
-        <p>Verimli çalışmak için sade ve sesli bir zamanlayıcı. Karanlık mod ve ses uyarılarıyla odaklanmanı artır.</p>
-        <a href="pomodoro.html">⏱️ Uygulamaya Git</a>
-      </section>
+  <label for="taskDate">Tarih ve Saat:</label>
+  <input type="datetime-local" id="taskDate" />
 
-      <section id="product2" class="product" style="display: none;">
-        <h2>🧠 Duygu Takip Uygulaması</h2>
-        <p>Günlük ruh halini kaydederek kendini daha yakından tanı. Grafiklerle ruh halindeki değişimleri gör.</p>
-        <a href="duygu-takip.html">📊 Uygulamaya Git</a>
-      </section>
+  <label for="taskDuration">Süre (dakika):</label>
+  <input type="number" id="taskDuration" min="1" placeholder="Kaç dakika yapacaksın?" />
 
-      <section id="product3" class="product" style="display: none;">
-        <h2>📅 Program Planlayıcı</h2>
-        <p>Günlük görevlerini saatleriyle planla ve zamanı geldiğinde hatırlat.</p>
-        <a href="aaaa.html">📅 Uygulamaya Git</a>
-      </section>
-    </main>
-  </div>
+  <button onclick="addTask()">Görevi Ekle</button>
+
+  <h3>Görevler</h3>
+  <ul id="taskList"></ul>
 
   <script>
-    function showProduct(id) {
-      const buttons = document.querySelectorAll('nav button');
-      buttons.forEach((btn, index) => {
-        btn.classList.toggle('active', index === id - 1);
-      });
+    const taskList = document.getElementById('taskList');
 
-      const products = document.querySelectorAll('.product');
-      products.forEach((prod, index) => {
-        prod.style.display = (index === id - 1) ? 'block' : 'none';
+    function loadTasks() {
+      const tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+      taskList.innerHTML = '';
+      tasks.forEach(task => {
+        const li = document.createElement('li');
+        li.textContent = `${task.name} - ${new Date(task.datetime).toLocaleString()} - ${task.duration} dk`;
+        taskList.appendChild(li);
       });
     }
+
+    function addTask() {
+      const name = document.getElementById('taskName').value.trim();
+      const datetime = document.getElementById('taskDate').value;
+      const duration = document.getElementById('taskDuration').value;
+
+      if (!name || !datetime || !duration) {
+        alert('Lütfen tüm alanları doldurun!');
+        return;
+      }
+
+      const tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+      tasks.push({name, datetime, duration});
+      localStorage.setItem('tasks', JSON.stringify(tasks));
+
+      document.getElementById('taskName').value = '';
+      document.getElementById('taskDate').value = '';
+      document.getElementById('taskDuration').value = '';
+
+      loadTasks();
+    }
+
+    loadTasks();
   </script>
+
 </body>
 </html>

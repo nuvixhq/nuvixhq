@@ -2,71 +2,87 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>🧠 Duygu Takip | Nuvixhq</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     body, html {
-      height: 100%;
-      margin: 0;
+      margin: 0; padding: 0; height: 100%;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(135deg, #007acc, #00bcd4);
       color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+      box-sizing: border-box;
     }
+
     header {
       background: linear-gradient(to right, #004a80, #007acc);
       padding: 25px 20px;
-      text-align: center;
+      width: 100%;
+      max-width: 900px;
       color: white;
       font-family: 'Orbitron', sans-serif;
       font-size: 2.5rem;
       letter-spacing: 2px;
       text-shadow: 2px 2px #004a99;
+      text-align: center;
+      margin-bottom: 30px;
+      border-radius: 10px;
       position: relative;
     }
-    .back-btn {
+
+    a.back-btn {
       position: absolute;
-      top: 20px;
+      top: 18px;
       left: 20px;
-      background-color: rgba(255 255 255 / 0.15);
+      background-color: #007acc;
       color: white;
       padding: 10px 15px;
       border-radius: 6px;
       text-decoration: none;
       font-weight: bold;
-      transition: background-color 0.3s;
-      cursor: pointer;
+      transition: background-color 0.3s ease;
     }
-    .back-btn:hover {
-      background-color: rgba(255 255 255 / 0.35);
+
+    a.back-btn:hover {
+      background-color: #005fbb;
     }
+
     main {
-      max-width: 700px;
-      margin: 30px auto;
       background-color: #e0f7fa;
-      padding: 30px 25px;
+      max-width: 900px;
+      width: 100%;
       border-radius: 12px;
-      box-shadow: 0 0 20px rgb(0 0 0 / 0.1);
+      padding: 30px 25px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+      box-sizing: border-box;
       text-align: center;
     }
+
     h2 {
       color: #007acc;
-      margin-bottom: 15px;
+      margin-bottom: 20px;
     }
+
     p {
       margin-bottom: 15px;
       line-height: 1.5;
     }
+
     .start-btn {
       display: inline-block;
       background-color: #007acc;
       color: white;
-      padding: 10px 15px;
-      border-radius: 5px;
+      padding: 12px 20px;
+      border-radius: 6px;
       text-decoration: none;
       font-weight: bold;
-      margin-top: 15px;
-      transition: background-color 0.3s;
+      margin-top: 20px;
+      transition: background-color 0.3s ease;
     }
+
     .start-btn:hover {
       background-color: #005fbb;
     }
@@ -77,11 +93,12 @@
     <a href="index.html" class="back-btn">← Geri Dön</a>
     🧠 Duygu Takip
   </header>
+
   <main>
-    <h2>Uygulama Açıklaması</h2>
+    <h2>Ruh halini takip ederek kendini daha iyi tanı</h2>
     <p>Bu uygulama sayesinde her gün ruh halinizi kaydedebilir, zamanla nasıl değiştiğini görebilirsiniz.</p>
     <p>Grafiklerle duygularınızı analiz ederek daha sağlıklı kararlar alabilirsiniz.</p>
-    <a class="start-btn" href="duygu-app.html">📊 Uygulamaya Git</a>
+    <a href="duygu-app.html" class="start-btn">📊 Uygulamaya Git</a>
   </main>
 </body>
 </html>

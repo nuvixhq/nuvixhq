@@ -1,116 +1,39 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Pomodoro Zamanlayıcı</title>
   <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #f4f4f4;
-      margin: 0;
-      padding: 20px;
-    }
-
-    header {
+    .back-button {
+      position: absolute;
+      top: 20px;
+      left: 20px;
       background-color: #007acc;
       color: white;
-      padding: 15px 20px;
-      font-size: 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    header a {
-      color: white;
-      text-decoration: none;
-      font-size: 1.2rem;
-    }
-
-    .container {
-      max-width: 500px;
-      margin: 40px auto;
-      background: white;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      text-align: center;
-    }
-
-    button {
-      padding: 10px 20px;
-      margin: 10px;
-      font-size: 1rem;
       border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      background-color: #007acc;
-      color: white;
+      padding: 10px 15px;
+      font-size: 14px;
+      border-radius: 5px;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
     }
 
-    button:hover {
+    .back-button:hover {
       background-color: #005fbb;
     }
 
-    #timer {
-      font-size: 3rem;
-      margin-bottom: 15px;
+    body {
+      padding-top: 60px; /* Butonun üstte çakışmaması için */
     }
   </style>
 </head>
 <body>
-  <header>
-    <a href="index.html">🔙 Geri Dön</a> | Pomodoro Zamanlayıcı
-  </header>
 
-  <div class="container">
-    <h2>⏳ Odaklanma Süresi</h2>
-    <div id="timer">25:00</div>
-    <button onclick="startTimer()">Başlat</button>
-    <button onclick="resetTimer()">Sıfırla</button>
-  </div>
+  <a href="index.html" class="back-button">← Geri Dön</a>
 
-  <audio id="alarm-sound">
-    <source src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg" type="audio/ogg">
-  </audio>
+  <!-- Senin mevcut içeriğin buraya geliyor -->
+  <h1>Pomodoro Uygulaması</h1>
+  <p>Buraya uygulamanın geri kalanı...</p>
 
-  <script>
-    let duration = 25 * 60;
-    let timeLeft = duration;
-    let interval = null;
-
-    const timerDisplay = document.getElementById('timer');
-    const alarm = document.getElementById('alarm-sound');
-
-    function updateTimer() {
-      const m = String(Math.floor(timeLeft / 60)).padStart(2, '0');
-      const s = String(timeLeft % 60).padStart(2, '0');
-      timerDisplay.innerText = `${m}:${s}`;
-    }
-
-    function startTimer() {
-      if (interval) return;
-      interval = setInterval(() => {
-        if (timeLeft > 0) {
-          timeLeft--;
-          updateTimer();
-        } else {
-          clearInterval(interval);
-          interval = null;
-          alarm.play();
-          alert("Süre doldu!");
-        }
-      }, 1000);
-    }
-
-    function resetTimer() {
-      clearInterval(interval);
-      interval = null;
-      timeLeft = duration;
-      updateTimer();
-    }
-
-    updateTimer();
-  </script>
 </body>
 </html>

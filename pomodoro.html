@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8" />
-  <title>Pomodoro Zamanlayıcı</title>
+  <title>🍅 Pomodoro Zamanlayıcı | Nuvixhq</title>
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -10,6 +10,23 @@
       text-align: center;
       padding: 40px 20px;
       color: #333;
+      position: relative;
+    }
+    .back-button {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background-color: #007acc;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      font-size: 14px;
+      border-radius: 5px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .back-button:hover {
+      background-color: #005fbb;
     }
     #timer {
       font-size: 3rem;
@@ -32,6 +49,8 @@
   </style>
 </head>
 <body>
+  <a href="index.html" class="back-button">← Geri Dön</a>
+
   <h1>🍅 Pomodoro Zamanlayıcı</h1>
   <div id="timer">25:00</div>
   <button onclick="startTimer()">Başlat</button>

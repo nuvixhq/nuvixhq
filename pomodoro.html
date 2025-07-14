@@ -16,23 +16,6 @@
       padding: 40px 20px;
       color: #333;
       text-align: center;
-      position: relative;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .app-container {
-      max-width: 400px;
-      width: 100%;
-      background: white;
-      padding: 30px 25px;
-      border-radius: 10px;
-      box-shadow: 0 5px 15px rgba(0, 122, 204, 0.2);
-      box-sizing: border-box;
-      text-align: center;
-      position: relative;
     }
 
     .back-button {
@@ -47,62 +30,43 @@
       border-radius: 5px;
       text-decoration: none;
       transition: background-color 0.3s ease;
-      cursor: pointer;
     }
 
     .back-button:hover {
       background-color: #005fbb;
     }
 
-    header {
-      font-size: 2.5rem;
+    h1 {
       color: #007acc;
-      margin-bottom: 25px;
-      font-weight: bold;
+      margin-bottom: 10px;
     }
 
     label {
       font-weight: bold;
-      margin: 0 5px 0 15px;
-      font-size: 1rem;
     }
 
     input[type="number"] {
       padding: 8px;
       width: 60px;
-      margin: 10px 5px 20px 5px;
-      font-size: 1rem;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      text-align: center;
-      transition: border-color 0.3s ease;
-    }
-
-    input[type="number"]:focus {
-      outline: none;
-      border-color: #007acc;
-      box-shadow: 0 0 5px #007acc;
+      margin: 0 10px;
     }
 
     #timerDisplay {
-      font-size: 4rem;
-      margin: 25px 0;
+      font-size: 3rem;
+      margin: 20px 0;
       color: #007acc;
-      font-weight: 700;
-      letter-spacing: 2px;
     }
 
     button {
       background-color: #007acc;
       color: white;
       border: none;
-      padding: 12px 20px;
-      margin: 5px 8px;
-      font-size: 1.1rem;
+      padding: 10px 15px;
+      margin: 5px;
+      font-size: 16px;
       border-radius: 5px;
       cursor: pointer;
-      transition: background-color 0.3s ease;
-      min-width: 90px;
+      transition: background-color 0.3s;
     }
 
     button:hover {
@@ -111,33 +75,29 @@
   </style>
 </head>
 <body>
-  <div class="app-container">
-    <a href="index.html" class="back-button" aria-label="Geri Dön">← Geri Dön</a>
+  <a href="index.html" class="back-button">← Geri Dön</a>
 
-    <header>🍅 Pomodoro Zamanlayıcı</header>
+  <h1>🍅 Pomodoro Zamanlayıcı</h1>
 
-    <div>
-      <label for="workMinutes">Çalışma Süresi (dk):</label>
-      <input type="number" id="workMinutes" value="25" min="1" />
-
-      <label for="breakMinutes">Mola Süresi (dk):</label>
-      <input type="number" id="breakMinutes" value="5" min="1" />
-
-      <label for="cycles">Döngü Sayısı:</label>
-      <input type="number" id="cycles" value="4" min="1" />
-    </div>
-
-    <div id="timerDisplay" role="timer" aria-live="polite">25:00</div>
-
-    <div>
-      <button onclick="startPomodoro()" aria-label="Başlat">▶ Başlat</button>
-      <button onclick="pausePomodoro()" aria-label="Durdur">⏸ Durdur</button>
-      <button onclick="resetPomodoro()" aria-label="Sıfırla">🔄 Sıfırla</button>
-    </div>
+  <div>
+    <label>Çalışma Süresi (dk):</label>
+    <input type="number" id="workMinutes" value="25" min="1" />
+    <label>Mola Süresi (dk):</label>
+    <input type="number" id="breakMinutes" value="5" min="1" />
+    <label>Döngü Sayısı:</label>
+    <input type="number" id="cycles" value="4" min="1" />
   </div>
 
-  <audio id="alarm" preload="auto">
-    <source src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg" type="audio/ogg" />
+  <div id="timerDisplay">25:00</div>
+
+  <div>
+    <button onclick="startPomodoro()">▶ Başlat</button>
+    <button onclick="pausePomodoro()">⏸ Durdur</button>
+    <button onclick="resetPomodoro()">🔄 Sıfırla</button>
+  </div>
+
+  <audio id="alarm">
+    <source src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg" type="audio/ogg">
     Tarayıcınız bu sesi desteklemiyor.
   </audio>
 
@@ -208,7 +168,7 @@
       updateDisplay();
     }
 
-    // Sayfa yüklendiğinde varsayılan zaman
+    // Sayfa yüklenince varsayılan zaman
     resetPomodoro();
   </script>
 </body>

@@ -1,53 +1,80 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <title>Program Planlayıcı</title>
+  <meta charset="UTF-8" />
+  <title>📅 Program Planlayıcı | Nuvixhq</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      background: #f4f4f4;
+      background: #f5f7fa;
       margin: 0;
       padding: 20px;
+      color: #333;
+      position: relative;
+      min-height: 100vh;
     }
 
     header {
-      background-color: #007acc;
+      background: linear-gradient(to right, #007acc, #00bcd4);
+      padding: 25px 20px;
+      text-align: center;
       color: white;
-      padding: 15px 20px;
-      font-size: 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2rem;
+      letter-spacing: 2px;
+      position: relative;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgb(0 0 0 / 0.15);
     }
 
-    header a {
+    .back-btn {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background-color: #007acc;
       color: white;
+      padding: 10px 15px;
+      border-radius: 5px;
       text-decoration: none;
-      font-size: 1.2rem;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+      font-size: 1rem;
+    }
+
+    .back-btn:hover {
+      background-color: #005fbb;
     }
 
     .container {
       max-width: 500px;
-      margin: 40px auto;
+      margin: 0 auto;
       background: white;
       padding: 20px;
       border-radius: 12px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
 
+    label, button {
+      display: block;
+      font-weight: bold;
+      margin-top: 15px;
+    }
+
     input, button {
       width: 100%;
       padding: 10px;
-      margin: 10px 0;
+      margin-top: 6px;
       font-size: 1rem;
       border-radius: 6px;
       border: 1px solid #ccc;
+      box-sizing: border-box;
     }
 
     ul {
       list-style: none;
       padding: 0;
+      margin-top: 20px;
     }
 
     li {
@@ -56,26 +83,39 @@
       margin: 8px 0;
       border-radius: 6px;
     }
+
+    button.reset-btn {
+      background-color: #e53935;
+      color: white;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+
+    button.reset-btn:hover {
+      background-color: #b71c1c;
+    }
   </style>
 </head>
 <body>
   <header>
-    <a href="index.html">🔙 Geri Dön</a> | Program Planlayıcı
+    <a href="index.html" class="back-btn">← Geri Dön</a>
+    📅 Program Planlayıcı
   </header>
 
   <div class="container">
     <label for="task">Görev:</label>
-    <input type="text" id="task">
+    <input type="text" id="task" />
 
     <label for="time">Tarih ve Saat:</label>
-    <input type="datetime-local" id="time">
+    <input type="datetime-local" id="time" />
 
     <label for="duration">Süre (dk):</label>
-    <input type="number" id="duration">
+    <input type="number" id="duration" min="1" />
 
     <button onclick="addTask()">Görevi Ekle</button>
+    <button class="reset-btn" onclick="resetTasks()">Tüm Görevleri Sıfırla</button>
 
-    <hr>
+    <hr />
 
     <h3>Görevler</h3>
     <ul id="taskList"></ul>
@@ -85,7 +125,7 @@
     const taskList = document.getElementById('taskList');
 
     function addTask() {
-      const task = document.getElementById('task').value;
+      const task = document.getElementById('task').value.trim();
       const time = document.getElementById('time').value;
       const duration = document.getElementById('duration').value;
 
@@ -98,6 +138,11 @@
       tasks.push({task, time, duration});
       localStorage.setItem('programTasks', JSON.stringify(tasks));
       loadTasks();
+
+      // Alanları temizle
+      document.getElementById('task').value = '';
+      document.getElementById('time').value = '';
+      document.getElementById('duration').value = '';
     }
 
     function loadTasks() {
@@ -110,6 +155,14 @@
       });
     }
 
+    function resetTasks() {
+      if(confirm("Tüm görevler silinecek, emin misiniz?")) {
+        localStorage.removeItem('programTasks');
+        loadTasks();
+      }
+    }
+
+    // Sayfa yüklendiğinde görevleri göster
     loadTasks();
   </script>
 </body>

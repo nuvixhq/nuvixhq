@@ -1,170 +1,42 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Nuvixhq | Ürünlerim</title>
-  <style>
-    body, html {
-      margin: 0; padding: 0; height: 100%;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #007acc, #00bcd4);
-      color: #333;
-    }
-
-    header {
-      background: linear-gradient(to right, #004a80, #007acc);
-      padding: 30px 20px;
-      text-align: center;
-      color: white;
-      font-family: 'Orbitron', sans-serif;
-      font-size: 2.7rem;
-      letter-spacing: 2px;
-      text-shadow: 2px 2px #004a99;
-      margin-bottom: 20px;
-    }
-
-    .container {
-      max-width: 900px;
-      background-color: #e0f7fa;
-      margin: 0 auto 40px auto;
-      padding: 30px 20px;
-      border-radius: 12px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.1);
-      display: flex;
-      gap: 20px;
-      flex-wrap: wrap;
-      justify-content: flex-start;
-      min-height: 350px;
-    }
-
-    nav {
-      flex: 0 0 220px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    nav button {
-      background-color: #007acc;
-      border: none;
-      color: white;
-      padding: 15px 20px;
-      font-size: 1rem;
-      cursor: pointer;
-      border-radius: 5px;
-      text-align: left;
-      transition: background-color 0.3s ease;
-    }
-
-    nav button:hover, nav button.active {
-      background-color: #005fbb;
-    }
-
-    main {
-      flex: 1 1 600px;
-      background-color: #d0f0fa;
-      border-radius: 10px;
-      padding: 25px 30px;
-      box-shadow: inset 0 0 15px #b0e0f0;
-      overflow-y: auto;
-    }
-
-    main h2 {
-      color: #007acc;
-      margin-bottom: 15px;
-    }
-
-    main p {
-      margin-bottom: 15px;
-      line-height: 1.5;
-    }
-
-    main a {
-      display: inline-block;
-      background-color: #007acc;
-      color: white;
-      text-decoration: none;
-      font-weight: bold;
-      padding: 10px 15px;
-      border-radius: 5px;
-      margin-top: 10px;
-      transition: background-color 0.3s;
-    }
-
-    main a:hover {
-      background-color: #005fbb;
-    }
-
-    @media (max-width: 600px) {
-      .container {
-        flex-direction: column;
-        padding: 20px;
-      }
-      nav {
-        flex-direction: row;
-        justify-content: center;
-        flex-wrap: wrap;
-      }
-      nav button {
-        flex: 1 0 auto;
-        margin: 5px;
-        text-align: center;
-      }
-      main {
-        min-height: auto;
-        margin-top: 20px;
-      }
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nuvixhq | Dijital Verimlilik Araçları</title>
+  <meta name="description" content="Sınava çalışan öğrenciler için geliştirilmiş dijital verimlilik araçları. Pomodoro, duygu takibi ve daha fazlası ile verimli çalışma deneyimi.">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
   <header>
-    🚀 Nuvixhq
+    <h1>Ürünlerimiz</h1>
   </header>
 
-  <div class="container">
-    <nav>
-      <button class="active" onclick="showProduct(1)">Pomodoro Zamanlayıcı</button>
-      <button onclick="showProduct(2)">Duygu Takip</button>
-      <button onclick="showProduct(3)">Program Planlayıcı</button>
-    </nav>
+  <main>
+    <section>
+      <h2>Pomodoro Zamanlayıcı</h2>
+      <p>Sınava hazırlık sürecinde odaklanmanı artıracak sade ve sesli bir zamanlayıcı.</p>
+      <a href="pomodoro.html">Bilgi Sayfası</a> |
+      <a href="https://gumroad.com/satinalma_linki">Satın Al</a>
+    </section>
 
-    <main>
-      <section id="product1" class="product" style="display: block;">
-        <h2>🍅 Pomodoro Zamanlayıcı</h2>
-        <p>Verimli çalışmak için sade ve sesli bir zamanlayıcı. Karanlık mod ve ses uyarılarıyla odaklanmanı artır.</p>
-        <a href="pomodoro.html">⏱️ Uygulamaya Git</a>
-      </section>
+    <section>
+      <h2>Duygu Takip Aracı</h2>
+      <p>Günlük duygu durumunu takip ederek farkındalığını artır. Verimli çalışmanın duygusal dengesi önemlidir.</p>
+      <a href="duygutakip.html">Bilgi Sayfası</a> |
+      <a href="https://gumroad.com/satinalma_duygu">Satın Al</a>
+    </section>
 
-      <section id="product2" class="product" style="display: none;">
-        <h2>🧠 Duygu Takip Uygulaması</h2>
-        <p>Günlük ruh halini kaydederek kendini daha yakından tanı. Grafiklerle ruh halindeki değişimleri gör.</p>
-        <a href="duygu-takip.html">📊 Uygulamaya Git</a>
-      </section>
+    <section>
+      <h2>Program Planlayıcı</h2>
+      <p>Çalışma saatlerini ve molalarını planla, hedeflerini daha kolay yakala.</p>
+      <a href="program.html">Bilgi Sayfası</a> |
+      <a href="https://gumroad.com/satinalma_program">Satın Al</a>
+    </section>
+  </main>
 
-      <section id="product3" class="product" style="display: none;">
-        <h2>📅 Program Planlayıcı</h2>
-        <p>Günlük planlarını kolayca oluştur, takip et ve verimli ol.</p>
-        <a href="aaaa.html">📋 Uygulamaya Git</a>
-      </section>
-    </main>
-  </div>
-
-  <script>
-    function showProduct(id) {
-      const buttons = document.querySelectorAll('nav button');
-      buttons.forEach((btn, index) => {
-        btn.classList.toggle('active', index === id - 1);
-      });
-
-      const products = document.querySelectorAll('.product');
-      products.forEach((prod, index) => {
-        prod.style.display = (index === id - 1) ? 'block' : 'none';
-      });
-    }
-  </script>
-
+  <footer>
+    <p>&copy; 2025 Nuvixhq</p>
+  </footer>
 </body>
 </html>

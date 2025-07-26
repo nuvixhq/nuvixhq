@@ -24,14 +24,13 @@
       letter-spacing: 2px;
       text-shadow: 2px 2px #004a99;
       margin-bottom: 20px;
-      /* Flex ile ortalama için */
       display: flex;
       justify-content: center;
       align-items: center;
     }
 
     header img {
-      height: 50px; /* İstersen burayı değiştir */
+      height: 50px;
       width: auto;
     }
 
@@ -133,7 +132,6 @@
 
   <header>
     <img src="resim_2025-07-17_160457387-Photoroom.png" alt="Logo" style="height: 100px; width: auto;">
-
   </header>
 
   <div class="container">
@@ -141,6 +139,7 @@
       <button class="active" onclick="showProduct(1)">Pomodoro Zamanlayıcı</button>
       <button onclick="showProduct(2)">Duygu Takip</button>
       <button onclick="showProduct(3)">Program Planlayıcı</button>
+      <button onclick="showProduct(4)">Odak Müzikleri</button> <!-- ✅ Yeni Buton -->
     </nav>
 
     <main>
@@ -160,6 +159,12 @@
         <h2>📅 Program Planlayıcı</h2>
         <p>Günlük planlarını kolayca oluştur, takip et ve verimli ol.</p>
         <a href="aaaa.html">📋 Uygulamaya Git</a>
+      </section>
+
+      <section id="product4" class="product" style="display: none;"> <!-- ✅ Yeni Bölüm -->
+        <h2>🎧 Odak Müzikleri</h2>
+        <p>Çalışırken konsantrasyonunu artıracak odak müzikleri koleksiyonu.</p>
+        <a href="odak-muzikleri.html">🎵 Uygulamaya Git</a>
       </section>
     </main>
   </div>

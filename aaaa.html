@@ -4,26 +4,44 @@
   <meta charset="UTF-8" />
   <title>Program Planlayıcı | Nuvixhq</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    body {
+    * {
+      box-sizing: border-box;
+      margin: 0; padding: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #f5f7fa;
-      margin: 0;
-      padding: 20px;
+    }
+
+    body, html {
+      height: 100%;
+      background-color: #f5f7fa;
       color: #333;
+      transition: background-color 0.3s, color 0.3s;
     }
 
     header {
       background: linear-gradient(to right, #007acc, #00bcd4);
-      color: white;
       padding: 25px 20px;
       text-align: center;
-      position: relative;
+      color: white;
+      transition: background 0.3s, color 0.3s;
     }
 
-    header a.back-btn {
+    header h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.5rem;
+      letter-spacing: 2px;
+      margin-bottom: 5px;
+      text-shadow: 2px 2px #004a99;
+    }
+
+    header p {
+      font-size: 1rem;
+      font-style: italic;
+      color: #e0f7fa;
+    }
+
+    .back-btn {
       position: absolute;
       top: 20px;
       left: 20px;
@@ -33,148 +51,239 @@
       border-radius: 5px;
       text-decoration: none;
       font-weight: bold;
-      transition: background-color 0.3s ease;
+      transition: background-color 0.3s;
+      z-index: 10;
     }
 
-    header a.back-btn:hover {
+    .back-btn:hover {
       background-color: #005fbb;
     }
 
-    header h1 {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 2.5rem;
-      letter-spacing: 2px;
-      margin: 0;
-      text-shadow: 2px 2px #004a99;
-    }
-
-    header p {
-      margin-top: 8px;
-      font-size: 1rem;
-      font-style: italic;
-      color: #d0e9fc;
-    }
-
-    .container {
-      max-width: 500px;
-      margin: 40px auto;
-      background: white;
+    main {
+      max-width: 700px;
+      margin: 40px auto 60px auto;
       padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgb(0 0 0 / 0.1);
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
     }
 
     label {
       font-weight: bold;
-      display: block;
-      margin-top: 15px;
+      margin: 10px 0 5px 0;
     }
 
-    input, button {
-      width: 100%;
+    input, select, textarea {
       padding: 10px;
-      margin-top: 8px;
       font-size: 1rem;
       border-radius: 6px;
       border: 1px solid #ccc;
-      box-sizing: border-box;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
     }
 
     button {
+      margin-top: 15px;
+      padding: 12px;
+      font-size: 1rem;
       background-color: #007acc;
       color: white;
       border: none;
+      border-radius: 7px;
       cursor: pointer;
-      margin-top: 20px;
-      transition: background-color 0.3s ease;
+      transition: background-color 0.3s;
     }
 
     button:hover {
       background-color: #005fbb;
     }
 
-    ul {
+    #taskList {
+      margin-top: 30px;
       list-style: none;
-      padding: 0;
-      margin-top: 20px;
+      padding-left: 0;
     }
 
-    li {
-      background: #e3f2fd;
-      padding: 10px;
-      margin: 8px 0;
-      border-radius: 6px;
+    #taskList li {
+      background-color: #eee;
+      padding: 12px;
+      margin-bottom: 8px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background-color 0.3s;
+    }
+
+    #taskList li button {
+      background-color: #f44336;
+      padding: 6px 10px;
+      border-radius: 5px;
+      border: none;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+
+    #taskList li button:hover {
+      background-color: #c5302b;
+    }
+
+    /* -- Dark Mode -- */
+    body.dark {
+      background-color: #121212 !important;
+      color: #e0e0e0 !important;
+    }
+
+    body.dark header {
+      background: linear-gradient(to right, #222, #444) !important;
+      color: #fff !important;
+    }
+
+    body.dark .back-btn {
+      background-color: #444 !important;
+      color: #fff !important;
+    }
+
+    body.dark .back-btn:hover {
+      background-color: #222 !important;
+    }
+
+    body.dark main {
+      background-color: #1e1e1e !important;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.1) !important;
+      color: #ddd !important;
+    }
+
+    body.dark input, body.dark select, body.dark textarea {
+      background-color: #2a2a2a !important;
+      color: #eee !important;
+      border-color: #555 !important;
+    }
+
+    body.dark button {
+      background-color: #444 !important;
+      color: #eee !important;
+    }
+
+    body.dark button:hover {
+      background-color: #666 !important;
+    }
+
+    body.dark #taskList li {
+      background-color: #333 !important;
+    }
+
+    body.dark #taskList li button {
+      background-color: #bb4444 !important;
+    }
+
+    body.dark #taskList li button:hover {
+      background-color: #aa2222 !important;
     }
   </style>
 </head>
 <body>
+  <a href="index.html" class="back-btn">← Geri Dön</a>
+
   <header>
-    <a href="index.html" class="back-btn">← Geri Dön</a>
-    <h1>📅 Program Planlayıcı</h1>
-    <p>Günlük programlarını planla, zamanı verimli kullan.</p>
+    <h1>🗓 Program Planlayıcı</h1>
+    <p>Günlük görevlerini planla ve takip et</p>
   </header>
 
-  <div class="container">
-    <label for="task">Görev:</label>
-    <input type="text" id="task" placeholder="Görev adını yazın">
+  <main>
+    <form id="taskForm">
+      <label for="taskTitle">Görev Başlığı:</label>
+      <input type="text" id="taskTitle" required autocomplete="off" />
 
-    <label for="time">Tarih ve Saat:</label>
-    <input type="datetime-local" id="time">
+      <label for="taskDesc">Görev Açıklaması (opsiyonel):</label>
+      <textarea id="taskDesc" placeholder="Detaylar..."></textarea>
 
-    <label for="duration">Süre (dk):</label>
-    <input type="number" id="duration" min="1" placeholder="Dakika">
+      <label for="taskDate">Tarih:</label>
+      <input type="date" id="taskDate" required />
 
-    <button onclick="addTask()">Görevi Ekle</button>
-    <button onclick="clearTasks()" style="background-color:#e53935; margin-top:10px;">🗑️ Görevleri Sıfırla</button>
+      <button type="submit">Görev Ekle</button>
+    </form>
 
-    <hr>
-
-    <h3>Görevler</h3>
     <ul id="taskList"></ul>
-  </div>
+  </main>
 
   <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      if(localStorage.getItem('darkMode') === 'true') {
+        document.body.classList.add('dark');
+      }
+    });
+
+    const taskForm = document.getElementById('taskForm');
     const taskList = document.getElementById('taskList');
 
-    function addTask() {
-      const task = document.getElementById('task').value.trim();
-      const time = document.getElementById('time').value;
-      const duration = document.getElementById('duration').value;
+    let tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
 
-      if (!task || !time || !duration) {
-        alert("Lütfen tüm alanları doldurun!");
+    function saveTasks() {
+      localStorage.setItem('tasks', JSON.stringify(tasks));
+    }
+
+    function renderTasks() {
+      taskList.innerHTML = '';
+
+      if (tasks.length === 0) {
+        taskList.innerHTML = '<li>Henüz görev yok.</li>';
         return;
       }
 
-      const tasks = JSON.parse(localStorage.getItem('programTasks') || '[]');
-      tasks.push({task, time, duration});
-      localStorage.setItem('programTasks', JSON.stringify(tasks));
-
-      document.getElementById('task').value = '';
-      document.getElementById('time').value = '';
-      document.getElementById('duration').value = '';
-
-      loadTasks();
-    }
-
-    function loadTasks() {
-      const tasks = JSON.parse(localStorage.getItem('programTasks') || '[]');
-      taskList.innerHTML = '';
-      tasks.forEach(t => {
+      tasks.forEach((task, index) => {
         const li = document.createElement('li');
-        li.textContent = `${t.task} - ${new Date(t.time).toLocaleString()} - ${t.duration} dk`;
+        li.innerHTML = `
+          <div>
+            <strong>${task.title}</strong><br />
+            <small>${task.date}</small><br />
+            <em>${task.desc || ''}</em>
+          </div>
+          <button onclick="deleteTask(${index})" aria-label="Görevi Sil">Sil</button>
+        `;
         taskList.appendChild(li);
       });
     }
 
-    function clearTasks() {
-      if(confirm("Tüm görevleri silmek istediğinize emin misiniz?")) {
-        localStorage.removeItem('programTasks');
-        loadTasks();
+    function deleteTask(index) {
+      if(confirm("Bu görevi silmek istediğinize emin misiniz?")) {
+        tasks.splice(index, 1);
+        saveTasks();
+        renderTasks();
       }
     }
 
-    loadTasks();
+    taskForm.addEventListener('submit', e => {
+      e.preventDefault();
+
+      const title = document.getElementById('taskTitle').value.trim();
+      const desc = document.getElementById('taskDesc').value.trim();
+      const date = document.getElementById('taskDate').value;
+
+      if (!title || !date) {
+        alert('Lütfen başlık ve tarih giriniz.');
+        return;
+      }
+
+      tasks.push({ title, desc, date });
+      saveTasks();
+      renderTasks();
+      taskForm.reset();
+    });
+
+    renderTasks();
   </script>
 </body>
 </html>

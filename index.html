@@ -7,6 +7,8 @@
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet" />
   <style>
+    /* SENİN ESKİ STİLLERİN BURADA */
+
     body, html {
       margin: 0; padding: 0; height: 100%;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -60,68 +62,16 @@
       flex-wrap: wrap;
       justify-content: flex-start;
       min-height: 350px;
-      position: relative;
+      position: relative; /* yeni dil seçici için */
     }
 
-    /* --- Dil Seçim Paneli --- */
-    #languageSelector {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      width: 50px;
-      transition: width 0.3s ease;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 0 8px rgba(0,0,0,0.15);
-      background: #007acc;
-      cursor: pointer;
-      user-select: none;
-      z-index: 10;
-    }
-    #languageSelector.expanded {
-      width: 180px;
-    }
-
-    .lang-item {
-      padding: 10px 12px;
-      color: white;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      white-space: nowrap;
-      transition: background-color 0.25s ease;
-      border-left: 5px solid transparent;
-    }
-    .lang-item:hover {
-      background-color: #005fbb;
-    }
-    .lang-item.active {
-      background-color: #004a80;
-      border-left-color: #ffeb3b;
-      font-weight: bold;
-    }
-    .lang-top {
-      font-size: 1.1rem;
-      font-weight: 600;
-      line-height: 1.1;
-    }
-    .lang-bottom {
-      font-size: 0.85rem;
-      opacity: 0.8;
-      margin-top: 2px;
-      line-height: 1.1;
-    }
-
-    /* Nav ve içerik */
     nav {
       flex: 0 0 220px;
       display: flex;
       flex-direction: column;
       gap: 10px;
-      margin-left: 60px; /* Dil seçim paneli için boşluk */
+      /* boşluk bırakıyoruz soldaki dil seçici için */
+      margin-left: 60px; 
     }
 
     nav button {
@@ -175,10 +125,73 @@
       background-color: #005fbb;
     }
 
+    /* -- BURADAN SONRA DİL SEÇİCİ STİLİ -- */
+
+    /* Dil seçici kutuları container */
+    #languageSelector {
+      position: absolute;
+      top: 30px;
+      left: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      width: 50px; /* dar hali */
+      overflow: hidden;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: width 0.3s ease;
+      box-shadow: 0 0 8px rgba(0,0,0,0.2);
+      background-color: #007acc;
+      z-index: 100;
+      user-select: none;
+    }
+    /* Açılınca genişle */
+    #languageSelector.expanded {
+      width: 170px;
+    }
+
+    /* Her dil kutusu */
+    .lang-box {
+      background-color: transparent;
+      color: white;
+      padding: 8px 12px;
+      border-left: 5px solid transparent;
+      transition: background-color 0.3s, border-color 0.3s;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.2;
+      font-weight: 600;
+      user-select: none;
+    }
+    /* Aktif olan dil kutusu */
+    .lang-box.active {
+      background-color: #005fbb;
+      border-left-color: #ffeb3b;
+    }
+    /* Üst yazı büyük */
+    .lang-box .top-text {
+      font-size: 1.1rem;
+    }
+    /* Alt yazı küçük */
+    .lang-box .bottom-text {
+      font-size: 0.85rem;
+      opacity: 0.85;
+      margin-top: 2px;
+    }
+
+    /* Hover efekti */
+    .lang-box:hover {
+      background-color: #004a80;
+    }
+
+    /* Responsive küçük ekranda nav full genişlik */
     @media (max-width: 600px) {
-      .container {
-        flex-direction: column;
-        padding: 20px;
+      nav {
+        margin-left: 0;
+        flex-direction: row;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
       }
       #languageSelector {
         position: static;
@@ -190,21 +203,9 @@
       #languageSelector.expanded {
         width: 100%;
       }
-      .lang-item {
+      .lang-box {
         flex: 1;
         border-left: none;
-        text-align: center;
-      }
-      nav {
-        margin-left: 0;
-        flex-direction: row;
-        justify-content: center;
-        flex-wrap: wrap;
-        margin-bottom: 15px;
-      }
-      nav button {
-        flex: 1 0 auto;
-        margin: 5px;
         text-align: center;
       }
     }
@@ -260,19 +261,20 @@
   </header>
 
   <div class="container">
-    <!-- Dil Seçim Paneli -->
+
+    <!-- DİL SEÇİCİ BURASI -->
     <div id="languageSelector" title="Dil Seçimi">
-      <div class="lang-item active" data-lang="tr">
-        <div class="lang-top">Türkçe</div>
-        <div class="lang-bottom">Turkish</div>
+      <div class="lang-box active" data-lang="tr">
+        <div class="top-text">Türkçe</div>
+        <div class="bottom-text">Turkish</div>
       </div>
-      <div class="lang-item" data-lang="en">
-        <div class="lang-top">İngilizce</div>
-        <div class="lang-bottom">English</div>
+      <div class="lang-box" data-lang="en">
+        <div class="top-text">İngilizce</div>
+        <div class="bottom-text">English</div>
       </div>
-      <div class="lang-item" data-lang="de">
-        <div class="lang-top">Almanca</div>
-        <div class="lang-bottom">Deutsch</div>
+      <div class="lang-box" data-lang="de">
+        <div class="top-text">Almanca</div>
+        <div class="bottom-text">Deutsch</div>
       </div>
     </div>
 
@@ -314,22 +316,19 @@
     const logoLightSrc = "logo-light.png";  // Açık mod logosu
     const logoDarkSrc = "logo-dark.png";    // Karanlık mod logosu
 
-    // Dil paneli genişletme/küçültme
+    // Dil seçici elementleri
     const languageSelector = document.getElementById('languageSelector');
-    languageSelector.addEventListener('mouseenter', () => {
-      languageSelector.classList.add('expanded');
-    });
-    languageSelector.addEventListener('mouseleave', () => {
-      languageSelector.classList.remove('expanded');
+    const langBoxes = document.querySelectorAll('.lang-box');
+
+    // Dil paneli tıklayınca açılıp kapanacak
+    languageSelector.addEventListener('click', () => {
+      languageSelector.classList.toggle('expanded');
     });
 
-    // Dil öğeleri
-    const langItems = document.querySelectorAll('.lang-item');
-
-    // Dil metinleri - tüm dillerde ana içerik metinleri
-    const contentTexts = {
+    // İçerik metinleri diller için
+    const texts = {
       tr: {
-        navButtons: ['Pomodoro Zamanlayıcı', 'Duygu Takip', 'Program Planlayıcı', 'Odak Müzikleri'],
+        nav: ['Pomodoro Zamanlayıcı', 'Duygu Takip', 'Program Planlayıcı', 'Odak Müzikleri'],
         products: [
           {
             title: '🍅 Pomodoro Zamanlayıcı',
@@ -358,7 +357,7 @@
         ]
       },
       en: {
-        navButtons: ['Pomodoro Timer', 'Mood Tracker', 'Program Planner', 'Focus Music'],
+        nav: ['Pomodoro Timer', 'Mood Tracker', 'Program Planner', 'Focus Music'],
         products: [
           {
             title: '🍅 Pomodoro Timer',
@@ -387,7 +386,7 @@
         ]
       },
       de: {
-        navButtons: ['Pomodoro Timer', 'Stimmungstracker', 'Programmplaner', 'Fokussierte Musik'],
+        nav: ['Pomodoro Timer', 'Stimmungstracker', 'Programmplaner', 'Fokussierte Musik'],
         products: [
           {
             title: '🍅 Pomodoro Timer',
@@ -417,24 +416,24 @@
       }
     };
 
-    // Dil seçimi fonksiyonu
-    function applyLanguage(lang) {
-      if (!contentTexts[lang]) return;
+    // Dil değiştir fonksiyonu
+    function changeLanguage(lang) {
+      if(!texts[lang]) return;
 
-      // Dil paneli aktif sınıfı ayarla
-      langItems.forEach(item => {
-        item.classList.toggle('active', item.getAttribute('data-lang') === lang);
+      // Dil kutularını güncelle
+      langBoxes.forEach(box => {
+        box.classList.toggle('active', box.getAttribute('data-lang') === lang);
       });
 
-      // Nav butonları metnini değiştir
+      // Nav butonlarını güncelle
       const navButtons = document.querySelectorAll('nav button');
-      contentTexts[lang].navButtons.forEach((text, i) => {
+      texts[lang].nav.forEach((text, i) => {
         navButtons[i].textContent = text;
       });
 
-      // Ürün bölümlerini güncelle
-      contentTexts[lang].products.forEach((prod, i) => {
-        const section = document.getElementById(`product${i + 1}`);
+      // Ana içerik güncelle
+      texts[lang].products.forEach((prod, i) => {
+        const section = document.getElementById(`product${i+1}`);
         section.querySelector('h2').textContent = prod.title;
         section.querySelector('p').textContent = prod.desc;
         const link = section.querySelector('a');
@@ -442,47 +441,28 @@
         link.href = prod.linkHref;
       });
 
-      // Seçilen dili localStorage'de sakla
+      // Dil seçimini sakla
       localStorage.setItem('selectedLang', lang);
+
+      // Açık ise paneli kapat
+      languageSelector.classList.remove('expanded');
     }
 
-    // Ürün gösterme fonksiyonu
-    function showProduct(id) {
-      const buttons = document.querySelectorAll('nav button');
-      buttons.forEach((btn, index) => {
-        btn.classList.toggle('active', index === id -1);
+    // Dil kutularına tıklama
+    langBoxes.forEach(box => {
+      box.addEventListener('click', (e) => {
+        e.stopPropagation(); // clickin containera yayılmasını engelle
+        const lang = box.getAttribute('data-lang');
+        changeLanguage(lang);
       });
+    });
 
-      const products = document.querySelectorAll('.product');
-      products.forEach((prod, index) => {
-        prod.style.display = (index === id -1) ? 'block' : 'none';
-      });
-    }
-
-    // Karanlık mod toggle
-    function toggleDarkMode() {
-      document.body.classList.toggle("dark");
-      const isDark = document.body.classList.contains("dark");
-      const toggleBtn = document.getElementById('darkModeToggle');
-      const logoImg = document.getElementById('logoImg');
-
-      if (isDark) {
-        toggleBtn.innerText = "☀️ Aydınlık Mod";
-        logoImg.src = logoDarkSrc;
-      } else {
-        toggleBtn.innerText = "🌙 Karanlık Mod";
-        logoImg.src = logoLightSrc;
-      }
-      localStorage.setItem("darkMode", isDark);
-    }
-
-    // Sayfa yüklenince kayıtlı dil ve mod ayarlarını uygula
+    // Sayfa yüklenince kayıtlı dil varsa uygula
     window.addEventListener('DOMContentLoaded', () => {
-      // Dil
       const savedLang = localStorage.getItem('selectedLang') || 'tr';
-      applyLanguage(savedLang);
+      changeLanguage(savedLang);
 
-      // Karanlık mod
+      // Karanlık mod yükle
       const isDarkMode = localStorage.getItem('darkMode') === 'true';
       if (isDarkMode) {
         document.body.classList.add('dark');
@@ -491,15 +471,4 @@
       }
     });
 
-    // Dil öğelerine tıklama olayı
-    langItems.forEach(item => {
-      item.addEventListener('click', () => {
-        const selectedLang = item.getAttribute('data-lang');
-        applyLanguage(selectedLang);
-      });
-    });
-
-  </script>
-
-</body>
-</html>
+    // SENİN ESKİ FONKSİYONLARIN

@@ -16,21 +16,25 @@
     }
 
     header {
-      background: linear-gradient(to right, #004a80, #007acc);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       padding: 30px 20px;
-      text-align: center;
+      background: linear-gradient(to right, #004a80, #007acc);
       color: white;
       font-family: 'Orbitron', sans-serif;
       font-size: 2.7rem;
       letter-spacing: 2px;
       text-shadow: 2px 2px #004a99;
       margin-bottom: 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
     }
 
-    header img {
+    .logo-container {
+      flex: 1;
+      text-align: center;
+    }
+
+    .logo-container img {
       height: 100px;
       width: auto;
     }
@@ -138,7 +142,7 @@
       }
     }
 
-    /* 🌙 DARK MODE CSS */
+    /* DARK MODE */
     body.dark {
       background: linear-gradient(135deg, #121212, #1e1e1e);
       color: #f5f5f5;
@@ -182,7 +186,9 @@
 <body>
 
   <header>
-    <img src="resim_2025-07-17_160457387-Photoroom.png" alt="Logo">
+    <div class="logo-container">
+      <img src="resim_2025-07-17_160457387-Photoroom.png" alt="Logo">
+    </div>
     <button onclick="toggleDarkMode()" id="darkModeToggle">🌙 Karanlık Mod</button>
   </header>
 

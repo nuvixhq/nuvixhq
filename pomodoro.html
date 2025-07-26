@@ -226,3 +226,52 @@
       }
 
       isRunning = true;
+      timer = setInterval(() => {
+        timeLeft--;
+        updateDisplay();
+
+        if (timeLeft <= 0) {
+          alarm.play();
+
+          if (isWork) {
+            isWork = false;
+            timeLeft = breakMinutes * 60;
+            alert("Mola zamanı başladı!");
+          } else {
+            currentCycle++;
+            if (currentCycle >= totalCycles) {
+              clearInterval(timer);
+              isRunning = false;
+              alert("Pomodoro döngüleri tamamlandı! İyi çalışmalar!");
+              return;
+            }
+            isWork = true;
+            timeLeft = workMinutes * 60;
+            alert("Çalışma zamanı başladı!");
+          }
+        }
+      }, 1000);
+    }
+
+    function pausePomodoro() {
+      if (!isRunning) return;
+      clearInterval(timer);
+      isRunning = false;
+    }
+
+    function resetPomodoro() {
+      clearInterval(timer);
+      isRunning = false;
+      isWork = true;
+      currentCycle = 0;
+      timeLeft = parseInt(document.getElementById("workMinutes").value) * 60;
+      updateDisplay();
+    }
+
+    // Başlangıçta çalışma süresi göster
+    timeLeft = parseInt(document.getElementById("workMinutes").value) * 60;
+    updateDisplay();
+  </script>
+
+</body>
+</html>

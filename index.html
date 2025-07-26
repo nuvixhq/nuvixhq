@@ -6,7 +6,6 @@
   <title>Nuvixhq | Verimli Çalışma Araçları</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet" />
-  <script src="dark-mode.js" defer></script>
   <style>
     body, html {
       margin: 0; padding: 0; height: 100%;
@@ -187,7 +186,7 @@
 
   <header>
     <div class="logo-container">
-      <img src="resim_2025-07-17_160457387-Photoroom.png" alt="Logo">
+      <img id="logoImg" src="logo-light.png" alt="Logo">
     </div>
     <button onclick="toggleDarkMode()" id="darkModeToggle">🌙 Karanlık Mod</button>
   </header>
@@ -228,6 +227,9 @@
   </div>
 
   <script>
+    const logoLightSrc = "logo-light.png";  // Açık mod logosu (siyah veya normal)
+    const logoDarkSrc = "logo-dark.png";    // Karanlık mod logosu (beyaz veya açık renkli)
+
     function showProduct(id) {
       const buttons = document.querySelectorAll('nav button');
       buttons.forEach((btn, index) => {
@@ -239,6 +241,32 @@
         prod.style.display = (index === id - 1) ? 'block' : 'none';
       });
     }
+
+    function toggleDarkMode() {
+      document.body.classList.toggle("dark");
+      const isDark = document.body.classList.contains("dark");
+      const toggleBtn = document.getElementById('darkModeToggle');
+      const logoImg = document.getElementById('logoImg');
+
+      if (isDark) {
+        toggleBtn.innerText = "☀️ Aydınlık Mod";
+        logoImg.src = logoDarkSrc;
+      } else {
+        toggleBtn.innerText = "🌙 Karanlık Mod";
+        logoImg.src = logoLightSrc;
+      }
+      localStorage.setItem("darkMode", isDark);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const isDarkMode = localStorage.getItem('darkMode') === 'true';
+      if (isDarkMode) {
+        document.body.classList.add('dark');
+        document.getElementById('darkModeToggle').innerText = "☀️ Aydınlık Mod";
+        document.getElementById('logoImg').src = logoDarkSrc;
+      }
+    });
   </script>
+
 </body>
 </html>

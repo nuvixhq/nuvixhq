@@ -60,13 +60,68 @@
       flex-wrap: wrap;
       justify-content: flex-start;
       min-height: 350px;
+      position: relative;
     }
 
+    /* --- Dil Seçim Paneli --- */
+    #languageSelector {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      width: 50px;
+      transition: width 0.3s ease;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 0 8px rgba(0,0,0,0.15);
+      background: #007acc;
+      cursor: pointer;
+      user-select: none;
+      z-index: 10;
+    }
+    #languageSelector.expanded {
+      width: 180px;
+    }
+
+    .lang-item {
+      padding: 10px 12px;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      white-space: nowrap;
+      transition: background-color 0.25s ease;
+      border-left: 5px solid transparent;
+    }
+    .lang-item:hover {
+      background-color: #005fbb;
+    }
+    .lang-item.active {
+      background-color: #004a80;
+      border-left-color: #ffeb3b;
+      font-weight: bold;
+    }
+    .lang-top {
+      font-size: 1.1rem;
+      font-weight: 600;
+      line-height: 1.1;
+    }
+    .lang-bottom {
+      font-size: 0.85rem;
+      opacity: 0.8;
+      margin-top: 2px;
+      line-height: 1.1;
+    }
+
+    /* Nav ve içerik */
     nav {
       flex: 0 0 220px;
       display: flex;
       flex-direction: column;
       gap: 10px;
+      margin-left: 60px; /* Dil seçim paneli için boşluk */
     }
 
     nav button {
@@ -125,19 +180,32 @@
         flex-direction: column;
         padding: 20px;
       }
+      #languageSelector {
+        position: static;
+        width: 100%;
+        flex-direction: row;
+        justify-content: center;
+        margin-bottom: 15px;
+      }
+      #languageSelector.expanded {
+        width: 100%;
+      }
+      .lang-item {
+        flex: 1;
+        border-left: none;
+        text-align: center;
+      }
       nav {
+        margin-left: 0;
         flex-direction: row;
         justify-content: center;
         flex-wrap: wrap;
+        margin-bottom: 15px;
       }
       nav button {
         flex: 1 0 auto;
         margin: 5px;
         text-align: center;
-      }
-      main {
-        min-height: auto;
-        margin-top: 20px;
       }
     }
 
@@ -192,6 +260,22 @@
   </header>
 
   <div class="container">
+    <!-- Dil Seçim Paneli -->
+    <div id="languageSelector" title="Dil Seçimi">
+      <div class="lang-item active" data-lang="tr">
+        <div class="lang-top">Türkçe</div>
+        <div class="lang-bottom">Turkish</div>
+      </div>
+      <div class="lang-item" data-lang="en">
+        <div class="lang-top">İngilizce</div>
+        <div class="lang-bottom">English</div>
+      </div>
+      <div class="lang-item" data-lang="de">
+        <div class="lang-top">Almanca</div>
+        <div class="lang-bottom">Deutsch</div>
+      </div>
+    </div>
+
     <nav>
       <button class="active" onclick="showProduct(1)">Pomodoro Zamanlayıcı</button>
       <button onclick="showProduct(2)">Duygu Takip</button>
@@ -227,21 +311,155 @@
   </div>
 
   <script>
-    const logoLightSrc = "logo-light.png";  // Açık mod logosu (siyah veya normal)
-    const logoDarkSrc = "logo-dark.png";    // Karanlık mod logosu (beyaz veya açık renkli)
+    const logoLightSrc = "logo-light.png";  // Açık mod logosu
+    const logoDarkSrc = "logo-dark.png";    // Karanlık mod logosu
 
+    // Dil paneli genişletme/küçültme
+    const languageSelector = document.getElementById('languageSelector');
+    languageSelector.addEventListener('mouseenter', () => {
+      languageSelector.classList.add('expanded');
+    });
+    languageSelector.addEventListener('mouseleave', () => {
+      languageSelector.classList.remove('expanded');
+    });
+
+    // Dil öğeleri
+    const langItems = document.querySelectorAll('.lang-item');
+
+    // Dil metinleri - tüm dillerde ana içerik metinleri
+    const contentTexts = {
+      tr: {
+        navButtons: ['Pomodoro Zamanlayıcı', 'Duygu Takip', 'Program Planlayıcı', 'Odak Müzikleri'],
+        products: [
+          {
+            title: '🍅 Pomodoro Zamanlayıcı',
+            desc: 'Verimli çalışmak için sade ve sesli bir zamanlayıcı. Karanlık mod ve ses uyarılarıyla odaklanmanı artır.',
+            linkText: '⏱️ Uygulamaya Git',
+            linkHref: 'pomodoro.html'
+          },
+          {
+            title: '🧠 Duygu Takip Uygulaması',
+            desc: 'Günlük ruh halini kaydederek kendini daha yakından tanı. Grafiklerle ruh halindeki değişimleri gör.',
+            linkText: '📊 Uygulamaya Git',
+            linkHref: 'duygu-takip.html'
+          },
+          {
+            title: '📅 Program Planlayıcı',
+            desc: 'Günlük planlarını kolayca oluştur, takip et ve verimli ol.',
+            linkText: '📋 Uygulamaya Git',
+            linkHref: 'aaaa.html'
+          },
+          {
+            title: '🎧 Odak Müzikleri',
+            desc: 'Çalışırken konsantrasyonunu artıracak odak müzikleri koleksiyonu.',
+            linkText: '🎵 Uygulamaya Git',
+            linkHref: 'odak-muzikleri.html'
+          }
+        ]
+      },
+      en: {
+        navButtons: ['Pomodoro Timer', 'Mood Tracker', 'Program Planner', 'Focus Music'],
+        products: [
+          {
+            title: '🍅 Pomodoro Timer',
+            desc: 'A simple and sound timer to boost your productivity. Includes dark mode and sound alerts.',
+            linkText: '⏱️ Go to App',
+            linkHref: 'pomodoro.html'
+          },
+          {
+            title: '🧠 Mood Tracker App',
+            desc: 'Track your daily mood and get to know yourself better. See mood changes with charts.',
+            linkText: '📊 Go to App',
+            linkHref: 'duygu-takip.html'
+          },
+          {
+            title: '📅 Program Planner',
+            desc: 'Easily create and follow your daily plans to stay productive.',
+            linkText: '📋 Go to App',
+            linkHref: 'aaaa.html'
+          },
+          {
+            title: '🎧 Focus Music',
+            desc: 'A collection of focus music to boost concentration while working.',
+            linkText: '🎵 Go to App',
+            linkHref: 'odak-muzikleri.html'
+          }
+        ]
+      },
+      de: {
+        navButtons: ['Pomodoro Timer', 'Stimmungstracker', 'Programmplaner', 'Fokussierte Musik'],
+        products: [
+          {
+            title: '🍅 Pomodoro Timer',
+            desc: 'Ein einfacher und akustischer Timer zur Steigerung deiner Produktivität. Mit Dunkelmodus und Tonwarnungen.',
+            linkText: '⏱️ Zur App',
+            linkHref: 'pomodoro.html'
+          },
+          {
+            title: '🧠 Stimmungstracker',
+            desc: 'Verfolge deine tägliche Stimmung und lerne dich besser kennen. Sieh Stimmungsschwankungen in Diagrammen.',
+            linkText: '📊 Zur App',
+            linkHref: 'duygu-takip.html'
+          },
+          {
+            title: '📅 Programmplaner',
+            desc: 'Erstelle und verfolge deine Tagespläne ganz einfach, um produktiv zu bleiben.',
+            linkText: '📋 Zur App',
+            linkHref: 'aaaa.html'
+          },
+          {
+            title: '🎧 Fokussierte Musik',
+            desc: 'Eine Sammlung von Fokussiermusik zur Steigerung der Konzentration beim Arbeiten.',
+            linkText: '🎵 Zur App',
+            linkHref: 'odak-muzikleri.html'
+          }
+        ]
+      }
+    };
+
+    // Dil seçimi fonksiyonu
+    function applyLanguage(lang) {
+      if (!contentTexts[lang]) return;
+
+      // Dil paneli aktif sınıfı ayarla
+      langItems.forEach(item => {
+        item.classList.toggle('active', item.getAttribute('data-lang') === lang);
+      });
+
+      // Nav butonları metnini değiştir
+      const navButtons = document.querySelectorAll('nav button');
+      contentTexts[lang].navButtons.forEach((text, i) => {
+        navButtons[i].textContent = text;
+      });
+
+      // Ürün bölümlerini güncelle
+      contentTexts[lang].products.forEach((prod, i) => {
+        const section = document.getElementById(`product${i + 1}`);
+        section.querySelector('h2').textContent = prod.title;
+        section.querySelector('p').textContent = prod.desc;
+        const link = section.querySelector('a');
+        link.textContent = prod.linkText;
+        link.href = prod.linkHref;
+      });
+
+      // Seçilen dili localStorage'de sakla
+      localStorage.setItem('selectedLang', lang);
+    }
+
+    // Ürün gösterme fonksiyonu
     function showProduct(id) {
       const buttons = document.querySelectorAll('nav button');
       buttons.forEach((btn, index) => {
-        btn.classList.toggle('active', index === id - 1);
+        btn.classList.toggle('active', index === id -1);
       });
 
       const products = document.querySelectorAll('.product');
       products.forEach((prod, index) => {
-        prod.style.display = (index === id - 1) ? 'block' : 'none';
+        prod.style.display = (index === id -1) ? 'block' : 'none';
       });
     }
 
+    // Karanlık mod toggle
     function toggleDarkMode() {
       document.body.classList.toggle("dark");
       const isDark = document.body.classList.contains("dark");
@@ -258,7 +476,13 @@
       localStorage.setItem("darkMode", isDark);
     }
 
+    // Sayfa yüklenince kayıtlı dil ve mod ayarlarını uygula
     window.addEventListener('DOMContentLoaded', () => {
+      // Dil
+      const savedLang = localStorage.getItem('selectedLang') || 'tr';
+      applyLanguage(savedLang);
+
+      // Karanlık mod
       const isDarkMode = localStorage.getItem('darkMode') === 'true';
       if (isDarkMode) {
         document.body.classList.add('dark');
@@ -266,6 +490,15 @@
         document.getElementById('logoImg').src = logoDarkSrc;
       }
     });
+
+    // Dil öğelerine tıklama olayı
+    langItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const selectedLang = item.getAttribute('data-lang');
+        applyLanguage(selectedLang);
+      });
+    });
+
   </script>
 
 </body>

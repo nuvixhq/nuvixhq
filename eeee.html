@@ -3,38 +3,132 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Geri Dön</title>
+  <title>Not Defteri</title>
   <style>
     body {
       margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f2f2f2;
+      padding: 20px;
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
     }
 
     .back-button {
       position: absolute;
       top: 20px;
       left: 20px;
-      background-color: #007acc;
+      background-color: #007bff;
       color: white;
-      padding: 10px 15px;
       border: none;
-      border-radius: 5px;
-      font-size: 1rem;
+      padding: 10px 15px;
+      border-radius: 8px;
       cursor: pointer;
       text-decoration: none;
-      transition: background-color 0.3s;
     }
 
-    .back-button:hover {
-      background-color: #005fbb;
+    h1 {
+      text-align: center;
+      margin-top: 60px;
+    }
+
+    #noteInput {
+      width: 100%;
+      height: 100px;
+      padding: 10px;
+      margin-top: 20px;
+      font-size: 16px;
+      resize: vertical;
+    }
+
+    #addBtn {
+      margin-top: 10px;
+      padding: 10px 20px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin-top: 30px;
+    }
+
+    li {
+      background-color: white;
+      margin-bottom: 10px;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+      position: relative;
+    }
+
+    .deleteBtn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      background-color: #dc3545;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 5px 10px;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
 
-  <a href="index.html" class="back-button">⬅ Geri Dön</a>
+  <a class="back-button" href="index.html">← Geri Dön</a>
+
+  <h1>Not Defteri</h1>
+
+  <textarea id="noteInput" placeholder="Yeni notunuzu yazın..."></textarea><br>
+  <button id="addBtn">Not Ekle</button>
+
+  <ul id="noteList"></ul>
+
+  <script>
+    const noteInput = document.getElementById("noteInput");
+    const addBtn = document.getElementById("addBtn");
+    const noteList = document.getElementById("noteList");
+
+    let notes = JSON.parse(localStorage.getItem("notes")) || [];
+
+    function renderNotes() {
+      noteList.innerHTML = "";
+      notes.forEach((note, index) => {
+        const li = document.createElement("li");
+        li.textContent = note;
+        const delBtn = document.createElement("button");
+        delBtn.textContent = "Sil";
+        delBtn.className = "deleteBtn";
+        delBtn.onclick = () => {
+          notes.splice(index, 1);
+          saveNotes();
+        };
+        li.appendChild(delBtn);
+        noteList.appendChild(li);
+      });
+    }
+
+    function saveNotes() {
+      localStorage.setItem("notes", JSON.stringify(notes));
+      renderNotes();
+    }
+
+    addBtn.addEventListener("click", () => {
+      const text = noteInput.value.trim();
+      if (text) {
+        notes.push(text);
+        noteInput.value = "";
+        saveNotes();
+      }
+    });
+
+    renderNotes();
+  </script>
 
 </body>
 </html>

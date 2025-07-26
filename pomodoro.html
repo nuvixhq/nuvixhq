@@ -17,6 +17,7 @@
       height: 100%;
       background-color: #f5f7fa;
       color: #333;
+      transition: background-color 0.3s, color 0.3s;
     }
 
     header {
@@ -24,6 +25,7 @@
       padding: 25px 20px;
       text-align: center;
       color: white;
+      transition: background 0.3s, color 0.3s;
     }
 
     header h1 {
@@ -51,6 +53,7 @@
       text-decoration: none;
       font-weight: bold;
       transition: background-color 0.3s;
+      z-index: 10;
     }
 
     .back-btn:hover {
@@ -62,6 +65,7 @@
       max-width: 700px;
       margin: auto;
       text-align: center;
+      transition: background-color 0.3s, color 0.3s;
     }
 
     h2 {
@@ -82,6 +86,9 @@
       border-radius: 5px;
       font-size: 1rem;
       text-align: center;
+      background-color: white;
+      color: #333;
+      transition: background-color 0.3s, color 0.3s;
     }
 
     #timerDisplay {
@@ -100,11 +107,51 @@
       font-size: 1rem;
       border-radius: 5px;
       cursor: pointer;
-      transition: background-color 0.3s;
+      transition: background-color 0.3s, color 0.3s;
     }
 
     button:hover {
       background-color: #005fbb;
+    }
+
+    /* -- Dark Mode -- */
+    body.dark {
+      background-color: #121212 !important;
+      color: #e0e0e0 !important;
+    }
+
+    body.dark header {
+      background: linear-gradient(to right, #222, #444) !important;
+      color: #fff !important;
+    }
+
+    body.dark .back-btn {
+      background-color: #444 !important;
+      color: #fff !important;
+    }
+
+    body.dark .back-btn:hover {
+      background-color: #222 !important;
+    }
+
+    body.dark main {
+      background-color: #1e1e1e !important;
+      color: #ddd !important;
+    }
+
+    body.dark input[type="number"] {
+      background-color: #2a2a2a !important;
+      color: #eee !important;
+      border-color: #555 !important;
+    }
+
+    body.dark button {
+      background-color: #444 !important;
+      color: #eee !important;
+    }
+
+    body.dark button:hover {
+      background-color: #666 !important;
     }
   </style>
 </head>
@@ -146,6 +193,12 @@
   </main>
 
   <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      if(localStorage.getItem('darkMode') === 'true') {
+        document.body.classList.add('dark');
+      }
+    });
+
     let timer;
     let isRunning = false;
     let isWork = true;
@@ -173,47 +226,3 @@
       }
 
       isRunning = true;
-      timer = setInterval(() => {
-        if (timeLeft > 0) {
-          timeLeft--;
-          updateDisplay();
-        } else {
-          alarm.play();
-          clearInterval(timer);
-          isRunning = false;
-          isWork = !isWork;
-
-          if (!isWork) {
-            currentCycle++;
-          }
-
-          if (currentCycle < totalCycles) {
-            timeLeft = (isWork ? workMinutes : breakMinutes) * 60;
-            startPomodoro();
-          } else {
-            alert("🎉 Tüm Pomodoro döngüleri tamamlandı!");
-            resetPomodoro();
-          }
-        }
-      }, 1000);
-    }
-
-    function pausePomodoro() {
-      clearInterval(timer);
-      isRunning = false;
-    }
-
-    function resetPomodoro() {
-      clearInterval(timer);
-      isRunning = false;
-      isWork = true;
-      currentCycle = 0;
-      timeLeft = parseInt(document.getElementById("workMinutes").value) * 60;
-      updateDisplay();
-    }
-
-    resetPomodoro();
-  </script>
-
-</body>
-</html>

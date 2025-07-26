@@ -7,8 +7,6 @@
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet" />
   <style>
-    /* SENİN ESKİ STİLLERİN BURADA */
-
     body, html {
       margin: 0; padding: 0; height: 100%;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -62,16 +60,68 @@
       flex-wrap: wrap;
       justify-content: flex-start;
       min-height: 350px;
-      position: relative; /* yeni dil seçici için */
+      position: relative;
     }
+
+    /* Yeni: Dil seçici kutular */
+    .lang-selector {
+      position: absolute;
+      top: 30px;
+      left: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 1000;
+    }
+
+    .lang-box {
+      background: #007acc;
+      color: white;
+      border-radius: 0 10px 10px 0;
+      cursor: pointer;
+      padding: 10px 12px;
+      width: 40px;
+      overflow: hidden;
+      white-space: nowrap;
+      transition: width 0.3s ease;
+      font-weight: 600;
+      font-size: 0.9rem;
+      box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+      user-select: none;
+    }
+    .lang-box.expanded {
+      width: 150px;
+    }
+
+    .lang-box span {
+      display: block;
+      line-height: 1.1;
+    }
+    .lang-box .native {
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+    .lang-box .english {
+      font-size: 0.85rem;
+      opacity: 0.8;
+    }
+    .lang-box .german {
+      font-size: 0.85rem;
+      opacity: 0.8;
+    }
+    .lang-box.active {
+      background-color: #005fbb;
+      box-shadow: 0 0 10px #003f7f;
+    }
+
 
     nav {
       flex: 0 0 220px;
       display: flex;
       flex-direction: column;
       gap: 10px;
-      /* boşluk bırakıyoruz soldaki dil seçici için */
-      margin-left: 60px; 
+      /* Dil seçicinin soldan taşmaması için biraz sağa kaydır */
+      margin-left: 60px;
     }
 
     nav button {
@@ -125,88 +175,38 @@
       background-color: #005fbb;
     }
 
-    /* -- BURADAN SONRA DİL SEÇİCİ STİLİ -- */
-
-    /* Dil seçici kutuları container */
-    #languageSelector {
-      position: absolute;
-      top: 30px;
-      left: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-      width: 50px; /* dar hali */
-      overflow: hidden;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: width 0.3s ease;
-      box-shadow: 0 0 8px rgba(0,0,0,0.2);
-      background-color: #007acc;
-      z-index: 100;
-      user-select: none;
-    }
-    /* Açılınca genişle */
-    #languageSelector.expanded {
-      width: 170px;
-    }
-
-    /* Her dil kutusu */
-    .lang-box {
-      background-color: transparent;
-      color: white;
-      padding: 8px 12px;
-      border-left: 5px solid transparent;
-      transition: background-color 0.3s, border-color 0.3s;
-      display: flex;
-      flex-direction: column;
-      line-height: 1.2;
-      font-weight: 600;
-      user-select: none;
-    }
-    /* Aktif olan dil kutusu */
-    .lang-box.active {
-      background-color: #005fbb;
-      border-left-color: #ffeb3b;
-    }
-    /* Üst yazı büyük */
-    .lang-box .top-text {
-      font-size: 1.1rem;
-    }
-    /* Alt yazı küçük */
-    .lang-box .bottom-text {
-      font-size: 0.85rem;
-      opacity: 0.85;
-      margin-top: 2px;
-    }
-
-    /* Hover efekti */
-    .lang-box:hover {
-      background-color: #004a80;
-    }
-
-    /* Responsive küçük ekranda nav full genişlik */
     @media (max-width: 600px) {
+      .container {
+        flex-direction: column;
+        padding: 20px;
+        position: static;
+      }
+      .lang-selector {
+        position: static;
+        flex-direction: row;
+        margin-bottom: 15px;
+        justify-content: center;
+        gap: 20px;
+      }
+      .lang-box {
+        width: auto !important;
+        border-radius: 10px;
+        padding: 10px 15px;
+      }
       nav {
-        margin-left: 0;
         flex-direction: row;
         justify-content: center;
         flex-wrap: wrap;
-        margin-bottom: 20px;
+        margin-left: 0;
       }
-      #languageSelector {
-        position: static;
-        width: 100%;
-        flex-direction: row;
-        justify-content: center;
-        margin-bottom: 15px;
-      }
-      #languageSelector.expanded {
-        width: 100%;
-      }
-      .lang-box {
-        flex: 1;
-        border-left: none;
+      nav button {
+        flex: 1 0 auto;
+        margin: 5px;
         text-align: center;
+      }
+      main {
+        min-height: auto;
+        margin-top: 20px;
       }
     }
 
@@ -262,213 +262,184 @@
 
   <div class="container">
 
-    <!-- DİL SEÇİCİ BURASI -->
-    <div id="languageSelector" title="Dil Seçimi">
-      <div class="lang-box active" data-lang="tr">
-        <div class="top-text">Türkçe</div>
-        <div class="bottom-text">Turkish</div>
+    <!-- Dil Seçici -->
+    <div class="lang-selector">
+      <div class="lang-box active" data-lang="tr" onclick="selectLang(this)">
+        <span class="native">Türkçe</span>
+        <span class="english">Turkish</span>
       </div>
-      <div class="lang-box" data-lang="en">
-        <div class="top-text">İngilizce</div>
-        <div class="bottom-text">English</div>
+      <div class="lang-box" data-lang="en" onclick="selectLang(this)">
+        <span class="native">İngilizce</span>
+        <span class="english">English</span>
       </div>
-      <div class="lang-box" data-lang="de">
-        <div class="top-text">Almanca</div>
-        <div class="bottom-text">Deutsch</div>
+      <div class="lang-box" data-lang="de" onclick="selectLang(this)">
+        <span class="native">Almanca</span>
+        <span class="german">Deutsch</span>
       </div>
     </div>
 
     <nav>
-      <button class="active" onclick="showProduct(1)">Pomodoro Zamanlayıcı</button>
-      <button onclick="showProduct(2)">Duygu Takip</button>
-      <button onclick="showProduct(3)">Program Planlayıcı</button>
-      <button onclick="showProduct(4)">Odak Müzikleri</button>
+      <button class="active" onclick="showProduct(1)"><span data-i18n="nav_pomodoro">Pomodoro Zamanlayıcı</span></button>
+      <button onclick="showProduct(2)"><span data-i18n="nav_emotion">Duygu Takip</span></button>
+      <button onclick="showProduct(3)"><span data-i18n="nav_planner">Program Planlayıcı</span></button>
+      <button onclick="showProduct(4)"><span data-i18n="nav_music">Odak Müzikleri</span></button>
     </nav>
 
     <main>
       <section id="product1" class="product" style="display: block;">
-        <h2>🍅 Pomodoro Zamanlayıcı</h2>
-        <p>Verimli çalışmak için sade ve sesli bir zamanlayıcı. Karanlık mod ve ses uyarılarıyla odaklanmanı artır.</p>
-        <a href="pomodoro.html">⏱️ Uygulamaya Git</a>
+        <h2><span data-i18n="title_pomodoro">🍅 Pomodoro Zamanlayıcı</span></h2>
+        <p data-i18n="desc_pomodoro">Verimli çalışmak için sade ve sesli bir zamanlayıcı. Karanlık mod ve ses uyarılarıyla odaklanmanı artır.</p>
+        <a href="pomodoro.html" data-i18n="link_pomodoro">⏱️ Uygulamaya Git</a>
       </section>
 
       <section id="product2" class="product" style="display: none;">
-        <h2>🧠 Duygu Takip Uygulaması</h2>
-        <p>Günlük ruh halini kaydederek kendini daha yakından tanı. Grafiklerle ruh halindeki değişimleri gör.</p>
-        <a href="duygu-takip.html">📊 Uygulamaya Git</a>
+        <h2><span data-i18n="title_emotion">🧠 Duygu Takip Uygulaması</span></h2>
+        <p data-i18n="desc_emotion">Günlük ruh halini kaydederek kendini daha yakından tanı. Grafiklerle ruh halindeki değişimleri gör.</p>
+        <a href="duygu-takip.html" data-i18n="link_emotion">📊 Uygulamaya Git</a>
       </section>
 
       <section id="product3" class="product" style="display: none;">
-        <h2>📅 Program Planlayıcı</h2>
-        <p>Günlük planlarını kolayca oluştur, takip et ve verimli ol.</p>
-        <a href="aaaa.html">📋 Uygulamaya Git</a>
+        <h2><span data-i18n="title_planner">📅 Program Planlayıcı</span></h2>
+        <p data-i18n="desc_planner">Günlük planlarını kolayca oluştur, takip et ve verimli ol.</p>
+        <a href="aaaa.html" data-i18n="link_planner">📋 Uygulamaya Git</a>
       </section>
 
       <section id="product4" class="product" style="display: none;">
-        <h2>🎧 Odak Müzikleri</h2>
-        <p>Çalışırken konsantrasyonunu artıracak odak müzikleri koleksiyonu.</p>
-        <a href="odak-muzikleri.html">🎵 Uygulamaya Git</a>
+        <h2><span data-i18n="title_music">🎧 Odak Müzikleri</span></h2>
+        <p data-i18n="desc_music">Çalışırken konsantrasyonunu artıracak odak müzikleri koleksiyonu.</p>
+        <a href="odak-muzikleri.html" data-i18n="link_music">🎵 Uygulamaya Git</a>
       </section>
     </main>
   </div>
 
   <script>
-    const logoLightSrc = "logo-light.png";  // Açık mod logosu
-    const logoDarkSrc = "logo-dark.png";    // Karanlık mod logosu
+    const logoLightSrc = "logo-light.png";  // Açık mod logosu (siyah veya normal)
+    const logoDarkSrc = "logo-dark.png";    // Karanlık mod logosu (beyaz veya açık renkli)
 
-    // Dil seçici elementleri
-    const languageSelector = document.getElementById('languageSelector');
-    const langBoxes = document.querySelectorAll('.lang-box');
-
-    // Dil paneli tıklayınca açılıp kapanacak
-    languageSelector.addEventListener('click', () => {
-      languageSelector.classList.toggle('expanded');
-    });
-
-    // İçerik metinleri diller için
-    const texts = {
+    // Dil verileri (metinlerin 3 dilde karşılıkları)
+    const translations = {
       tr: {
-        nav: ['Pomodoro Zamanlayıcı', 'Duygu Takip', 'Program Planlayıcı', 'Odak Müzikleri'],
-        products: [
-          {
-            title: '🍅 Pomodoro Zamanlayıcı',
-            desc: 'Verimli çalışmak için sade ve sesli bir zamanlayıcı. Karanlık mod ve ses uyarılarıyla odaklanmanı artır.',
-            linkText: '⏱️ Uygulamaya Git',
-            linkHref: 'pomodoro.html'
-          },
-          {
-            title: '🧠 Duygu Takip Uygulaması',
-            desc: 'Günlük ruh halini kaydederek kendini daha yakından tanı. Grafiklerle ruh halindeki değişimleri gör.',
-            linkText: '📊 Uygulamaya Git',
-            linkHref: 'duygu-takip.html'
-          },
-          {
-            title: '📅 Program Planlayıcı',
-            desc: 'Günlük planlarını kolayca oluştur, takip et ve verimli ol.',
-            linkText: '📋 Uygulamaya Git',
-            linkHref: 'aaaa.html'
-          },
-          {
-            title: '🎧 Odak Müzikleri',
-            desc: 'Çalışırken konsantrasyonunu artıracak odak müzikleri koleksiyonu.',
-            linkText: '🎵 Uygulamaya Git',
-            linkHref: 'odak-muzikleri.html'
-          }
-        ]
+        nav_pomodoro: "Pomodoro Zamanlayıcı",
+        nav_emotion: "Duygu Takip",
+        nav_planner: "Program Planlayıcı",
+        nav_music: "Odak Müzikleri",
+        title_pomodoro: "🍅 Pomodoro Zamanlayıcı",
+        desc_pomodoro: "Verimli çalışmak için sade ve sesli bir zamanlayıcı. Karanlık mod ve ses uyarılarıyla odaklanmanı artır.",
+        link_pomodoro: "⏱️ Uygulamaya Git",
+        title_emotion: "🧠 Duygu Takip Uygulaması",
+        desc_emotion: "Günlük ruh halini kaydederek kendini daha yakından tanı. Grafiklerle ruh halindeki değişimleri gör.",
+        link_emotion: "📊 Uygulamaya Git",
+        title_planner: "📅 Program Planlayıcı",
+        desc_planner: "Günlük planlarını kolayca oluştur, takip et ve verimli ol.",
+        link_planner: "📋 Uygulamaya Git",
+        title_music: "🎧 Odak Müzikleri",
+        desc_music: "Çalışırken konsantrasyonunu artıracak odak müzikleri koleksiyonu.",
+        link_music: "🎵 Uygulamaya Git"
       },
       en: {
-        nav: ['Pomodoro Timer', 'Mood Tracker', 'Program Planner', 'Focus Music'],
-        products: [
-          {
-            title: '🍅 Pomodoro Timer',
-            desc: 'A simple and sound timer to boost your productivity. Includes dark mode and sound alerts.',
-            linkText: '⏱️ Go to App',
-            linkHref: 'pomodoro.html'
-          },
-          {
-            title: '🧠 Mood Tracker App',
-            desc: 'Track your daily mood and get to know yourself better. See mood changes with charts.',
-            linkText: '📊 Go to App',
-            linkHref: 'duygu-takip.html'
-          },
-          {
-            title: '📅 Program Planner',
-            desc: 'Easily create and follow your daily plans to stay productive.',
-            linkText: '📋 Go to App',
-            linkHref: 'aaaa.html'
-          },
-          {
-            title: '🎧 Focus Music',
-            desc: 'A collection of focus music to boost concentration while working.',
-            linkText: '🎵 Go to App',
-            linkHref: 'odak-muzikleri.html'
-          }
-        ]
+        nav_pomodoro: "Pomodoro Timer",
+        nav_emotion: "Mood Tracker",
+        nav_planner: "Program Planner",
+        nav_music: "Focus Music",
+        title_pomodoro: "🍅 Pomodoro Timer",
+        desc_pomodoro: "A simple and sound-enabled timer for efficient work. Increase focus with dark mode and sound alerts.",
+        link_pomodoro: "⏱️ Go to App",
+        title_emotion: "🧠 Mood Tracker App",
+        desc_emotion: "Track your daily mood to understand yourself better. See changes with charts.",
+        link_emotion: "📊 Go to App",
+        title_planner: "📅 Program Planner",
+        desc_planner: "Create and track your daily plans easily and be productive.",
+        link_planner: "📋 Go to App",
+        title_music: "🎧 Focus Music",
+        desc_music: "A collection of focus music to increase your concentration while working.",
+        link_music: "🎵 Go to App"
       },
       de: {
-        nav: ['Pomodoro Timer', 'Stimmungstracker', 'Programmplaner', 'Fokussierte Musik'],
-        products: [
-          {
-            title: '🍅 Pomodoro Timer',
-            desc: 'Ein einfacher und akustischer Timer zur Steigerung deiner Produktivität. Mit Dunkelmodus und Tonwarnungen.',
-            linkText: '⏱️ Zur App',
-            linkHref: 'pomodoro.html'
-          },
-          {
-            title: '🧠 Stimmungstracker',
-            desc: 'Verfolge deine tägliche Stimmung und lerne dich besser kennen. Sieh Stimmungsschwankungen in Diagrammen.',
-            linkText: '📊 Zur App',
-            linkHref: 'duygu-takip.html'
-          },
-          {
-            title: '📅 Programmplaner',
-            desc: 'Erstelle und verfolge deine Tagespläne ganz einfach, um produktiv zu bleiben.',
-            linkText: '📋 Zur App',
-            linkHref: 'aaaa.html'
-          },
-          {
-            title: '🎧 Fokussierte Musik',
-            desc: 'Eine Sammlung von Fokussiermusik zur Steigerung der Konzentration beim Arbeiten.',
-            linkText: '🎵 Zur App',
-            linkHref: 'odak-muzikleri.html'
-          }
-        ]
+        nav_pomodoro: "Pomodoro Timer",
+        nav_emotion: "Stimmungs-Tracker",
+        nav_planner: "Programmplaner",
+        nav_music: "Fokusmusik",
+        title_pomodoro: "🍅 Pomodoro Timer",
+        desc_pomodoro: "Ein einfacher und akustisch unterstützter Timer für effizientes Arbeiten. Erhöhe die Konzentration mit Dunkelmodus und Tonwarnungen.",
+        link_pomodoro: "⏱️ Zur App",
+        title_emotion: "🧠 Stimmungs-Tracker App",
+        desc_emotion: "Verfolge deine tägliche Stimmung, um dich besser kennenzulernen. Sieh Veränderungen mit Diagrammen.",
+        link_emotion: "📊 Zur App",
+        title_planner: "📅 Programmplaner",
+        desc_planner: "Erstelle und verfolge deine Tagespläne einfach und sei produktiv.",
+        link_planner: "📋 Zur App",
+        title_music: "🎧 Fokusmusik",
+        desc_music: "Eine Sammlung von Fokusmusik, um deine Konzentration beim Arbeiten zu steigern.",
+        link_music: "🎵 Zur App"
       }
     };
 
-    // Dil değiştir fonksiyonu
-    function changeLanguage(lang) {
-      if(!texts[lang]) return;
-
-      // Dil kutularını güncelle
-      langBoxes.forEach(box => {
-        box.classList.toggle('active', box.getAttribute('data-lang') === lang);
+    function showProduct(id) {
+      const buttons = document.querySelectorAll('nav button');
+      buttons.forEach((btn, index) => {
+        btn.classList.toggle('active', index === id - 1);
       });
 
-      // Nav butonlarını güncelle
-      const navButtons = document.querySelectorAll('nav button');
-      texts[lang].nav.forEach((text, i) => {
-        navButtons[i].textContent = text;
+      const products = document.querySelectorAll('.product');
+      products.forEach((prod, index) => {
+        prod.style.display = (index === id - 1) ? 'block' : 'none';
       });
-
-      // Ana içerik güncelle
-      texts[lang].products.forEach((prod, i) => {
-        const section = document.getElementById(`product${i+1}`);
-        section.querySelector('h2').textContent = prod.title;
-        section.querySelector('p').textContent = prod.desc;
-        const link = section.querySelector('a');
-        link.textContent = prod.linkText;
-        link.href = prod.linkHref;
-      });
-
-      // Dil seçimini sakla
-      localStorage.setItem('selectedLang', lang);
-
-      // Açık ise paneli kapat
-      languageSelector.classList.remove('expanded');
     }
 
-    // Dil kutularına tıklama
-    langBoxes.forEach(box => {
-      box.addEventListener('click', (e) => {
-        e.stopPropagation(); // clickin containera yayılmasını engelle
-        const lang = box.getAttribute('data-lang');
-        changeLanguage(lang);
+    function toggleDarkMode() {
+      document.body.classList.toggle("dark");
+      const isDark = document.body.classList.contains("dark");
+      const toggleBtn = document.getElementById('darkModeToggle');
+      const logoImg = document.getElementById('logoImg');
+
+      if (isDark) {
+        toggleBtn.innerText = "☀️ Aydınlık Mod";
+        logoImg.src = logoDarkSrc;
+      } else {
+        toggleBtn.innerText = "🌙 Karanlık Mod";
+        logoImg.src = logoLightSrc;
+      }
+      localStorage.setItem("darkMode", isDark);
+    }
+
+    function selectLang(el) {
+      // Expand clicked box, collapse others
+      document.querySelectorAll('.lang-box').forEach(box => {
+        box.classList.toggle('expanded', box === el);
+        box.classList.toggle('active', box === el);
       });
-    });
+      const selectedLang = el.getAttribute('data-lang');
+      localStorage.setItem('selectedLang', selectedLang);
+      translatePage(selectedLang);
+    }
 
-    // Sayfa yüklenince kayıtlı dil varsa uygula
+    function translatePage(lang) {
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[lang] && translations[lang][key]) {
+          el.textContent = translations[lang][key];
+        }
+      });
+    }
+
     window.addEventListener('DOMContentLoaded', () => {
-      const savedLang = localStorage.getItem('selectedLang') || 'tr';
-      changeLanguage(savedLang);
-
-      // Karanlık mod yükle
       const isDarkMode = localStorage.getItem('darkMode') === 'true';
       if (isDarkMode) {
         document.body.classList.add('dark');
         document.getElementById('darkModeToggle').innerText = "☀️ Aydınlık Mod";
         document.getElementById('logoImg').src = logoDarkSrc;
       }
-    });
 
-    // SENİN ESKİ FONKSİYONLARIN
+      // Dil seçimini yükle
+      const savedLang = localStorage.getItem('selectedLang') || 'tr';
+      const langBoxes = document.querySelectorAll('.lang-box');
+      langBoxes.forEach(box => {
+        box.classList.toggle('active', box.getAttribute('data-lang') === savedLang);
+        box.classList.toggle('expanded', box.getAttribute('data-lang') === savedLang);
+      });
+      translatePage(savedLang);
+    });
+  </script>
+
+</body>
+</html>
